@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { TableSkeleton } from '@/components/TableSkeleton/TabelSkeleton';
 import StudentModal from '@/components/StudentModal/StudenModal';
 import { getCurrentMonthYear } from '@/app/constant/constant';
+import Navbar from '@/components/Navbar/Navbar';
 
 interface Student {
   fatherName: string;
@@ -38,7 +39,8 @@ const StudentTable = () => {
   
   const currentMonthYear = getCurrentMonthYear();
   return (
-    
+    <>
+    <Navbar/>
     <div className="container mx-auto">
       <div className='py-4 space-y-4'>
         <h1 className="text-2xl font-bold">Student Information</h1>
@@ -85,6 +87,7 @@ const StudentTable = () => {
       {/* Modal */}
       {isModalOpen && <StudentModal setStudents={setStudents} students={students} setIsModalOpen={setIsModalOpen} create/>}
     </div>
+    </>
   );
 };
 

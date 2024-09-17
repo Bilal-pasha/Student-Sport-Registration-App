@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar/Navbar";
 import { Toaster } from 'react-hot-toast';
+import { SessionWrapper } from "@/components/SessionWrapper/SessionWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,12 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-slate-100">
-        <Toaster position="top-right"/>
-        <div className="w-full flex justify-center py-6 lg:sticky lg:top-0 top-auto bottom-0 fixed z-10">
-        <Navbar/>
-        </div>
-        {children}
-        </body>
+        <SessionWrapper>
+          <Toaster position="top-right" />
+          {children}
+        </SessionWrapper>
+      </body>
     </html>
   );
 }
