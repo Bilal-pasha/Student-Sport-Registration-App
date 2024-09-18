@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-slate-100">
+      <body className="bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200 min-h-screen">
         <SessionWrapper>
           <Toaster position="top-right" />
           {children}

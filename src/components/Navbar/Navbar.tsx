@@ -3,14 +3,15 @@ import React, { useState, useRef, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react'; // Client-side function
+import toast from 'react-hot-toast';
 
-type ButtonName = 'Home' | 'Students' | 'Work' | 'Expertise' | 'Sign Out';
+type ButtonName = 'Home' | 'Class' | 'Work' | 'Expertise' | 'Sign Out';
 
 interface ButtonStyles {
   [key: string]: React.CSSProperties;
 }
 
-const BUTTON_NAMES: ButtonName[] = ['Home', 'Students', 'Work', 'Expertise', 'Sign Out'];
+const BUTTON_NAMES: ButtonName[] = ['Home', 'Class', 'Work', 'Expertise', 'Sign Out'];
 
 const Navbar: React.FC = () => {
   const pathname = usePathname();
@@ -21,20 +22,17 @@ const Navbar: React.FC = () => {
   useEffect(() => {
     // Determine the active button based on pathname
     const getButtonNameFromPath = (path: string): ButtonName => {
-      if (path.startsWith('/students')) return 'Students';
-      switch (path) {
-        case '/work':
-          return 'Work';
-        case '/expertise':
-          return 'Expertise';
-        default:
-          return 'Home';
-      }
+      if (path.startsWith('/class')) return 'Class';
+      if (path.startsWith('/work')) return 'Work';
+      if (path.startsWith('/expertise')) return 'Expertise';
+      // Fallback to 'Home' if no match
+      return 'Home';
     };
 
     const newActiveButton = getButtonNameFromPath(pathname);
     setActiveButton(newActiveButton);
   }, [pathname]);
+
 
   useEffect(() => {
     if (activeButton) {
@@ -53,7 +51,8 @@ const Navbar: React.FC = () => {
 
   const handleClick = (buttonName: ButtonName) => {
     if (buttonName === 'Sign Out') {
-      signOut({ callbackUrl: 'https://arabia-fees-system.vercel.app/Login' }) 
+      signOut({ callbackUrl: 'https://localhost:3000/Login'}) 
+      toast.success("Sign Out Successfully")
     } else {
       setActiveButton(buttonName);
     }
@@ -63,8 +62,8 @@ const Navbar: React.FC = () => {
     switch (buttonName) {
       case 'Home':
         return '/';
-      case 'Students':
-        return '/students';
+      case 'Class':
+        return '/class';
       case 'Work':
         return '/work';
       case 'Expertise':
