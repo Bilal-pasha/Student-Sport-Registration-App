@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from 'react-hot-toast';
 import { SessionWrapper } from "@/components/SessionWrapper/SessionWrapper";
+import Navbar from "@/components/Navbar/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +22,7 @@ export default function RootLayout({
       <body className="bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200 min-h-screen">
         <SessionWrapper>
           <Toaster position="top-right" />
+          <Navbar/>
           {children}
         </SessionWrapper>
       </body>

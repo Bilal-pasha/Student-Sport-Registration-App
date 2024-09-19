@@ -73,7 +73,7 @@ const Navbar: React.FC = () => {
     }
   };  
   return (
-    <header className="w-full flex justify-center py-6 lg:sticky lg:top-0 top-auto bottom-0 fixed z-10">
+    <header className={`w-full flex justify-center py-6 lg:sticky lg:top-0 top-auto bottom-0 fixed z-10 ${pathname === "/Login" ? "hidden": "" }`}>
       <div className="w-full flex justify-center py-6 lg:sticky lg:top-0 top-auto bottom-0 fixed z-10">
         <nav className="relative max-w-fit px-2 py-2 lg:bg-gray-200 bg-[#e7e7e7cf] rounded-full">
           <div

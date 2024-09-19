@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation'; // For programmatic navigation
-import Navbar from '@/components/Navbar/Navbar';
 import { FaChevronDown } from 'react-icons/fa'; // Import the chevron down icon
 
 const ClassDropdown: React.FC = () => {
@@ -49,7 +48,6 @@ const ClassDropdown: React.FC = () => {
 
   return (
     <>
-      <Navbar />
       <div className="flex justify-center items-center h-[75vh]">
         <div className="relative" ref={dropdownRef}>
           {/* Dropdown button */}

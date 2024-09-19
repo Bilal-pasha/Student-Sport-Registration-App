@@ -6,7 +6,7 @@ import Navbar from '@/components/Navbar/Navbar';
 const HomeScreen: React.FC = () => {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <main className="flex flex-col justify-center items-center h-[70vh]">
         <div className="pb-12">
           <Image
