@@ -1,13 +1,13 @@
-import NextAuth, { AuthOptions } from "next-auth";
+import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 // import CredentialsProvider from "next-auth/providers/credentials";
-// import clientPromise from "@/app/lib/mongodb"; 
+// import clientPromise from "@/app/lib/mongodb";
 // import bcrypt from "bcryptjs";
 // import { Db } from "mongodb";
 
 // Define the authentication options
-const authOptions: AuthOptions = {
+const authOptions = {
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_ID as string,
@@ -17,6 +17,7 @@ const authOptions: AuthOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
+    // Uncomment and configure the CredentialsProvider if needed
     // CredentialsProvider({
     //   name: "Credentials",
     //   credentials: {
@@ -50,21 +51,15 @@ const authOptions: AuthOptions = {
     //   },
     // }),
   ],
-  pages: {
-    signIn: "/auth/signin",
-    error: "/auth/error",
-  },
   secret: process.env.NEXTAUTH_SECRET as string,
+  // Customize pages if needed
+  // pages: {
+  //   signIn: "/auth/signin",
+  //   error: "/auth/error",
+  // },
 };
 
-// Create the NextAuth handler
-const authHandler = NextAuth(authOptions);
+// Default export for NextAuth in App Router
+const handler = NextAuth(authOptions);
 
-// Export the GET and POST handlers
-export async function GET(request: Request) {
-  return authHandler(request);
-}
-
-export async function POST(request: Request) {
-  return authHandler(request);
-}
+export { handler as GET, handler as POST };
