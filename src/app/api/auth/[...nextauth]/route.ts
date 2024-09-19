@@ -6,7 +6,8 @@ import clientPromise from "@/app/lib/mongodb"; // Import the MongoClient connect
 import bcrypt from "bcryptjs";
 import { Db } from "mongodb";
 
-export const authOptions: AuthOptions = {
+// Define the authentication options
+export const authOptions: any = {
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_ID as string,
@@ -51,13 +52,14 @@ export const authOptions: AuthOptions = {
   ],
   pages: {
     signIn: "/auth/signin",
-    signOut: "/auth/signout",
     error: "/auth/error",
   },
   secret: process.env.NEXTAUTH_SECRET as string,
 };
 
+// Export the NextAuth handler for both GET and POST methods
 const handler = NextAuth(authOptions);
 
-// Export for both GET and POST methods in Next.js 13+ API routes
-export { handler as GET, handler as POST };
+// In Next.js 13+ App Router, you need to export the methods individually
+export const GET = handler;
+export const POST = handler;

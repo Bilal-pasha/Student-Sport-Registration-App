@@ -12,7 +12,7 @@ const StudentSchema = Yup.object().shape({
   status: Yup.string().oneOf(['Paid', 'Unpaid'], 'Invalid status').required('Status is required'),
 });
 
-const StudentModal = ({ setIsModalOpen, students, setStudents ,create = false, update = false, id }: any) => {
+const StudentModal = ({ setIsModalOpen, students, setStudents ,create = false, update = false, id, classSlug }: any) => {
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -29,7 +29,7 @@ const StudentModal = ({ setIsModalOpen, students, setStudents ,create = false, u
 
   const CreateStudent = async (formValues: any, resetForm: () => void) => {
     try {
-      let response = await fetch("/api/add", {
+      let response = await fetch(`/api/class/${classSlug}/student`, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',

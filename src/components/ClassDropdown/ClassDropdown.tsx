@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation'; // For programmatic navigation
 import Navbar from '@/components/Navbar/Navbar';
+import { FaChevronDown } from 'react-icons/fa'; // Import the chevron down icon
 
 const ClassDropdown: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,7 +44,7 @@ const ClassDropdown: React.FC = () => {
   const handleClassSelect = (className: string) => {
     setIsOpen(false);  // Close dropdown
     const classSlug = className.toLowerCase().replace(/\s+/g, '-'); // Convert class name to URL-friendly slug
-    router.push(`/class/${classSlug}`);  // Navigate to dynamic route
+    router.push(`/class/${classSlug}/students`);  // Navigate to dynamic route
   };
 
   return (
@@ -52,12 +53,18 @@ const ClassDropdown: React.FC = () => {
       <div className="flex justify-center items-center h-[75vh]">
         <div className="relative" ref={dropdownRef}>
           {/* Dropdown button */}
-          <button 
-            onClick={toggleDropdown}
-            className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-semibold py-2 px-24 rounded-xl shadow-lg hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 transition-all duration-300"
-          >
-            Select Class
-          </button>
+            <button 
+              onClick={toggleDropdown}
+              className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-semibold py-3 w-72 px-8 rounded-xl shadow-lg hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 transition-all duration-300 items-center gap-2 flex justify-between" 
+            >
+              <div>
+              Select Class
+              </div>
+              <div>
+            <FaChevronDown /> {/* Add the chevron down icon */}
+
+              </div>
+            </button>
           
           {/* Dropdown items */}
           {isOpen && (

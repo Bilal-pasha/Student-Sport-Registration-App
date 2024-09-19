@@ -1,26 +1,14 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
 import { NextResponse } from "next/server";
 import clientPromise from '@/app/lib/mongodb';
 import bcrypt from 'bcryptjs';
 
-type Data = {
-  message: string;
-};
-
-// Ensure body parsing is enabled (default behavior)
-export const config = {
-  api: {
-    bodyParser: true,
-  },
-};
-
-export async function POST(req: any, res: NextApiResponse<Data>) {
-  const body = await req.json();
+export async function POST(req: Request) {
   try {
+    const body = await req.json(); // Parse the request body
     const { email, password } = body;
 
     if (!email || !password) {
-      return NextResponse.json({ message: 'Email and password are required' });
+      return NextResponse.json({ message: 'Email and password are required' }, { status: 400 });
     }
 
     const client = await clientPromise;
@@ -28,7 +16,7 @@ export async function POST(req: any, res: NextApiResponse<Data>) {
 
     const existingUser = await db.collection('users').findOne({ email });
     if (existingUser) {
-      return NextResponse.json({ message: 'User already exists' });
+      return NextResponse.json({ message: 'User already exists' }, { status: 400 });
     }
 
     const hashedPassword = bcrypt.hashSync(password, 10);
@@ -40,9 +28,9 @@ export async function POST(req: any, res: NextApiResponse<Data>) {
 
     await db.collection('users').insertOne(newUser);
 
-    return NextResponse.json({ message: 'User created successfully' });
+    return NextResponse.json({ message: 'User created successfully' }, { status: 201 });
   } catch (error) {
     console.error('Error creating user:', error);
-    return NextResponse.json({ message: 'Internal server error' });
+    return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
   }
 }

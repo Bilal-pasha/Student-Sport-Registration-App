@@ -24,12 +24,19 @@ export default function Page({params}: any) {
     const router = useRouter()
 
     const fetchStudent = async () => {
-        const fetchStudent = await fetch(`/api/student/${params.id}`);
-        const response = await fetchStudent.json()
-        const {body} = response
-        setStudent(body)
-        setIsLoading(false)
-    }
+      try {
+        setIsLoading(true);
+        const response = await fetch(`/api/student/${params.id}`);
+        const body = await response.json();
+        console.log(body);
+        setStudent(body);
+      } catch (error) {
+        console.error('Failed to fetch student:', error);
+      } finally {
+        setIsLoading(false); // Stop loading
+      }
+    };
+    
     useEffect(() => {
         fetchStudent()
     }, [])
@@ -43,7 +50,7 @@ export default function Page({params}: any) {
           });
           const data = await res.json()
           if(data.delete){
-            router.push("/students")
+            router.back()
             toast.success("Student Deleted Successfully")
           }
           

@@ -6,6 +6,8 @@ import { TableSkeleton } from '@/components/TableSkeleton/TabelSkeleton';
 import StudentModal from '@/components/StudentModal/StudenModal';
 import { getCurrentMonthYear } from '@/app/constant/constant';
 import Navbar from '@/components/Navbar/Navbar';
+import { useRouter } from 'next/navigation';
+import { FaArrowLeft,FaPlus } from 'react-icons/fa'; // Import the icon
 
 interface Student {
   fatherName: string;
@@ -16,14 +18,16 @@ interface Student {
   status: "Paid" | "Unpaid"; // Assuming the status can be either "Paid" or "Unpaid"
 }
 const tableHead = ['Name', "Father Name", "Roll Number", "Fees", "Status"]
-const StudentTable = () => {
+const StudentTable = ({ params }: { params: { slug: string } }) => {
+  const classSlug = params.slug;
   const [students, setStudents] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tableLoading, setTableLoading] = useState<boolean>(true)
+  const router = useRouter()
 
   const handleEvent = async () => {
     try {
-      const response = await fetch("/api/add");
+      const response = await fetch(`/api/class/${classSlug}/student`);
       const res = await response.json();
       setStudents(res);
       setTableLoading(false)
@@ -45,9 +49,22 @@ const StudentTable = () => {
       <div className='py-4 space-y-4'>
         <h1 className="text-2xl font-bold">Student Information</h1>
         {/* Button to open modal */}
+        <div className='flex justify-between'>
         <Button onClick={ () => setIsModalOpen(true)} variant="primary" type="submit" size="md" className="!px-4">
+          <FaPlus />
           Add New Student
         </Button>
+        <Button 
+          onClick={() => router.back()} 
+          variant="primary" 
+          type="button" 
+          size="md" 
+          className="!px-4 flex items-center gap-2" // Ensure proper spacing between icon and text
+        >
+          <FaArrowLeft /> {/* Add the icon */}
+          Go Back
+        </Button>
+        </div>
       </div>
       {/* Table */}
       <div className="overflow-x-auto">
@@ -67,7 +84,7 @@ const StudentTable = () => {
             {students.map((student:any) => (
               <tr className="bg-slate-200 hover:bg-gray-100" key={student?.id}>
                 <td className="whitespace-nowrap font-medium text-gray-900 py-3 px-5 border-b border-slate-400">
-                  <Link href={`/students/${student?.id}`} className="text-blue-500 hover:underline">
+                  <Link href={`/class/${classSlug}/students/${student?.id}`} className="text-blue-500 hover:underline">
                     {student?.name}
                   </Link>
                 </td>
@@ -85,7 +102,7 @@ const StudentTable = () => {
       </div>
 
       {/* Modal */}
-      {isModalOpen && <StudentModal setStudents={setStudents} students={students} setIsModalOpen={setIsModalOpen} create/>}
+      {isModalOpen && <StudentModal setStudents={setStudents} students={students} setIsModalOpen={setIsModalOpen} classSlug={classSlug} create/>}
     </div>
     </>
   );

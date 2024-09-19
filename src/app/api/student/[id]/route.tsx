@@ -5,7 +5,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   const { id } = params;
-  console.log(id, "bilalGEt")
   try {
     const client = await clientPromise;
     const db = client.db('school');

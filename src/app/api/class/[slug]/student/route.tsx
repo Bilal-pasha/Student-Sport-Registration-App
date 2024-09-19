@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import clientPromise from '../../lib/mongodb';
+import clientPromise from '@/app/lib/mongodb';
 
 export async function POST(request: any, { params }: { params: { slug: string } }) {
   try {
