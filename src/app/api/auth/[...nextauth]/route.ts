@@ -1,13 +1,13 @@
 import NextAuth, { AuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
-import CredentialsProvider from "next-auth/providers/credentials";
-import clientPromise from "@/app/lib/mongodb"; // Import the MongoClient connection
-import bcrypt from "bcryptjs";
-import { Db } from "mongodb";
+// import CredentialsProvider from "next-auth/providers/credentials";
+// import clientPromise from "@/app/lib/mongodb"; 
+// import bcrypt from "bcryptjs";
+// import { Db } from "mongodb";
 
 // Define the authentication options
-export const authOptions: any = {
+const authOptions: AuthOptions = {
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_ID as string,
@@ -17,38 +17,38 @@ export const authOptions: any = {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
-    CredentialsProvider({
-      name: "Credentials",
-      credentials: {
-        email: { label: "Email", type: "text", placeholder: "you@example.com" },
-        password: { label: "Password", type: "password" },
-      },
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials.password) {
-          return null;  // Return null if credentials are missing
-        }
+    // CredentialsProvider({
+    //   name: "Credentials",
+    //   credentials: {
+    //     email: { label: "Email", type: "text", placeholder: "you@example.com" },
+    //     password: { label: "Password", type: "password" },
+    //   },
+    //   async authorize(credentials) {
+    //     if (!credentials?.email || !credentials.password) {
+    //       return null;  // Return null if credentials are missing
+    //     }
 
-        // Get the MongoDB connection
-        const client = await clientPromise;
-        const db: Db = client.db();
+    //     // Get the MongoDB connection
+    //     const client = await clientPromise;
+    //     const db: Db = client.db();
 
-        // Fetch user from the database
-        const user = await db.collection("users").findOne({ email: credentials.email });
+    //     // Fetch user from the database
+    //     const user = await db.collection("users").findOne({ email: credentials.email });
 
-        if (!user) {
-          return null; // Return null if no user is found
-        }
+    //     if (!user) {
+    //       return null; // Return null if no user is found
+    //     }
 
-        // Compare password
-        const isValidPassword = bcrypt.compareSync(credentials.password, user.password);
-        if (!isValidPassword) {
-          return null; // Return null if password is invalid
-        }
+    //     // Compare password
+    //     const isValidPassword = bcrypt.compareSync(credentials.password, user.password);
+    //     if (!isValidPassword) {
+    //       return null; // Return null if password is invalid
+    //     }
 
-        // If credentials are valid, return the user object
-        return { email: user.email };
-      },
-    }),
+    //     // If credentials are valid, return the user object
+    //     return { email: user.email };
+    //   },
+    // }),
   ],
   pages: {
     signIn: "/auth/signin",
@@ -57,9 +57,14 @@ export const authOptions: any = {
   secret: process.env.NEXTAUTH_SECRET as string,
 };
 
-// Export the NextAuth handler for both GET and POST methods
-const handler = NextAuth(authOptions);
+// Create the NextAuth handler
+const authHandler = NextAuth(authOptions);
 
-// In Next.js 13+ App Router, you need to export the methods individually
-export const GET = handler;
-export const POST = handler;
+// Export the GET and POST handlers
+export async function GET(request: Request) {
+  return authHandler(request);
+}
+
+export async function POST(request: Request) {
+  return authHandler(request);
+}
