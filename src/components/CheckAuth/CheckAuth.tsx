@@ -15,9 +15,9 @@ const CheckAuthentication = (WrappedComponent: React.ComponentType) => {
       }
     }, [status, router]);
 
-    if (status === "loading") {
-      return <div>Loading...</div>;
-    }
+    // if (status === "loading") {
+    //   return <div>Loading...</div>;
+    // }
 
     if (session) {
       return <WrappedComponent {...props} />;

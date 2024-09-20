@@ -2,9 +2,11 @@ import { NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
 import clientPromise from '../../../lib/mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
+// use this as a mock data replace it later with actual data
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   const { id } = params;
+  
   try {
     const client = await clientPromise;
     const db = client.db('school');
@@ -18,6 +20,10 @@ export async function GET(request: Request, { params }: { params: { id: string }
     if (!student) {
       return NextResponse.json({ message: 'Student not found' }, { status: 404 });
     }
+
+    // Define the monthly fees status with all months set to "Not Paid"
+
+    // Add the fees status object to the student object
 
     return NextResponse.json(student);
   } catch (error: any) {
@@ -51,7 +57,6 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
 
 export async function PUT(req: NextApiRequest, res: NextApiResponse, { params }: { params: { id: string } }) {
   // const { id } = params;
-  console.log(req.body, "bilalID")
   try {
     const client = await clientPromise;
     const db = client.db('school');

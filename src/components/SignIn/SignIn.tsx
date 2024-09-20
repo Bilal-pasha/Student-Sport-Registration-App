@@ -12,7 +12,6 @@ const SignIn = () => {
       console.error('Sign in error:', response.error);
     } else {
       toast.success('Signed in successfully');
-      console.log('Sign in successful, checking session...');
     }
     };
 

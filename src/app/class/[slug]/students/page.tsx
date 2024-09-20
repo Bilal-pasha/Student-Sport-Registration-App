@@ -8,7 +8,7 @@ import { getCurrentMonthYear } from '@/app/constant/constant';
 import Navbar from '@/components/Navbar/Navbar';
 import { useRouter } from 'next/navigation';
 import { FaArrowLeft,FaPlus } from 'react-icons/fa'; // Import the icon
-import { CheckCircleIcon, ExclamationCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
+import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 
 interface Student {
   fatherName: string;
@@ -18,7 +18,7 @@ interface Student {
   id: Number;
   status: "Paid" | "Unpaid"; // Assuming the status can be either "Paid" or "Unpaid"
 }
-const tableHead = ['Name', "Father Name", "Roll Number", "Fees", "Status"]
+const tableHead = ['Name', "Father Name", "ID Number", "Fees", "Status"]
 const StudentTable = ({ params }: { params: { slug: string } }) => {
   const classSlug = params.slug;
   const [students, setStudents] = useState([]);

@@ -7,14 +7,16 @@ import toast from "react-hot-toast";
 import { TableSkeleton } from "@/components/TableSkeleton/TabelSkeleton";
 import { getCurrentMonthYear } from "@/app/constant/constant";
 import StudentModal from "@/components/StudentModal/StudenModal";
+import { FaArrowLeft } from "react-icons/fa";
 interface Student {
     fatherName: string;
     fees: string;
     name: string;
     rollNumber: string;
     status: "Paid" | "Unpaid"; // Assuming the status can be either "Paid" or "Unpaid"
+    feesStatus: any
   }
- 
+  
 export default function Page({params}: any) {
     const [student, setStudent] = useState<Student>()
     const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -22,13 +24,12 @@ export default function Page({params}: any) {
     const [updateModal, setUpdateModal] = useState<boolean>(false)
     const [students, setStudents] = useState([]);
     const router = useRouter()
-
+  
     const fetchStudent = async () => {
       try {
         setIsLoading(true);
         const response = await fetch(`/api/student/${params.id}`);
         const body = await response.json();
-        console.log(body);
         setStudent(body);
       } catch (error) {
         console.error('Failed to fetch student:', error);
@@ -40,7 +41,6 @@ export default function Page({params}: any) {
     useEffect(() => {
         fetchStudent()
     }, [])
-    console.log(student)
 
     const handleDeleteButton = async (studentId: string) => {
         setModal(true)
@@ -65,30 +65,53 @@ export default function Page({params}: any) {
       const currentMonthYear = getCurrentMonthYear();
 
  return (
-   <div className="container mx-auto py-10">
+  <>
+           <div className="flex justify-end px-10">
+             <Button 
+              onClick={() => router.back()} 
+              variant="primary" 
+              type="button" 
+              size="md" 
+              className="!px-4 flex items-center gap-2" // Ensure proper spacing between icon and text
+            >
+              <FaArrowLeft /> {/* Add the icon */}
+              Go Back
+            </Button>
+          </div>
+    <div className="container mx-auto py-10">
     <>{isLoading ? (<TableSkeleton numberOfRows={10}/>) : (
       <>
-          <div className="border-b border-gray-200 mb-4 flex items-center justify-between">
+          <div className="border-b border-gray-400 mb-4 flex items-center justify-between">
               <h2 className="text-xl font-semibold text-gray-800">Student&apos; Name</h2>
               <p className="text-lg text-gray-700 py-2 px-4">{student?.name}</p>
           </div>
-          <div className="border-b border-gray-200 mb-4 flex items-center justify-between">
+          <div className="border-b border-gray-400 mb-4 flex items-center justify-between">
               <h2 className="text-xl font-semibold text-gray-800">Father&apos; Name</h2>
               <p className="text-lg text-gray-700 py-2 px-4">{student?.fatherName}</p>
           </div>
-          <div className="border-b border-gray-200 mb-4 flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-gray-800">Roll Number</h2>
+          <div className="border-b border-gray-400 mb-4 flex items-center justify-between">
+              <h2 className="text-xl font-semibold text-gray-800">ID Number</h2>
               <p className="text-lg text-gray-700 py-2 px-4">{student?.rollNumber}</p>
           </div>
-          <div className="border-b border-gray-200 mb-4 flex items-center justify-between">
+          <div className="border-b border-gray-400 mb-4 flex items-center justify-between">
               <h2 className="text-xl font-semibold text-gray-800">Fees</h2>
               <p className="text-lg text-gray-700 py-2 px-4">{student?.fees}</p>
           </div>
-          <div className={`border-b border-gray-200 mb-4 flex items-center justify-between ${student?.status === "Paid" ? "text-green-600" : "text-red-600"}`}>
-              <h2 className="text-xl font-semibold text-gray-800">Status</h2>
-              <p className={`text-lg py-2 px-4 ${student?.status === "Paid" ? "text-green-600" : "text-red-600"}`}>
-              {student?.status} - {currentMonthYear}
-              </p>
+          <div className={`border-b border-gray-400 mb-4`}>
+          <div className="grid mb-4 grid-cols-3 items">
+            <h2 className="text-xl font-semibold text-gray-800 col-span-1">Status</h2>
+            <div className=" gap-2 mt-2 space-y-2 space-x-4 col-span-2">
+              {student?.feesStatus?.map((m: any) => (
+                <span
+                  key={m.month}
+                  className={`inline-block py-2 px-4 rounded-lg text-sm font-semibold 
+                    ${m.status === "Paid" ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"}`}
+                >
+                  {m.month} - {m.status}
+                </span>
+              ))}
+            </div>
+            </div>
           </div>
           <div className="flex justify-between">
               <div></div>
@@ -103,5 +126,6 @@ export default function Page({params}: any) {
     ) }
      </>
     </div>
+    </>
  )
 }
