@@ -1,13 +1,16 @@
 "use client"
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/Button/Button";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Modal } from "@/components/Modal/Modal";
 import toast from "react-hot-toast";
 import { TableSkeleton } from "@/components/TableSkeleton/TabelSkeleton";
 import { getCurrentMonthYear } from "@/app/constant/constant";
 import StudentModal from "@/components/StudentModal/StudenModal";
 import { FaArrowLeft } from "react-icons/fa";
+import { useReactToPrint } from 'react-to-print';
+import Invoice from "@/components/Invoice/Invoice";
+import { FaPrint, FaTrash, FaEdit } from 'react-icons/fa'; // Import the print icon
 interface Student {
     fatherName: string;
     fees: string;
@@ -23,8 +26,8 @@ export default function Page({params}: any) {
     const [modal , setModal] = useState(false)
     const [updateModal, setUpdateModal] = useState<boolean>(false)
     const [students, setStudents] = useState([]);
-    const router = useRouter()
-  
+    const router = useRouter();
+    const invoiceRef = useRef(null);
     const fetchStudent = async () => {
       try {
         setIsLoading(true);
@@ -64,6 +67,9 @@ export default function Page({params}: any) {
       };
       const currentMonthYear = getCurrentMonthYear();
 
+      const handlePrint = useReactToPrint({
+        content: () => invoiceRef.current,
+      });
  return (
   <>
            <div className="flex justify-end px-10">
@@ -116,12 +122,25 @@ export default function Page({params}: any) {
           <div className="flex justify-between">
               <div></div>
               <div className="flex space-x-4">
-              <Button variant="primary" size="md" className="!px-4" onClick={() => setUpdateModal(true)}>Update</Button>
-              <Button variant="danger" size="md" className="!px-4" onClick={() => setModal(true)}>Delete</Button>
+              <Button variant="primary" size="md" onClick={handlePrint}>
+                <FaPrint className="inline-block mr-2 w-5 h-5" />
+                Print Invoice
+              </Button>
+              <Button variant="primary" size="md" className="!px-4" onClick={() => setUpdateModal(true)}>
+                <FaEdit className="inline-block mr-2 w-5 h-5" />
+                Update
+              </Button>
+              <Button variant="danger" size="md" className="!px-4" onClick={() => setModal(true)}>
+                <FaTrash className="inline-block mr-2 w-5 h-5" />
+                Delete
+              </Button>
               </div>
           </div>
       {updateModal && <StudentModal setStudents={setStudents} students={students} setIsModalOpen={setUpdateModal} id={params.id}/>}
       {modal && <Modal closeModal={closeModal} handleFunction={handleDeleteButton} id={params.id} name={student?.name}/>}
+        <div style={{ display: 'none' }}>
+            <Invoice ref={invoiceRef} student={student} />
+          </div>
       </>
     ) }
      </>

@@ -99,6 +99,7 @@ const config: Config = {
       },
       fontFamily: {
         poppins: ['Poppins', 'sans-serif'],
+        urduNastaliq: ["Noto Nastaliq Urdu", "serif"],
       },
     },
   },
