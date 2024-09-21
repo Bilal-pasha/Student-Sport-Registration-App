@@ -1,8 +1,12 @@
 import React, { forwardRef } from 'react';
 import Image from 'next/image';
 
-const Invoice = forwardRef(({ student }: any, ref: any) => (
-  <div ref={ref} className="p-8 border border-gray-300 rounded-md shadow-lg max-w-3xl mx-auto font-poppins">
+const Invoice = forwardRef(({ student }: any, ref: any) => {
+  const date = new Date();
+  const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+
+  return (
+ <div ref={ref} className="p-8 border border-gray-300 rounded-md shadow-lg max-w-3xl mx-auto font-poppins">
     {/* Header Section */}
     <div className="flex items-center justify-center mb-8">
       <div className="flex flex-col items-center">
@@ -22,7 +26,9 @@ const Invoice = forwardRef(({ student }: any, ref: any) => (
     {/* Invoice Title */}
     <div className="mb-6 text-center">
       <h1 className="text-3xl font-medium mb-2">School Fees Invoice</h1>
-      <p className="text-gray-600">Date: {new Date().toLocaleDateString()}</p>
+      <p className="text-gray-600">
+        Date: {date.toLocaleString('en-GB', options)} {/* Formats to "25 September 2024" */}
+      </p>
     </div>
 
     {/* Student Information Section */}
@@ -86,7 +92,9 @@ const Invoice = forwardRef(({ student }: any, ref: any) => (
       </div>
     </div>
   </div>
-));
+)
+}
+);
 Invoice.displayName = 'School Fees Invoice';
 
 export default Invoice;
