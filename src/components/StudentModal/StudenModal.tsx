@@ -1,39 +1,18 @@
 import React from 'react';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import { Button } from '@/components/Button/Button';
 import { toast } from 'react-hot-toast';
 import { feesStatus } from '@/app/constant/constant';
+import { StudentSchema } from './StudentModel.Schema';
 
-const StudentSchema = Yup.object().shape({
-  name: Yup.string().required('Name is required'),
-  fatherName: Yup.string().required('Father name is required'),
-  rollNumber: Yup.number().required('Roll number is required'),
-  fees: Yup.number().required('Fees is required').positive('Fees must be positive'),
-  status: Yup.string().oneOf(['Paid', 'Unpaid'], 'Invalid status').required('Status is required'),
-});
-
-const StudentModal = ({ setIsModalOpen, students, setStudents ,create = false, update = false, id, classSlug }: any) => {
+const StudentModal = ({ setIsModalOpen, students, setStudents ,create = false, update = false, id, classSlug, studentData, setStudent }: any) => {
   const formik = useFormik({
     initialValues: {
-      name: '',
-      fatherName: '',
-      rollNumber: '',
-      fees: '',
-      feesStatus: [
-        { month: 'January', status: 'Not Paid' },
-        { month: 'February', status: 'Not Paid' },
-        { month: 'March', status: 'Not Paid' },
-        { month: 'April', status: 'Not Paid' },
-        { month: 'May', status: 'Not Paid' },
-        { month: 'June', status: 'Not Paid' },
-        { month: 'July', status: 'Not Paid' },
-        { month: 'August', status: 'Not Paid' },
-        { month: 'September', status: 'Not Paid' },
-        { month: 'October', status: 'Not Paid' },
-        { month: 'November', status: 'Not Paid' },
-        { month: 'December', status: 'Not Paid' },
-      ], 
+      name: !create ? studentData?.name : "",
+      fatherName: !create ? studentData?.fatherName: "",
+      rollNumber: !create ? studentData?.rollNumber: "",
+      fees: !create ? studentData?.fees: "",
+      feesStatus: !create ? studentData?.feesStatus: feesStatus , 
       status: 'Unpaid',
     },
     validationSchema: StudentSchema,
@@ -41,7 +20,6 @@ const StudentModal = ({ setIsModalOpen, students, setStudents ,create = false, u
       create ? await CreateStudent(values, resetForm): await UpdateStudent(values, resetForm, id)
     },
   });
-
   const CreateStudent = async (formValues: any, resetForm: () => void) => {
     const payload = {
       ...formValues, // This includes other form fields like name, fatherName, rollNumber, etc.
@@ -70,8 +48,15 @@ const StudentModal = ({ setIsModalOpen, students, setStudents ,create = false, u
     }
   };
 
-  const UpdateStudent = async (formValues: any, resetForm: () => void, StudentID: string) => {
+  const UpdateStudent = async (
+    formValues: any, 
+    resetForm: () => void, 
+    StudentID: string
+  ) => {
     try {
+      // Add the StudentID to formValues
+      const updatedFormValues = { ...formValues, studentId: StudentID };
+  
       let response = await fetch(`/api/student/${StudentID}`, {
         method: "PUT",
         headers: {
@@ -79,26 +64,27 @@ const StudentModal = ({ setIsModalOpen, students, setStudents ,create = false, u
         },
         redirect: "follow",
         referrerPolicy: "no-referrer",
-        body: JSON.stringify(formValues),
+        body: JSON.stringify(updatedFormValues),
       });
   
       const res = await response.json();
   
-      // Update the student in the current list
-      setStudents((prevStudents: any) =>
-        prevStudents.map((student: any) =>
-          student.id === StudentID ? res.result : student
-        )
-      );
-  
-      toast.success("Student Updated Successfully");
-      setIsModalOpen(false);
-      resetForm(); // Clear form after successful submission
+      if (response.ok) {
+        // Update the student in the current list with the updated data from backend
+        setStudent(res.body)
+        // Show success message with the backend response message
+        toast.success(res?.message);
+        setIsModalOpen(false);
+        resetForm(); // Clear the form after successful submission
+      } else {
+        toast.error(res?.message);
+      }
     } catch (error) {
       console.error("Fetch error: ", error);
       toast.error("Failed to update student");
     }
   };
+  
   
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -117,9 +103,10 @@ const StudentModal = ({ setIsModalOpen, students, setStudents ,create = false, u
           formik.touched.name && formik.errors.name ? 'border-red-500' : ''
         }`}
       />
-      {formik.touched.name && formik.errors.name ? (
-        <p className="text-red-500 text-sm">{formik.errors.name}</p>
-      ) : null}
+              {typeof formik.errors.name === 'string' && (
+          <p className="text-red-500 text-sm">{formik.errors.name}</p>
+        )}
+
 
       {/* Father Name Input */}
       <input
@@ -133,9 +120,10 @@ const StudentModal = ({ setIsModalOpen, students, setStudents ,create = false, u
           formik.touched.fatherName && formik.errors.fatherName ? 'border-red-500' : ''
         }`}
       />
-      {formik.touched.fatherName && formik.errors.fatherName ? (
+            {formik.touched.fatherName && typeof formik.errors.fatherName === 'string' ? (
         <p className="text-red-500 text-sm">{formik.errors.fatherName}</p>
       ) : null}
+
 
       {/* Roll Number Input */}
       <input
@@ -149,9 +137,9 @@ const StudentModal = ({ setIsModalOpen, students, setStudents ,create = false, u
           formik.touched.rollNumber && formik.errors.rollNumber ? 'border-red-500' : ''
         }`}
       />
-      {formik.touched.rollNumber && formik.errors.rollNumber ? (
-        <p className="text-red-500 text-sm">{formik.errors.rollNumber}</p>
-      ) : null}
+          {formik.touched.rollNumber && typeof formik.errors.rollNumber === 'string' ? (
+          <p className="text-red-500 text-sm">{formik.errors.rollNumber}</p>
+        ) : null}
 
       {/* Fees Input */}
       <input
@@ -165,22 +153,23 @@ const StudentModal = ({ setIsModalOpen, students, setStudents ,create = false, u
           formik.touched.fees && formik.errors.fees ? 'border-red-500' : ''
         }`}
       />
-      {formik.touched.fees && formik.errors.fees ? (
+          {formik.touched.fees && typeof formik.errors.fees === 'string' ? (
         <p className="text-red-500 text-sm">{formik.errors.fees}</p>
       ) : null}
+
 
       {/* Monthly Fees Status Checkboxes */}
       <div className="mt-4 mb-4">
           <h3 className="text-lg font-semibold mb-2">Monthly Fees Status</h3>
           <div className="flex flex-wrap gap-3">
-            {feesStatus.map(({ month, status }, index) => (
+            {feesStatus?.map(({ month, status }, index) => (
               <div key={month} className="flex items-center mb-2">
                 <input
                   type="checkbox"
                   name={`feesStatus.${month}`}
                   checked={formik?.values?.feesStatus[index]?.status === 'Paid'}
                   onChange={(e) =>
-                    formik.setFieldValue(`feesStatus`, formik.values.feesStatus.map((fee, i) =>
+                    formik.setFieldValue(`feesStatus`, formik.values.feesStatus.map((fee: any, i: number) =>
                       i === index ? { ...fee, status: e.target.checked ? 'Paid' : 'Not Paid' } : fee
                     ))
                   }

@@ -136,11 +136,9 @@ export default function Page({params}: any) {
               </Button>
               </div>
           </div>
-      {updateModal && <StudentModal setStudents={setStudents} students={students} setIsModalOpen={setUpdateModal} id={params.id}/>}
+      {updateModal && <StudentModal setStudents={setStudents} students={students} setIsModalOpen={setUpdateModal} id={params.id} studentData={student} setStudent={setStudent}/>}
       {modal && <Modal closeModal={closeModal} handleFunction={handleDeleteButton} id={params.id} name={student?.name}/>}
-        <div style={{ display: 'none' }}>
-            <Invoice ref={invoiceRef} student={student} />
-          </div>
+      <Invoice ref={invoiceRef} student={student} />
       </>
     ) }
      </>

@@ -55,24 +55,26 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
   }
 }
 
-export async function PUT(req: NextApiRequest, res: NextApiResponse, { params }: { params: { id: string } }) {
-  // const { id } = params;
+export async function PUT(req: any, res: NextApiResponse) {
   try {
+    const body = await req.json();
     const client = await clientPromise;
     const db = client.db('school');
-    // const { name, fatherName, rollNumber, fees, status } = request.body;
-    // const result = await db.collection('students').updateOne(
-      // { _id: new ObjectId(id as string) }, 
-      // { body: { name, fatherName, rollNumber, fees, status } }
-    // );
 
-    // if (result.modifiedCount === 1) {
-    //   return NextResponse.json({ message: 'Student updated successfully' });
-    // } else {
-    //    NextResponse.json({ message: 'Student not found' });
-    // }
+    const { name, studentId: id, fatherName, rollNumber, fees, feesStatus } = body;
 
-    return NextResponse.json("result");
+    // Use $set to update the specific fields in the student document
+    const result = await db.collection('students').updateOne(
+      { _id: new ObjectId(id as string) }, 
+      { $set: { name, fatherName, rollNumber, fees, feesStatus } }  // Corrected update syntax
+    );
+
+    if (result.modifiedCount === 1) {
+      const updatedStudent = await db.collection('students').findOne({ _id: new ObjectId(id as string) });
+      return NextResponse.json({ message: 'Student updated successfully', body: updatedStudent });
+    } else {
+      return NextResponse.json({ message: 'Student not found' });
+    }
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
