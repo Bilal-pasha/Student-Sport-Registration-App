@@ -23,3 +23,5 @@ export const getCurrentMonthYear = () => {
     { month: 'November', status: 'Not Paid' },
     { month: 'December', status: 'Not Paid' },
   ];
+
+export const tableHead = ['Name', "Father Name", "ID Number", "Fees", "Status"]

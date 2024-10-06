@@ -5,46 +5,21 @@ import { useEffect, useRef, useState } from "react";
 import { Modal } from "@/components/Modal/Modal";
 import toast from "react-hot-toast";
 import { TableSkeleton } from "@/components/TableSkeleton/TabelSkeleton";
-import { getCurrentMonthYear } from "@/app/constant/constant";
 import StudentModal from "@/components/StudentModal/StudenModal";
 import { FaArrowLeft } from "react-icons/fa";
 import { useReactToPrint } from 'react-to-print';
 import Invoice from "@/components/Invoice/Invoice";
-import { FaPrint, FaTrash, FaEdit } from 'react-icons/fa'; // Import the print icon
-interface Student {
-    fatherName: string;
-    fees: string;
-    name: string;
-    rollNumber: string;
-    status: "Paid" | "Unpaid"; // Assuming the status can be either "Paid" or "Unpaid"
-    feesStatus: any
-  }
+import { FaPrint, FaTrash, FaEdit } from 'react-icons/fa';
+import { useStudentData } from "@/utlis/hooks/useStudentData";
   
 export default function Page({params}: any) {
-    const [student, setStudent] = useState<Student>()
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [modal , setModal] = useState(false)
     const [updateModal, setUpdateModal] = useState<boolean>(false)
     const [students, setStudents] = useState([]);
     const router = useRouter();
     const invoiceRef = useRef(null);
-    const fetchStudent = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch(`/api/student/${params.id}`);
-        const body = await response.json();
-        setStudent(body);
-      } catch (error) {
-        console.error('Failed to fetch student:', error);
-      } finally {
-        setIsLoading(false); // Stop loading
-      }
-    };
-    
-    useEffect(() => {
-        fetchStudent()
-    }, [])
-
+    const {student, setStudent} = useStudentData(setIsLoading,params);
     const handleDeleteButton = async (studentId: string) => {
         setModal(true)
         try {
@@ -54,24 +29,22 @@ export default function Page({params}: any) {
           const data = await res.json()
           if(data.delete){
             router.back()
-            toast.success("Student Deleted Successfully")
+            toast.success(data?.message)
           }
           
-        } catch (error) {
-          console.error('Error deleting student:', error);
-          toast.error("Something went wrong")
+        } catch (error: any) {
+          toast.error(error?.message)
         }
       };
       const closeModal = () => {
         setModal(false);
       };
-      const currentMonthYear = getCurrentMonthYear();
-
       const handlePrint = useReactToPrint({
         content: () => invoiceRef.current,
       });
- return (
-  <>
+      
+        return (
+          <>
            <div className="flex justify-end px-10">
              <Button 
               onClick={() => router.back()} 

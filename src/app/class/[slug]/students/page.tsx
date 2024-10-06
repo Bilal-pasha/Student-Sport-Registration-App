@@ -1,55 +1,27 @@
 "use client"
 import { Button } from '@/components/Button/Button';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { TableSkeleton } from '@/components/TableSkeleton/TabelSkeleton';
 import StudentModal from '@/components/StudentModal/StudenModal';
-import { getCurrentMonthYear } from '@/app/constant/constant';
-import Navbar from '@/components/Navbar/Navbar';
+import { getCurrentMonthYear, tableHead } from '@/app/constant/constant';
 import { useRouter } from 'next/navigation';
-import { FaArrowLeft,FaPlus } from 'react-icons/fa'; // Import the icon
+import { FaArrowLeft,FaPlus } from 'react-icons/fa';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
+import useFetchStudents from '@/utlis/hooks/useFetchStudents';
 
-interface Student {
-  fatherName: string;
-  fees: string;
-  name: string;
-  rollNumber: string;
-  id: Number;
-  status: "Paid" | "Unpaid"; // Assuming the status can be either "Paid" or "Unpaid"
-}
-const tableHead = ['Name', "Father Name", "ID Number", "Fees", "Status"]
 const StudentTable = ({ params }: { params: { slug: string } }) => {
   const classSlug = params.slug;
-  const [students, setStudents] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tableLoading, setTableLoading] = useState<boolean>(true)
   const router = useRouter()
-
-  const handleEvent = async () => {
-    try {
-      const response = await fetch(`/api/class/${classSlug}/student`);
-      const res = await response.json();
-      setStudents(res);
-      setTableLoading(false)
-
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-  
-  useEffect(() => {
-  handleEvent();
-  },[])
-  
   const currentMonthYear = getCurrentMonthYear();
+  const {students, setStudents} = useFetchStudents(classSlug, setTableLoading)
   return (
     <>
-    {/* <Navbar/> */}
     <div className="container mx-auto">
       <div className='py-4 space-y-4'>
         <h1 className="text-2xl font-bold">Student Information</h1>
-        {/* Button to open modal */}
         <div className='flex justify-between'>
         <Button onClick={ () => setIsModalOpen(true)} variant="primary" type="submit" size="md" className="!px-4">
           <FaPlus />
@@ -60,9 +32,8 @@ const StudentTable = ({ params }: { params: { slug: string } }) => {
           variant="primary" 
           type="button" 
           size="md" 
-          className="!px-4 flex items-center gap-2" // Ensure proper spacing between icon and text
-        >
-          <FaArrowLeft /> {/* Add the icon */}
+          className="!px-4 flex items-center gap-2">
+          <FaArrowLeft />
           Go Back
         </Button>
         </div>
@@ -115,8 +86,6 @@ const StudentTable = ({ params }: { params: { slug: string } }) => {
           </table>
          )}
       </div>
-
-      {/* Modal */}
       {isModalOpen && <StudentModal setStudents={setStudents} students={students} setIsModalOpen={setIsModalOpen} classSlug={classSlug} create/>}
     </div>
     </>
