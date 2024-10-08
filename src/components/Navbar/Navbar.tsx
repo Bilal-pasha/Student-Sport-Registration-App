@@ -102,7 +102,7 @@ const Navbar: React.FC = () => {
           className={`${`rounded-full object-cover cursor-pointer`}`}
           width={50}
           height={50}
-          src={`${session?.user?.image}`}
+          src={`${session?.user?.image || ''}`}
           priority={true}
           alt="profile-picture"
         />

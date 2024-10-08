@@ -18,8 +18,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    // bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200
     <html lang="en">
-      <body className="bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200 min-h-screen">
+      <body className="bg-camping-image bg-cover bg-no-repeat min-h-screen">
         <SessionWrapper>
           <Toaster position="top-right" />
           <Navbar/>

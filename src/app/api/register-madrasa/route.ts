@@ -5,7 +5,7 @@ import clientPromise from '@/app/lib/mongodb';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { madrasaName, madrasaAddress, totalStudents, userId } = body;
+    const { madrasaName, madrasaAddress, totalStudents, userId, ContactPersonName, CellNumber } = body;
 
     const client = await clientPromise;
     const db = client.db('school');
@@ -14,7 +14,9 @@ export async function POST(request: Request) {
       madrasaName,
       madrasaAddress,
       totalStudents,
-      userId,  // Ensure user ID or email exists
+      ContactPersonName,
+      CellNumber,
+      userId,
       createdAt: new Date(),
     });
 
