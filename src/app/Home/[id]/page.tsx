@@ -53,12 +53,12 @@ const StudentTable = ({ params }: any) => {
         >
           Add New Student
         </button>
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">Students List</h2>
+        <h2 className="text-xl font-semibold text-gray-200 mb-4">Students List</h2>
         {students.length === 0 ? (
-            <div className="text-center text-gray-500">No students found</div>
+            <div className="text-center text-gray-200">No students found</div>
         ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full shadow-md rounded-lg border border-black">
+          <table className="min-w-full shadow-md rounded-lg border bg-gray-300 border-black">
             <thead>
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Roll Number</th>
