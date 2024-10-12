@@ -3,6 +3,8 @@ import { signIn, useSession } from 'next-auth/react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
+import Image from 'next/image'; 
+
 const SignIn = () => {
 
   const handleSignIn = async (provider: 'google' | 'github') => {
@@ -22,7 +24,15 @@ const SignIn = () => {
   return (
     <div className="flex items-center h-screen justify-center">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">Login to Your Account</h2>
+        <div className='flex flex-col items-center justify-center pb-5'>
+            <Image 
+            src="https://arabiaislamia.org/static/media/Logo.d8177b439b150086839e.png" 
+            alt="Logo" 
+            width={200}  /* Specify the width */
+            height={100} /* Specify the height */
+          />
+          <p className="font-urduNastaliq text-3xl ">جامعہ عربیہ اسلامیہ <span className="text-xs">اسکاؤٹ کالونی</span></p>       
+        </div>
         <form onSubmit={handleSubmit}>
           {/* Email input */}
           <div className="mb-4">

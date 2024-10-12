@@ -92,7 +92,7 @@ const MadrasaTable: React.FC = () => {
 
   return (
     <div className="overflow-x-auto">
-      <table className="w-full text-left border-collapse border border-gray-400">
+      <table className="w-full bg-gray-300 opacity-90 text-left border-collapse border border-gray-400">
         <thead className="bg-gray-100 text-gray-600 text-sm uppercase">
           <tr>
             {tableHeadings.map((heading, index) => (

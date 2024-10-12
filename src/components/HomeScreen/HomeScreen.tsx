@@ -12,7 +12,7 @@ const HomeScreen: React.FC = () => {
       {/* <Navbar /> */}
       <main className="flex flex-col justify-center items-center">
       <div className="container mx-auto p-6">
-        <h1 className="text-2xl font-bold mb-4">Registered Schools</h1>
+        <h1 className="text-2xl font-bold mb-4 text-slate-200">Registered Schools</h1>
         <MadrasaTable />
       </div>
         {/* <div className="pb-12">
