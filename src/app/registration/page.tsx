@@ -37,7 +37,7 @@ const RegistrationForm: React.FC = () => {
 
   const onSubmit = async (values: RegistrationData) => {
     const payload = {
-      ...values, userId: session?.user?.email,
+      ...values, userId: session?.user?.name,
     }
     try {
       const response = await fetch('/api/register-madrasa', {

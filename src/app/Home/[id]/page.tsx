@@ -6,10 +6,12 @@ import {AddNewStudentModal} from '@/components/AddNewStudentModal/AddNewStudentM
 
 interface Student {
   studentName: string;
-  fatherName: string;
+  FatherName: string;
   rollNumber: number;
   age: number;
   grade: string;
+  TshirtSize: String;
+  activity: string;
 }
 
 const StudentTable = ({ params }: any) => {
@@ -26,6 +28,7 @@ const StudentTable = ({ params }: any) => {
           throw new Error('Network response was not ok');
         }
         const data = await res.json();
+        console.log(data)
         setStudents(data.students);
         setLoading(false);
       } catch (error) {
@@ -61,21 +64,23 @@ const StudentTable = ({ params }: any) => {
           <table className="min-w-full shadow-md rounded-lg border bg-gray-300 border-black">
             <thead>
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Roll Number</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student Name</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Father Name</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Age</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Grade</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">T-shirt Size</th>
+
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
               {students.map((student) => (
                 <tr key={student.rollNumber} className="border-t border-black">
-                  <td className="px-6 py-4 whitespace-nowrap">{student.rollNumber}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{student.studentName}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{student.fatherName}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{student.FatherName}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{student.age}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{student.grade}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{student.TshirtSize}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{student.activity}</td>
                 </tr>
               ))}
             </tbody>

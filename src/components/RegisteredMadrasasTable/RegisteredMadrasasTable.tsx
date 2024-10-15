@@ -19,15 +19,15 @@ const MadrasaTable: React.FC = () => {
   const [madrasas, setMadrasas] = useState<Madrasa[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const { data: session } = useSession();
-
+  console.log(session?.user?.name)
   // Fetch madrasas on component mount or session change
   useEffect(() => {
-    if (!session?.user?.email) return;
+    if (!session?.user?.name) return;
 
     const fetchMadrasas = async () => {
       setLoading(true); // Set loading state before fetching
       try {
-        const response = await fetch(`/api/get-madrasa/${session?.user?.email}`);
+        const response = await fetch(`/api/get-madrasa/${session?.user?.name}`);
         const resData = await response.json();
         if (response.ok) {
           setMadrasas(resData.data);

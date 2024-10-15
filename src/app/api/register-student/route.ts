@@ -6,15 +6,16 @@ import { ObjectId } from "mongodb";
 export async function POST(request: Request) {
     try {
       const body = await request.json();
-      const { madrasaId, studentName, age, grade } = body;
+      console.log(body, "body")
+      const { madrasaId, studentName,FatherName, age, grade, TshirtSize, activity } = body;
   
       // Validate input
-      if (!madrasaId || !studentName || !age || !grade) {
-        return NextResponse.json(
-          { success: false, error: 'All fields are required.' },
-          { status: 400 }
-        );
-      }
+      // if (!madrasaId || !studentName || !age || !grade) {
+      //   return NextResponse.json(
+      //     { success: false, error: 'All fields are required.' },
+      //     { status: 400 }
+      //   );
+      // }
   
       const client = await clientPromise;
       const db = client.db('school');
@@ -32,8 +33,11 @@ export async function POST(request: Request) {
       const result = await db.collection('students').insertOne({
         madrasaId,
         studentName,
+        FatherName,
         age,
         grade,
+        TshirtSize,
+        activity,
         createdAt: new Date(),
       });
   

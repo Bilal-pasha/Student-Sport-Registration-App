@@ -6,6 +6,8 @@ import Link from 'next/link';
 import Image from 'next/image'; 
 
 const SignIn = () => {
+    const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSignIn = async (provider: 'google' | 'github') => {
     const response = await signIn(provider, { redirect: false });
@@ -17,9 +19,17 @@ const SignIn = () => {
     }
     };
 
-  const handleSubmit = () => {
-    
-  }
+    const handleSubmit = async (e: React.FormEvent) => {
+          e.preventDefault();
+          const res = await signIn('credentials', {
+            redirect: false,
+            username,
+            password,
+          });
+          if (res?.error) {
+            alert('Invalid credentials');
+          }
+        };
 
   return (
     <div className="flex items-center h-screen justify-center">
@@ -36,11 +46,12 @@ const SignIn = () => {
         <form onSubmit={handleSubmit}>
           {/* Email input */}
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">Email</label>
+            <label htmlFor="userId" className="block text-gray-700 text-sm font-bold mb-2">User Id</label>
             <input
-              type="email"
+              type="text"
               id="email"
-              placeholder="Enter your email"
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Enter your User Id"
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
@@ -51,6 +62,7 @@ const SignIn = () => {
             <input
               type="password"
               id="password"
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
@@ -78,12 +90,12 @@ const SignIn = () => {
           </div>
 
           {/* Divider */}
-          <div className="text-center my-4">
+          {/* <div className="text-center my-4">
             <span className="text-gray-400">or</span>
-          </div>
+          </div> */}
 
           {/* GitHub and Google buttons */}
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <button
               type="button"
               className="w-full flex items-center justify-center bg-gray-100 text-gray-700 py-2 rounded-md hover:bg-gray-200 transition duration-200 mb-3"
@@ -102,7 +114,7 @@ const SignIn = () => {
               <FaGoogle className="mr-2" />
               Continue with Google
             </button>
-          </div>
+          </div> */}
         </form>
       </div>
     </div>
@@ -110,3 +122,50 @@ const SignIn = () => {
 };
 
 export default SignIn;
+// import { signIn } from 'next-auth/react';
+// import { useState } from 'react';
+
+// export default function SignIn() {
+//   const [username, setUsername] = useState('');
+//   const [password, setPassword] = useState('');
+
+//   const handleSubmit = async (e: React.FormEvent) => {
+//     e.preventDefault();
+//     const res = await signIn('credentials', {
+//       redirect: false,
+//       username,
+//       password,
+//     });
+//     if (res?.error) {
+//       alert('Invalid credentials');
+//     }
+//   };
+
+//   return (
+//     <div className="flex justify-center items-center h-screen">
+//       <form onSubmit={handleSubmit} className="p-4 border border-gray-300 rounded">
+//         <div>
+//           <label htmlFor="username">Username</label>
+//           <input
+//             type="text"
+//             id="username"
+//             value={username}
+//             onChange={(e) => setUsername(e.target.value)}
+//             className="border border-gray-300 p-2"
+//           />
+//         </div>
+//         <div>
+//           <label htmlFor="password">Password</label>
+//           <input
+//             type="password"
+//             id="password"
+//             value={password}
+//             onChange={(e) => setPassword(e.target.value)}
+//             className="border border-gray-300 p-2"
+//           />
+//         </div>
+//         <button type="submit" className="mt-4 bg-blue-500 text-white p-2 rounded">Sign In</button>
+//       </form>
+//     </div>
+//   );
+// }

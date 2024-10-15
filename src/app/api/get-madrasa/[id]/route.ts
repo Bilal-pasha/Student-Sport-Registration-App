@@ -8,17 +8,15 @@ export async function GET(request: Request, { params }: { params: { id: string }
       const { id: userId } = params;
       const client = await clientPromise;
       const db = client.db('school');
-  
       // Query the collection using the userId
       let madrasas;
-      if (userId === 'bilal.pasha@techwards.co') {
+      if (userId === 'admin') {
         // Return all madrasas
         madrasas = await db.collection('madrasas').find().toArray();
       } else {
         // Return madrasas associated with the userId
         madrasas = await db.collection('madrasas').find({ userId }).toArray();
       }
-
       if (madrasas.length === 0) {
         return NextResponse.json({ success: false, message: "No madrasas found for this user" }, { status: 404 });
       }
