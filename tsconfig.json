@@ -20,7 +20,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "@public/*": ["./public/*"]
-    }
+    },
+    "typeRoots": ["./types", "./node_modules/@types"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/students/[id].js"],
   "exclude": ["node_modules"]
