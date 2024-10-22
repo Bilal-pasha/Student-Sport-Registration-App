@@ -2,7 +2,7 @@ import React from 'react';
 import { useFormik } from 'formik';
 import { Button } from '@/components/Button/Button';
 import { toast } from 'react-hot-toast';
-import { feesStatus } from '@/app/constant/constant';
+import { feesStatus } from '@/constant/constant';
 import { StudentSchema } from './StudentModel.Schema';
 
 const StudentModal = ({ setIsModalOpen, students, setStudents ,create = false, update = false, id, classSlug, studentData, setStudent }: any) => {

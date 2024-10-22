@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
-import clientPromise from '../../../lib/mongodb';
+import clientPromise from '@/lib/mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
 // use this as a mock data replace it later with actual data
 

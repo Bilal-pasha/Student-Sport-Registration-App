@@ -4,7 +4,7 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { TableSkeleton } from '@/components/TableSkeleton/TabelSkeleton';
 import StudentModal from '@/components/StudentModal/StudenModal';
-import { getCurrentMonthYear, tableHead } from '@/app/constant/constant';
+import { getCurrentMonthYear, tableHead } from '@/constant/constant';
 import { useRouter } from 'next/navigation';
 import { FaArrowLeft,FaPlus } from 'react-icons/fa';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
