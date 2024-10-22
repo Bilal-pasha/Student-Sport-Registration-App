@@ -25,3 +25,7 @@ export const getCurrentMonthYear = () => {
   ];
 
 export const tableHead = ['Name', "Father Name", "ID Number", "Fees", "Status"]
+
+export enum ROLE {
+  ADMIN = "admin"
+}

@@ -9,7 +9,7 @@ export const Avatar = ({
   imagePath,
   bgColor,
   textColor,
-  email,
+  name,
 }: {
   width?: number;
   height?: number;
@@ -17,7 +17,7 @@ export const Avatar = ({
   imagePath?: string;
   bgColor?: string;
   textColor?: string;
-  email?: string;
+  name?: string | null;
 }) => {
   
   return (
@@ -48,7 +48,7 @@ export const Avatar = ({
             fontSize: `${fontSize}px`,
           }}
         >
-          {email && (email as unknown as string).slice(0, 1).toUpperCase()}
+          {name && (name as unknown as string).slice(0, 1).toUpperCase()}
         </span>
       )}
     </div>

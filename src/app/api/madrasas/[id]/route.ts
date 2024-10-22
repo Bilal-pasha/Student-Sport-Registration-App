@@ -1,4 +1,4 @@
-import clientPromise from '@/app/lib/mongodb';
+import clientPromise from '@/lib/mongodb';
 import { NextRequest, NextResponse } from 'next/server';
 
 interface Student {
@@ -17,10 +17,8 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
       // Connect to MongoDB
       const client = await clientPromise;
       const db = client.db('school'); // Replace with your MongoDB database name
-  
       // Find students registered under the given madrasaId
       const students = await db.collection('students').find({ madrasaId }).toArray();
-  
     //   if (!students || students.length === 0) {
     //     return NextResponse.json({ message: 'No students found for this madrasa' }, { status: 404 });
     //   }

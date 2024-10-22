@@ -2,23 +2,27 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import toast from "react-hot-toast";
-import * as Yup from "yup"; // Ensure you have Yup for validation
+import { validationSchema } from "./validationSchema";
 
-interface AddNewStudentModalProps {
-  setModalOpen: (open: boolean) => void;
-  madrasaId: string;
-}
+export const UpdateStudentModal = ({
+  setModalOpen,
+  madrasaId,
+  student,
+}: any) => {
 
-export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({ setModalOpen, madrasaId }) => {
   // Initial form values
   const initialValues = {
-    studentName: "",
-    FatherName: "",
-    age: "",
-    grade: "",
-    TshirtSize: "",
-    activity: "",
-    // image: null as File | null, // New field for image upload
+    studentName: student.studentName,
+    FatherName: student.FatherName,
+    age: student.age,
+    grade: student.grade,
+    TshirtSize: student.TshirtSize,
+    activity: student.activity,
+    status: student.status || '', // New field for status
+    group: student.group || '', // New field for group
+    camp: student.camp || '', // New field for camp
+    subCamp: student.subCamp || '', // New field for sub-camp
+    report: student.report || '', // New field for student report
   };
 
   // List of activities
@@ -34,26 +38,20 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({ setModal
     "Tug of War",
   ];
 
+  // Status options
+  const statuses = ["Approve", "Decline"];
+
+  // Group options
+  const groups = ["A", "B", "C"];
+
+  // Camp options
+  const camps = ["Camp Deene-Madarasa Scouts"];
+
+  // Sub-camp options
+  const subCamps = ["Sub Camp Iqbal", "Sub Camp Jinnah", "Sub Camp Liaqat"];
+
   // Form validation schema
-  const validationSchema = Yup.object({
-    studentName: Yup.string().required("Required"),
-    FatherName: Yup.string().required("Required"),
-    age: Yup.number().required("Required").positive().integer(),
-    grade: Yup.string().required("Required"),
-    TshirtSize: Yup.string().required("Required"),
-    activity: Yup.string().required("Required"),
-    // image: Yup.mixed()
-    //   .required("An image file is required")
-    //   .test("fileSize", "File size must be less than 1 Mb", (value) => {
-    //     return value && (value as File).size <= 1024 * 1024; // 1 MB
-    //   })
-    //   .test("fileType", "Unsupported file format", (value) => {
-    //     return (
-    //       value &&
-    //       ["image/jpeg", "image/png", "image/gif"].includes((value as File).type)
-    //     );
-    //   }),
-  });
+
 
   // Handle form submission
   const handleSubmit = async (
@@ -62,25 +60,24 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({ setModal
   ) => {
     const payload = {
       ...values,
-      madrasaId,
+      madrasaId: madrasaId,
     };
-  
-    // Check the payload contents  
+
     try {
       const response = await fetch("/api/register-student", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body:  JSON.stringify(payload), // Convert the payload to a JSON string
+        body: JSON.stringify(payload),
       });
-    
+
       const data = await response.json();
+      toast.success(data.message);
       if (!response.ok) {
         throw new Error(data.error || "Something went wrong");
       }
-    
-      toast.success(data.message);
+
       setModalOpen(false); // Close the modal after successful submission
     } catch (error: any) {
       setErrors({ submit: error.message });
@@ -88,22 +85,20 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({ setModal
       setSubmitting(false);
     }
   };
-  
-  
 
   return (
     <div className="container mx-auto">
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-75">
         <div className="bg-white rounded-lg shadow-lg w-2/3 p-6 relative">
           <h2 className="text-2xl pb-2 font-bold mb-4 text-center">
-            Add New Student
+            Update Student
           </h2>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            {({ isSubmitting, setFieldValue }) => (
+            {({ isSubmitting }) => (
               <Form className="space-y-4">
                 <div className="grid grid-cols-3 gap-4">
                   {/* Student Name */}
@@ -215,29 +210,119 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({ setModal
                     />
                   </div>
 
-                  {/* Image Upload */}
-                  {/* <div>
+                  {/* Status Dropdown */}
+                  <div>
                     <label className="block text-sm font-medium text-gray-700">
-                      Upload Image (max 1 MB)
+                      Status
                     </label>
-                    <input
-                      type="file"
-                      name="image"
-                      accept="image/jpeg, image/png, image/gif"
-                      onChange={(event) => {
-                        const file = event.currentTarget.files?.[0];
-                        if (file) {
-                          setFieldValue("image", file);
-                        }
-                      }}
+                    <Field
+                      as="select"
+                      name="status"
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
+                    >
+                      <option value="" label="Select status" />
+                      {statuses.map((status) => (
+                        <option key={status} value={status}>
+                          {status}
+                        </option>
+                      ))}
+                    </Field>
                     <ErrorMessage
-                      name="image"
+                      name="status"
                       component="div"
                       className="text-red-600 text-sm mt-1"
                     />
-                  </div> */}
+                  </div>
+
+                  {/* Group Dropdown */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Group
+                    </label>
+                    <Field
+                      as="select"
+                      name="group"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="" label="Select group" />
+                      {groups.map((group) => (
+                        <option key={group} value={group}>
+                          {group}
+                        </option>
+                      ))}
+                    </Field>
+                    <ErrorMessage
+                      name="group"
+                      component="div"
+                      className="text-red-600 text-sm mt-1"
+                    />
+                  </div>
+
+                  {/* Camp Dropdown */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Camp
+                    </label>
+                    <Field
+                      as="select"
+                      name="camp"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="" label="Select camp" />
+                      {camps.map((camp) => (
+                        <option key={camp} value={camp}>
+                          {camp}
+                        </option>
+                      ))}
+                    </Field>
+                    <ErrorMessage
+                      name="camp"
+                      component="div"
+                      className="text-red-600 text-sm mt-1"
+                    />
+                  </div>
+
+                  {/* Sub Camp Dropdown */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Sub Camp
+                    </label>
+                    <Field
+                      as="select"
+                      name="subCamp"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="" label="Select sub camp" />
+                      {subCamps.map((subCamp) => (
+                        <option key={subCamp} value={subCamp}>
+                          {subCamp}
+                        </option>
+                      ))}
+                    </Field>
+                    <ErrorMessage
+                      name="subCamp"
+                      component="div"
+                      className="text-red-600 text-sm mt-1"
+                    />
+                  </div>
+
+                  {/* Student Report Text Area */}
+                  <div className="col-span-3">
+                    <label className="block text-sm font-medium text-gray-700">
+                      Student Report
+                    </label>
+                    <Field
+                      as="textarea"
+                      name="report"
+                      className="w-full h-24 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="Enter student report here..."
+                    />
+                    <ErrorMessage
+                      name="report"
+                      component="div"
+                      className="text-red-600 text-sm mt-1"
+                    />
+                  </div>
                 </div>
 
                 {/* Submit Button */}
@@ -251,7 +336,7 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({ setModal
                         : "bg-blue-500 hover:bg-blue-600"
                     } text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200`}
                   >
-                    {isSubmitting ? "Adding..." : "Add Student"}
+                    {isSubmitting ? "Updating..." : "Update Student"}
                   </button>
 
                   {/* Close Modal Button */}

@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { TableSkeleton } from '@/components/TableSkeleton/TabelSkeleton';
-import { useSession } from 'next-auth/react';
-import { Button } from '../Button/Button';
-import toast from 'react-hot-toast';
-import Link from 'next/link';
+import React, { useEffect, useState } from "react";
+import { TableSkeleton } from "@/components/TableSkeleton/TabelSkeleton";
+import { useSession } from "next-auth/react";
+import { Button } from "../Button/Button";
+import toast from "react-hot-toast";
+import Link from "next/link";
 
+import Image from "next/image";
+import Typewriter from "@/components/TypeWritter/TypeWritter";
 interface Madrasa {
   _id: string;
   madrasaName: string;
@@ -13,13 +15,13 @@ interface Madrasa {
   createdAt: string;
   ContactPersonName: string;
   CellNumber: string;
+  registeredStudents: string;
 }
 
 const MadrasaTable: React.FC = () => {
   const [madrasas, setMadrasas] = useState<Madrasa[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const { data: session } = useSession();
-  console.log(session?.user?.name)
   // Fetch madrasas on component mount or session change
   useEffect(() => {
     if (!session?.user?.name) return;
@@ -32,11 +34,11 @@ const MadrasaTable: React.FC = () => {
         if (response.ok) {
           setMadrasas(resData.data);
         } else {
-          toast.error('Failed to fetch madrasas');
+          toast.error("Failed to fetch madrasas");
         }
       } catch (error) {
-        console.error('Error fetching madrasas:', error);
-        toast.error('Error fetching madrasas');
+        console.error("Error fetching madrasas:", error);
+        toast.error("Error fetching madrasas");
       } finally {
         setLoading(false); // Stop loading state after fetching
       }
@@ -49,31 +51,29 @@ const MadrasaTable: React.FC = () => {
     try {
       // Make the DELETE request to the API
       const res = await fetch(`/api/get-madrasa/${madrasaId}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
-  
+
       if (!res.ok) {
         const errorData = await res.json();
-        toast.error(errorData.message || 'Failed to delete madrasa');
+        toast.error(errorData.message || "Failed to delete madrasa");
         return;
       }
-  
+
       // Parse the response to JSON
       const data = await res.json();
-  
+
       if (data.success) {
         // Show success toast notification
-        toast.success('Madrasa deleted successfully');
-        console.log(data?.remainingMadrasas)
+        toast.success("Madrasa deleted successfully");
         setMadrasas(data?.remainingMadrasas);
       } else {
-        toast.error('Failed to delete madrasa');
+        toast.error("Failed to delete madrasa");
       }
     } catch (error: any) {
-      toast.error(error.message || 'Error deleting madrasa');
+      toast.error(error.message || "Error deleting madrasa");
     }
   };
-  
 
   // Loading state skeleton
   if (loading) {
@@ -82,15 +82,16 @@ const MadrasaTable: React.FC = () => {
 
   // Table Headings
   const tableHeadings = [
-    'Madrasa Name', 
-    'Madrasa Address', 
-    'Total Students', 
-    'Contact Person Name', 
-    'Cell Number', 
-    'Registered On'
+    "Madrasa Name",
+    "Madrasa Address",
+    "Total Students",
+    "Contact Person Name",
+    "Cell Number",
+    "Registered On",
+    "Registered Students",
   ];
 
-  return (
+  return madrasas.length !== 0 ? (
     <div className="overflow-x-auto">
       <table className="w-full bg-gray-300 opacity-90 text-left border-collapse border border-gray-400">
         <thead className="bg-gray-100 text-gray-600 text-sm uppercase">
@@ -100,13 +101,16 @@ const MadrasaTable: React.FC = () => {
                 {heading}
               </th>
             ))}
-            <th className="py-3 px-5 border-b border-gray-400">Actions</th>
+            {/* <th className="py-3 px-5 border-b border-gray-400">Actions</th> */}
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200">
           {madrasas.length === 0 ? (
             <tr>
-              <td colSpan={tableHeadings.length + 1} className="py-3 px-5 text-center">
+              <td
+                colSpan={tableHeadings.length + 1}
+                className="py-3 px-5 text-center"
+              >
                 No madrasas found
               </td>
             </tr>
@@ -114,7 +118,10 @@ const MadrasaTable: React.FC = () => {
             madrasas.map((madrasa) => (
               <tr key={madrasa?._id}>
                 <td className="py-3 px-5 border-b border-gray-300">
-                  <Link href={`/Home/${madrasa?._id}`} className='text-primary-500'>
+                  <Link
+                    href={`/Home/${madrasa?._id}`}
+                    className="text-primary-500"
+                  >
                     {madrasa.madrasaName}
                   </Link>
                 </td>
@@ -133,17 +140,37 @@ const MadrasaTable: React.FC = () => {
                 <td className="py-3 px-5 border-b border-gray-300">
                   {new Date(madrasa.createdAt).toLocaleDateString()}
                 </td>
-                <td className="py-3 px-5 border-b border-gray-300 text-right">
-                  <Button variant="danger" size="sm" onClick={() => handleDelete(madrasa?._id)}>
+                <td className="py-3 px-5 border-b border-gray-300">
+                  {madrasa.registeredStudents}
+                </td>
+                {/* <td className="py-3 px-5 border-b border-gray-300 text-right">
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => handleDelete(madrasa?._id)}
+                  >
                     Delete
                   </Button>
-                </td>
+                </td> */}
               </tr>
             ))
           )}
         </tbody>
       </table>
     </div>
+  ) : (
+    <>
+      <div className="container mx-auto p-6 flex flex-col items-center justify-center bg-white ">
+        <Image
+          src="https://arabiaislamia.org/static/media/Logo.d8177b439b150086839e.png"
+          alt="Jamia Arabia Islamia Logo"
+          width={150}
+          height={150}
+          priority
+        />
+      </div>
+      <Typewriter text="Welcome To Jamia Arabia Islamia" speed={100} />
+    </>
   );
 };
 

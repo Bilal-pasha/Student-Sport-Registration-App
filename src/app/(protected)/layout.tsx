@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 import { Toaster } from "react-hot-toast";
 import { SessionWrapper } from "@/components/SessionWrapper/SessionWrapper";
 import Navbar from "@/components/Navbar/Navbar";
@@ -22,12 +22,16 @@ export default function RootLayout({
   return (
     // bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200
     <html lang="en">
-      <body className="bg-yellow-300">
-        <Suspense fallback={<FallBackComponent />}>
-          <SessionWrapper>
-            <Toaster position="top-right" />
-            {children}
-          </SessionWrapper>
+      <body>
+        <Suspense fallback={<FallBackComponent/>}>
+          <div className="relative bg-camping-image bg-cover bg-no-repeat min-h-screen">
+            <div className="absolute inset-0 bg-black opacity-50"></div>
+            <SessionWrapper>
+              <Toaster position="top-right" />
+              <Navbar />
+              <div className="relative z-10">{children}</div>
+            </SessionWrapper>
+          </div>
         </Suspense>
       </body>
     </html>

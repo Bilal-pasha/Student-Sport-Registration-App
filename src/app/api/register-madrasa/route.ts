@@ -1,6 +1,6 @@
 
 import { NextResponse } from "next/server";
-import clientPromise from '@/app/lib/mongodb';
+import clientPromise from '@/lib/mongodb';
 
 export async function POST(request: Request) {
   try {
@@ -9,7 +9,6 @@ export async function POST(request: Request) {
 
     const client = await clientPromise;
     const db = client.db('school');
-    console.log(userId)
     const result = await db.collection('madrasas').insertOne({
       madrasaName,
       madrasaAddress,
