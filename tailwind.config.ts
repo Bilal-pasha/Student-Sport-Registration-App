@@ -1,7 +1,10 @@
 import type { Config } from "tailwindcss";
+const flowbite = require("flowbite-react/tailwind");
+/** @type {import('tailwindcss').Config} */
 
 const config: Config = {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}',
+    flowbite.content(),
   ],
   theme: {
     extend: {
@@ -9,7 +12,7 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-          "camping-image": "url('/assets/camping.webp')"
+        "camping-image": "url('/assets/camping.webp')"
       },
       colors: {
         //color
@@ -104,6 +107,8 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    flowbite.plugin(),
+  ],
 };
 export default config;

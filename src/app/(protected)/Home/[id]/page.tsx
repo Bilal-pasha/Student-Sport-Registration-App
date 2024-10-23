@@ -3,19 +3,17 @@ import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 import { AddNewStudentModal } from "@/components/AddNewStudentModal/AddNewStudentModal";
-import useSearchRole from "@/hooks/useSearchRole/useSearchRole";
-import { ROLE } from "@/constant/constant";
 import { Button } from "@/components/Button/Button";
-import { UpdateStudentModal } from "@/components/UpdateStudentModal/UpdateStudentModal";
+import Drawer from "@/components/Drawer/Drawer";
 
 interface Student {
   studentName: string;
   FatherName: string;
-  rollNumber: number;
   age: number;
   grade: string;
   TshirtSize: string;
   activity: string;
+  rollNumber: string;
 }
 
 const StudentTable = ({ params }: any) => {
@@ -23,10 +21,8 @@ const StudentTable = ({ params }: any) => {
   const [loading, setLoading] = useState(true);
   const { data: session } = useSession();
   const [isModalOpen, setModalOpen] = useState(false);
-  const [isUpdateModalOpen, setUpdateModalOpen] = useState(false);
-  const [selectedStudent, setSelectedStudent] = useState<Student | null>(null); // State for selected student
-
-  const userName = useSearchRole();
+  const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -37,9 +33,9 @@ const StudentTable = ({ params }: any) => {
         }
         const data = await res.json();
         setStudents(data.students);
-        setLoading(false);
       } catch (error) {
         toast.error("Failed to load students");
+      } finally {
         setLoading(false);
       }
     };
@@ -47,33 +43,31 @@ const StudentTable = ({ params }: any) => {
     if (session && params.id) {
       fetchStudents();
     }
-  }, [params.id, session, isModalOpen]);
+  }, [params.id, session, isModalOpen, isDrawerOpen]);
 
   if (loading) {
     return <div className="text-center text-blue-600">Loading...</div>;
   }
 
-  const tableHead = students.length > 0 ? Object.keys(students[0]) : [];
-  
-  const handleUpdateButton = (rowData: Student) => {
-    setSelectedStudent(rowData); // Set the selected student data
-    setUpdateModalOpen(true);
+  const handleRowClick = (student: Student) => {
+    setSelectedStudent(student);
+    setIsDrawerOpen(true);
   };
+
+  const handleClose = () => setIsDrawerOpen(false);
 
   return (
     <>
       <div className="mt-10 container mx-auto">
         <Button
           onClick={() => setModalOpen(true)}
-          variant={"primary"}
-          size={"lg"}
+          variant="primary"
+          size="lg"
           className="mb-4"
         >
           Add New Student
         </Button>
-        <h2 className="text-xl font-semibold text-gray-200 mb-4">
-          Students List
-        </h2>
+        <h2 className="text-xl font-semibold text-gray-200 mb-4">Students List</h2>
         {students.length === 0 ? (
           <div className="text-center text-gray-200">No students found</div>
         ) : (
@@ -81,40 +75,25 @@ const StudentTable = ({ params }: any) => {
             <table className="min-w-full shadow-md rounded-lg border bg-gray-300 border-black">
               <thead>
                 <tr>
-                  {tableHead.map((thead, index) => (
-                    <th
-                      key={index}
-                      className="py-3 px-5 border-b border-gray-400"
-                    >
-                      {thead}
-                    </th>
-                  ))}
-                  {userName === ROLE.ADMIN && (
-                    <th className="py-3 px-5 border-b border-gray-400">
-                      Actions
-                    </th>
-                  )}
+                  <th className="py-3 px-5 border-b border-gray-400 text-left">Student Name</th>
+                  <th className="py-3 px-5 border-b border-gray-400 text-left">Father Name</th>
+                  <th className="py-3 px-5 border-b border-gray-400 text-left">Level</th>
+                  <th className="py-3 px-5 border-b border-gray-400 text-left">T-Shirt Size</th>
+                  <th className="py-3 px-5 border-b border-gray-400 text-left">Activity</th>
+                  <th className="py-3 px-5 border-b border-gray-400 text-left">Grade</th>
+                  <th className="py-3 px-5 border-b border-gray-400 text-left">Age</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {students.map((student: any, index: number) => (
-                  <tr key={student.rollNumber + index} className="border-t border-black">
-                    {tableHead.map((head: string, index: number) => (
-                      <td key={index} className="px-6 py-4 whitespace-nowrap">
-                        {student[head]}
-                      </td>
-                    ))}
-                    {userName === ROLE.ADMIN && (
-                      <td className="py-3 px-5 border-b border-gray-400">
-                        <Button
-                          variant={"primary"}
-                          size={"sm"}
-                          onClick={() => handleUpdateButton(student)} // Pass student data here
-                        >
-                          Update
-                        </Button>
-                      </td>
-                    )}
+                {students.map((student, index) => (
+                  <tr key={student.rollNumber + index} className="border-t border-black cursor-pointer" onClick={() => handleRowClick(student)}>
+                    <td className="px-6 py-4">{student.studentName}</td>
+                    <td className="px-6 py-4">{student.FatherName}</td>
+                    <td className="px-6 py-4">{student.grade}</td>
+                    <td className="px-6 py-4">{student.TshirtSize}</td>
+                    <td className="px-6 py-4">{student.activity}</td>
+                    <td className="px-6 py-4">{student.grade}</td>
+                    <td className="px-6 py-4">{student.age}</td>
                   </tr>
                 ))}
               </tbody>
@@ -127,14 +106,8 @@ const StudentTable = ({ params }: any) => {
             madrasaId={params.id}
           />
         )}
-        {isUpdateModalOpen && (
-          <UpdateStudentModal
-            setModalOpen={setUpdateModalOpen}
-            madrasaId={params.id}
-            student={selectedStudent} // Pass the selected student data to the modal
-          />
-        )}
       </div>
+      <Drawer isOpen={isDrawerOpen} handleClose={handleClose} rowData={selectedStudent} />
     </>
   );
 };

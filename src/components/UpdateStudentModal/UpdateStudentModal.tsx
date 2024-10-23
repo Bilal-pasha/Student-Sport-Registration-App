@@ -6,10 +6,10 @@ import { validationSchema } from "./validationSchema";
 
 export const UpdateStudentModal = ({
   setModalOpen,
-  madrasaId,
+  // madrasaId,
   student,
+  handleClose,
 }: any) => {
-
   // Initial form values
   const initialValues = {
     studentName: student.studentName,
@@ -18,11 +18,11 @@ export const UpdateStudentModal = ({
     grade: student.grade,
     TshirtSize: student.TshirtSize,
     activity: student.activity,
-    status: student.status || '', // New field for status
-    group: student.group || '', // New field for group
-    camp: student.camp || '', // New field for camp
-    subCamp: student.subCamp || '', // New field for sub-camp
-    report: student.report || '', // New field for student report
+    status: student.status || "", // New field for status
+    group: student.group || "", // New field for group
+    camp: student.camp || "", // New field for camp
+    subCamp: student.subCamp || "", // New field for sub-camp
+    report: student.report || "", // New field for student report
   };
 
   // List of activities
@@ -52,7 +52,7 @@ export const UpdateStudentModal = ({
 
   // Form validation schema
 
-
+  // Handle form submission
   // Handle form submission
   const handleSubmit = async (
     values: any,
@@ -60,11 +60,12 @@ export const UpdateStudentModal = ({
   ) => {
     const payload = {
       ...values,
-      madrasaId: madrasaId,
+      madrasaId: student.madrasaId,
+      studentId: student._id, // Ensure you're passing the student ID
     };
 
     try {
-      const response = await fetch("/api/register-student", {
+      const response = await fetch("/api/update-student", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -79,6 +80,7 @@ export const UpdateStudentModal = ({
       }
 
       setModalOpen(false); // Close the modal after successful submission
+      handleClose();
     } catch (error: any) {
       setErrors({ submit: error.message });
     } finally {
@@ -197,8 +199,8 @@ export const UpdateStudentModal = ({
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="" label="Select an activity" />
-                      {activities.map((activity) => (
-                        <option key={activity} value={activity}>
+                      {activities.map((activity, index) => (
+                        <option key={activity + index} value={activity}>
                           {activity}
                         </option>
                       ))}
@@ -221,8 +223,8 @@ export const UpdateStudentModal = ({
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="" label="Select status" />
-                      {statuses.map((status) => (
-                        <option key={status} value={status}>
+                      {statuses.map((status, index) => (
+                        <option key={status + index} value={status}>
                           {status}
                         </option>
                       ))}
@@ -245,8 +247,8 @@ export const UpdateStudentModal = ({
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="" label="Select group" />
-                      {groups.map((group) => (
-                        <option key={group} value={group}>
+                      {groups.map((group, index) => (
+                        <option key={group + index} value={group}>
                           {group}
                         </option>
                       ))}
