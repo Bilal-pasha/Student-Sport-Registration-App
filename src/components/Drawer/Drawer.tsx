@@ -8,6 +8,7 @@ import studentImage from "/public/assets/male-student.png";
 import useSearchRole from "@/hooks/useSearchRole/useSearchRole";
 import { ROLE } from "@/constant/constant";
 import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai"; // Import icons
+import toast from "react-hot-toast";
 
 interface AvatarProps {
   src: string;
@@ -85,18 +86,43 @@ const Drawer: React.FC<{
   const userName = useSearchRole();
 
   if (!rowData) return null;
+  
+  const handleDelete = async () => {
+    const response = await fetch(`/api/delete-student/${rowData._id}`, {
+      method: "DELETE",
+    });
+
+    if (response.ok) {
+      toast.success("Student deleted successfully.");
+      handleClose(); // Close the drawer after deletion
+    } else {
+      const errorData = await response.json();
+      toast.error(errorData.error || "Failed to delete student.");
+    }
+  };
 
   const renderButton = () => (
     <div className="flex justify-end space-x-4">
       <Button
-        variant="primary"
+        variant="danger"
         size="lg"
         roundedness="md"
         className="px-8"
-        onClick={() => setUpdateModalOpen(true)}
+        onClick={handleDelete}
       >
-        Update
+        Delete
       </Button>
+      {userName === ROLE.ADMIN && (
+        <Button
+          variant="primary"
+          size="lg"
+          roundedness="md"
+          className="px-8"
+          onClick={() => setUpdateModalOpen(true)}
+        >
+          Update
+        </Button>
+      )}
     </div>
   );
 
@@ -126,7 +152,7 @@ const Drawer: React.FC<{
                 <Avatar src={studentImage.src} alt="Student Avatar" />
               </div>
             </div>
-            {userName === ROLE.ADMIN && renderButton()}
+            {renderButton()}
           </div>
         </FlowbiteModal.Items>
       </FlowbiteModal>

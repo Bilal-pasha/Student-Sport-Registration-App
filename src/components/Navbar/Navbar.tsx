@@ -89,9 +89,9 @@ const Navbar: React.FC = () => {
     >
       <div className="w-full flex px-8 items-center justify-between py-6">
         <div></div>
-        <nav className="relative px-2 py-2 bg-white rounded-full shadow-lg">
+        <nav className="relative px-2 py-2 bg-[#714620fa]  rounded-full shadow-lg">
           <div
-            className="absolute bottom-2 bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200 rounded-full transition-all duration-500 ease-in-out"
+            className="absolute bottom-2 bg-yellow-700 rounded-full transition-all duration-500 ease-in-out"
             style={{
               height: buttonStyles[activeButton]?.height || "0",
               width: buttonStyles[activeButton]?.width || "0",
@@ -136,7 +136,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     <button
       ref={ref}
       className={`relative px-6 py-2 rounded-full font-semibold text-sm ${
-        isActive ? "text-indigo-600" : "text-gray-800 hover:bg-gray-200"
+        isActive ? "text-white" : "text-white hover:bg-amber-700"
       } transition-all duration-300 ease-in-out ${
         buttonName === "Sign Out"
           ? "bg-red-500 text-white hover:bg-red-600 shadow-lg hover:shadow-red-500/50"

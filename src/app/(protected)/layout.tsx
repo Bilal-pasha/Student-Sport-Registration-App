@@ -24,7 +24,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Suspense fallback={<FallBackComponent/>}>
-          <div className="relative bg-camping-image bg-cover bg-no-repeat min-h-screen">
+          <div className="relative bg-camping-image bg-blend-darken bg-cover bg-no-repeat min-h-screen">
             <div className="absolute inset-0 bg-black opacity-50"></div>
             <SessionWrapper>
               <Toaster position="top-right" />

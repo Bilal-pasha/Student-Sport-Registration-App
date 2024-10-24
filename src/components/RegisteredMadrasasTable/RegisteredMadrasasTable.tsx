@@ -93,8 +93,8 @@ const MadrasaTable: React.FC = () => {
 
   return madrasas.length !== 0 ? (
     <div className="overflow-x-auto">
-      <table className="w-full bg-gray-300 opacity-90 text-left border-collapse border border-gray-400">
-        <thead className="bg-gray-100 text-gray-600 text-sm uppercase">
+      <table className="w-full bg-white opacity-90 text-left">
+        <thead className="bg-[#714620fa] text-white text-sm uppercase">
           <tr>
             {tableHeadings.map((heading, index) => (
               <th key={index} className="py-3 px-5 border-b border-gray-400">

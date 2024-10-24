@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { AddNewStudentModal } from "@/components/AddNewStudentModal/AddNewStudentModal";
 import { Button } from "@/components/Button/Button";
 import Drawer from "@/components/Drawer/Drawer";
+import { TableSkeleton } from "@/components/TableSkeleton/TabelSkeleton";
 
 interface Student {
   studentName: string;
@@ -45,10 +46,6 @@ const StudentTable = ({ params }: any) => {
     }
   }, [params.id, session, isModalOpen, isDrawerOpen]);
 
-  if (loading) {
-    return <div className="text-center text-blue-600">Loading...</div>;
-  }
-
   const handleRowClick = (student: Student) => {
     setSelectedStudent(student);
     setIsDrawerOpen(true);
@@ -68,12 +65,15 @@ const StudentTable = ({ params }: any) => {
           Add New Student
         </Button>
         <h2 className="text-xl font-semibold text-gray-200 mb-4">Students List</h2>
-        {students.length === 0 ? (
+        
+        {loading ? (
+          <TableSkeleton numberOfRows={6} />
+        ) : students.length === 0 ? (
           <div className="text-center text-gray-200">No students found</div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="min-w-full shadow-md rounded-lg border bg-gray-300 border-black">
-              <thead>
+            <table className="min-w-full shadow-md rounded-lg bg-gray-300">
+              <thead className="bg-[#714620fa] text-white">
                 <tr>
                   <th className="py-3 px-5 border-b border-gray-400 text-left">Student Name</th>
                   <th className="py-3 px-5 border-b border-gray-400 text-left">Father Name</th>
@@ -100,6 +100,7 @@ const StudentTable = ({ params }: any) => {
             </table>
           </div>
         )}
+        
         {isModalOpen && (
           <AddNewStudentModal
             setModalOpen={setModalOpen}
