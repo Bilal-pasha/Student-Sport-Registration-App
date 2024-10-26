@@ -1,51 +1,80 @@
+import { NextResponse } from 'next/server';
+import clientPromise from '@/lib/mongodb'; // Adjust the import path
+import { ObjectId } from 'mongodb';
+import { uploadToS3 } from '@/lib/UploadTos3'; // Adjust the import path
 
-import { NextResponse } from "next/server";
-import clientPromise from '@/lib/mongodb';
-import { ObjectId } from "mongodb";
+// Utility to handle parsing FormData in Next.js API route
+async function parseFormData(req: Request) {
+  const formData = await req.formData();
+  const fields: { [key: string]: any } = {};
+  let file: File | null = null;
 
-export async function POST(request: Request) {
-    try {
-      const body = await request.json();
-      const { madrasaId, studentName,FatherName, age, grade, TshirtSize, activity } = body;
+  // Check all entries in the form data
+  formData.forEach((value, key) => {
+    if (value instanceof Blob) {
+      file = value as File; // Set the file if it's a Blob
+    } else {
+      fields[key] = value.toString(); // Add non-file fields
+    }
+  });
 
-        // Validate input
-      // if (!madrasaId || !studentName || !age || !grade) {
-      //   return NextResponse.json(
-      //     { success: false, error: 'All fields are required.' },
-      //     { status: 400 }
-      //   );
-      // }
+  // Log to verify form data structure
+  console.log('Parsed Fields:', fields);
+  console.log('Parsed File:', file);
 
-        const client = await clientPromise;
-        const db = client.db('school');
-
-        // Check if the madrasa exists
-        const madrasa = await db.collection('madrasas').findOne({ _id: new ObjectId(madrasaId) });
-        if (!madrasa) {
-        return NextResponse.json(
-            { success: false, error: 'Madrasa not found.' },
-            { status: 404 }
-        );
-        }
-
-        // Insert the student into the students collection
-        const result = await db.collection('students').insertOne({
-          madrasaId,
-          studentName,
-          FatherName,
-          age,
-          grade,
-          TshirtSize,
-          activity,
-          createdAt: new Date(),
-        });
-
-      return NextResponse.json(
-          { success: true, message: 'Student added successfully', data: result },
-          { status: 201 }
-      );
-
-      } catch (error: any) {
-      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
-      }
+  return { fields, file };
 }
+
+export const POST = async (req: Request) => {
+  try {
+    // Parse form data from the request
+    const { fields, file } = await parseFormData(req);
+
+    // Destructure form fields
+    const { madrasaId, studentName, FatherName, age, grade, TshirtSize, activity } = fields;
+
+    if (!file) {
+      return NextResponse.json(
+        { success: false, error: 'No file uploaded.' },
+        { status: 400 }
+      );
+    }
+
+    // Upload to S3
+    const uploadResult = await uploadToS3(file);
+
+    // Database operations
+    const client = await clientPromise;
+    const db = client.db('school');
+    const madrasa = await db.collection('madrasas').findOne({ _id: new ObjectId(madrasaId) });
+
+    if (!madrasa) {
+      return NextResponse.json(
+        { success: false, error: 'Madrasa not found.' },
+        { status: 404 }
+      );
+    }
+
+    const result = await db.collection('students').insertOne({
+      madrasaId,
+      studentName,
+      FatherName,
+      age: Number(age),
+      grade,
+      TshirtSize,
+      activity,
+      fileUrl: uploadResult.Location, // Save the file URL from S3
+      createdAt: new Date(),
+    });
+
+    return NextResponse.json(
+      { success: true, message: 'Student added successfully', data: result },
+      { status: 201 }
+    );
+  } catch (error: any) {
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 }
+    );
+  }
+};

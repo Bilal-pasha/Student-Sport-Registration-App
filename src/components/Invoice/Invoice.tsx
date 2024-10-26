@@ -69,8 +69,8 @@ const Invoice = forwardRef(({ student }: any, ref: any) => {
           </tr>
         </thead>
         <tbody>
-      {student?.feesStatus?.map((m: any) => (
-        <tr key={m.month} className="border-b border-gray-200">
+      {student?.feesStatus?.map((m: any, index:number) => (
+        <tr key={m.month + index} className="border-b border-gray-200">
           <td className="p-2 text-gray-800 font-medium">{m.month}</td>
           <td className={`p-2 ${m.status === 'Paid' ? 'text-green-600' : 'text-red-600'} font-semibold`}>
             {m.status}

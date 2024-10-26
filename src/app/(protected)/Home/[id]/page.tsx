@@ -86,7 +86,7 @@ const StudentTable = ({ params }: any) => {
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {students.map((student, index) => (
-                  <tr key={student.rollNumber + index} className="border-t border-black cursor-pointer" onClick={() => handleRowClick(student)}>
+                  <tr key={index} className="border-t border-black cursor-pointer" onClick={() => handleRowClick(student)}>
                     <td className="px-6 py-4">{student.studentName}</td>
                     <td className="px-6 py-4">{student.FatherName}</td>
                     <td className="px-6 py-4">{student.grade}</td>

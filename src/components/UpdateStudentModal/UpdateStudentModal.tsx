@@ -271,8 +271,8 @@ export const UpdateStudentModal = ({
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="" label="Select camp" />
-                      {camps.map((camp) => (
-                        <option key={camp} value={camp}>
+                      {camps.map((camp , index) => (
+                        <option key={camp + index} value={camp}>
                           {camp}
                         </option>
                       ))}
@@ -295,8 +295,8 @@ export const UpdateStudentModal = ({
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="" label="Select sub camp" />
-                      {subCamps.map((subCamp) => (
-                        <option key={subCamp} value={subCamp}>
+                      {subCamps.map((subCamp, index) => (
+                        <option key={subCamp + index} value={subCamp}>
                           {subCamp}
                         </option>
                       ))}

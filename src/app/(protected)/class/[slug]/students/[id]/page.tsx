@@ -80,9 +80,9 @@ export default function Page({params}: any) {
           <div className="grid mb-4 grid-cols-3 items">
             <h2 className="text-xl font-semibold text-gray-800 col-span-1">Status</h2>
             <div className=" gap-2 mt-2 space-y-2 space-x-4 col-span-2">
-              {student?.feesStatus?.map((m: any) => (
+              {student?.feesStatus?.map((m: any, index: number) => (
                 <span
-                  key={m.month}
+                  key={m.month + index}
                   className={`inline-block py-2 px-4 rounded-lg text-sm font-semibold 
                     ${m.status === "Paid" ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"}`}
                 >

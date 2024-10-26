@@ -25,7 +25,7 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({ setModal
   const activities = [
     "First Aid",
     "Traffic Police",
-    "Rally Police",
+    "Highway Police",
     "Civil Defence",
     "Football",
     "Volleyball",
@@ -42,17 +42,17 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({ setModal
     grade: Yup.string().required("Required"),
     TshirtSize: Yup.string().required("Required"),
     activity: Yup.string().required("Required"),
-    // image: Yup.mixed()
-    //   .required("An image file is required")
-    //   .test("fileSize", "File size must be less than 1 Mb", (value) => {
-    //     return value && (value as File).size <= 1024 * 1024; // 1 MB
-    //   })
-    //   .test("fileType", "Unsupported file format", (value) => {
-    //     return (
-    //       value &&
-    //       ["image/jpeg", "image/png", "image/gif"].includes((value as File).type)
-    //     );
-    //   }),
+    image: Yup.mixed()
+      .required("An image file is required")
+      .test("fileSize", "File size must be less than 1 Mb", (value) => {
+        return value && (value as File).size <= 1024 * 1024; // 1 MB
+      })
+      .test("fileType", "Unsupported file format", (value) => {
+        return (
+          value &&
+          ["image/jpeg", "image/png", "image/gif"].includes((value as File).type)
+        );
+      }),
   });
 
   // Handle form submission
@@ -60,26 +60,27 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({ setModal
     values: any,
     { setSubmitting, setErrors }: any
   ) => {
-    const payload = {
-      ...values,
-      madrasaId,
-    };
-  
-    // Check the payload contents  
+    const formData = new FormData();
+    
+    // Append all fields to the FormData object
+    for (const key in values) {
+      formData.append(key, values[key]);
+    }
+    
+    // Append madrasaId as well
+    formData.append("madrasaId", madrasaId);
+    
     try {
       const response = await fetch("/api/register-student", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body:  JSON.stringify(payload), // Convert the payload to a JSON string
+        body: formData, // Use FormData directly
       });
-    
+      
       const data = await response.json();
       if (!response.ok) {
         throw new Error(data.error || "Something went wrong");
       }
-    
+      
       toast.success(data.message);
       setModalOpen(false); // Close the modal after successful submission
     } catch (error: any) {
@@ -88,6 +89,7 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({ setModal
       setSubmitting(false);
     }
   };
+  
   
   
 
@@ -104,7 +106,7 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({ setModal
             onSubmit={handleSubmit}
           >
             {({ isSubmitting, setFieldValue }) => (
-              <Form className="space-y-4">
+              <Form className="space-y-4" encType="multipart/form-data">
                 <div className="grid grid-cols-3 gap-4">
                   {/* Student Name */}
                   <div>
@@ -216,7 +218,7 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({ setModal
                   </div>
 
                   {/* Image Upload */}
-                  {/* <div>
+                  <div>
                     <label className="block text-sm font-medium text-gray-700">
                       Upload Image (max 1 MB)
                     </label>
@@ -237,7 +239,7 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({ setModal
                       component="div"
                       className="text-red-600 text-sm mt-1"
                     />
-                  </div> */}
+                  </div>
                 </div>
 
                 {/* Submit Button */}
