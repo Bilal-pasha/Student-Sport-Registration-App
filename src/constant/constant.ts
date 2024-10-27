@@ -29,3 +29,4 @@ export const tableHead = ['Name', "Father Name", "ID Number", "Fees", "Status"]
 export enum ROLE {
   ADMIN = "admin"
 }
+export const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{6,}$/;

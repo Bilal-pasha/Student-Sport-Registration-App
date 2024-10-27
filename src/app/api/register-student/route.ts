@@ -2,28 +2,10 @@ import { NextResponse } from 'next/server';
 import clientPromise from '@/lib/mongodb'; // Adjust the import path
 import { ObjectId } from 'mongodb';
 import { uploadToS3 } from '@/lib/UploadTos3'; // Adjust the import path
+import { parseFormData } from '@/lib/helper';
 
 // Utility to handle parsing FormData in Next.js API route
-async function parseFormData(req: Request) {
-  const formData = await req.formData();
-  const fields: { [key: string]: any } = {};
-  let file: File | null = null;
 
-  // Check all entries in the form data
-  formData.forEach((value, key) => {
-    if (value instanceof Blob) {
-      file = value as File; // Set the file if it's a Blob
-    } else {
-      fields[key] = value.toString(); // Add non-file fields
-    }
-  });
-
-  // Log to verify form data structure
-  console.log('Parsed Fields:', fields);
-  console.log('Parsed File:', file);
-
-  return { fields, file };
-}
 
 export const POST = async (req: Request) => {
   try {
