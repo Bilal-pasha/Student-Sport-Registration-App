@@ -9,6 +9,7 @@ import useSearchRole from "@/hooks/useSearchRole/useSearchRole";
 import { ROLE } from "@/constant/constant";
 import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai"; // Import icons
 import toast from "react-hot-toast";
+import { studentDrawerMappingKeys } from "./Drawer.types";
 
 interface AvatarProps {
   src: string;
@@ -44,16 +45,17 @@ const InfoCard: React.FC<{ label: string; value: string | number }> = ({
   if (label === "fileUrl" || label === "_id" || label === "madrasaId") {
     return null;
   }
+  const displayName = studentDrawerMappingKeys[label] || label; 
   return (
     <div className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition duration-200">
       {label === "status" ? ( // Assuming the label for status is "status"
         <div className="flex items-center justify-between">
-          <span className="font-semibold">{label}:</span>
+          <span className="font-semibold">{displayName}:</span>
           <StatusIndicator status={value} /> {/* Display status */}
         </div>
       ) : (
         <>
-          <span className="font-semibold">{label}:</span>
+          <span className="font-semibold">{displayName}:</span>
           <span className="ml-2">{value}</span>
         </>
       )}

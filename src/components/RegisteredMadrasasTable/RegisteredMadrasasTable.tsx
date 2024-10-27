@@ -160,16 +160,14 @@ const MadrasaTable: React.FC = () => {
     </div>
   ) : (
     <>
-      <div className="container mx-auto p-6 flex flex-col items-center justify-center bg-white ">
-        <Image
-          src="https://arabiaislamia.org/static/media/Logo.d8177b439b150086839e.png"
-          alt="Jamia Arabia Islamia Logo"
-          width={150}
-          height={150}
-          priority
-        />
+      <div>
+        <h2 className="text-sm text-white">You Don&apos;t hava any Registered madrasa yet</h2>
+        <div className="flex justify-center py-8">
+          <Button variant={"primary"} size={"lg"}>
+            <Link href={"/registration"}>Register Your Madrasa Now</Link>
+          </Button>
+        </div>
       </div>
-      <Typewriter text="Welcome To Jamia Arabia Islamia" speed={100} />
     </>
   );
 };

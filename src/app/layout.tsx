@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     // bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200
     <html lang="en">
-      <body className="bg-yellow-300">
+      <body className="bg-white">
         <Suspense fallback={<FallBackComponent />}>
           <SessionWrapper>
             <Toaster position="top-right" />

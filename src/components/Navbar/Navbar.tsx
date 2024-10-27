@@ -69,7 +69,7 @@ const Navbar: React.FC = () => {
   const getHref = (buttonName: ButtonName) => {
     switch (buttonName) {
       case "Home":
-        return "/";
+        return "/Home";
       case "Class":
         return "/class";
       case "Work":

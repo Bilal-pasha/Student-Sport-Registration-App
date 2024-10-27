@@ -15,14 +15,6 @@ export async function GET(request: Request, { params }: { params: { id: string }
     } else {
       // Return madrasas associated with the userId
       madrasas = await db.collection('madrasas').find({ userId }).toArray();
-      if (madrasas.length > 0) {
-        // Assuming you want to get students for all madrasas related to the user
-
-        // Do something with students
-      } else {
-        // Handle case where no madrasas were found
-        console.log('No madrasas found for the given userId.');
-      }
     }
     const madrasaId = madrasas.map(madrasa => madrasa._id).toString(); // Extracting all madrasa IDs
     const students = await db.collection('students').find({ madrasaId }).toArray();
@@ -30,10 +22,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
       ...madrasa,
       registeredStudents: students.length, // Attach students to the madrasa
     }));
-    if (madrasas.length === 0) {
-      return NextResponse.json({ success: false, message: "No madrasas found for this user" }, { status: 404 });
-    }
-
+    
     return NextResponse.json({ success: true, data: madrasas }, { status: 200 });
 
   } catch (error: any) {
