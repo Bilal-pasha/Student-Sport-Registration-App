@@ -34,7 +34,7 @@ const SignIn = () => {
 
   return (
     <div className="flex items-center h-screen justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+      <div className="bg-white p-8 m-6 md:m-0 rounded-lg shadow-lg w-full max-w-md">
         <div className="flex flex-col items-center justify-center pb-5">
           <Image
             src="https://arabiaislamia.org/static/media/Logo.d8177b439b150086839e.png"

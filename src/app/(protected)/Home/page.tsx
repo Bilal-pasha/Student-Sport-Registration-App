@@ -1,10 +1,14 @@
-"use client"
-import CheckAuthentication from '@/components/CheckAuth/CheckAuth';
-import HomeScreen from '@/components/HomeScreen/HomeScreen';
-import React from 'react';
+"use client";
+import CheckAuthentication from "@/components/CheckAuth/CheckAuth";
+import HomeScreen from "@/components/HomeScreen/HomeScreen";
+import React from "react";
 
 const Page: React.FC = () => {
-  return <HomeScreen />;
+  return (
+    <main className="flex flex-col justify-center items-center">
+      <HomeScreen />
+    </main>
+  );
 };
 
 export default CheckAuthentication(Page);

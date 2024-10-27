@@ -60,7 +60,7 @@ const RegistrationForm: React.FC = () => {
     return (
       <>
       {!res && (
-      <div className="flex justify-center items-center h-[78vh]">
+      <div className="flex justify-center m-6 items-center h-[76vh]">
         <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-lg transform transition hover:scale-105 duration-300 ease-in-out">
           <h1 className="text-3xl font-extrabold text-indigo-600 mb-6 text-center">
             Register Your School

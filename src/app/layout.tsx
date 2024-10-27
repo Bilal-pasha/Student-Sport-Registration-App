@@ -1,13 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { SessionWrapper } from "@/components/SessionWrapper/SessionWrapper";
-import Navbar from "@/components/Navbar/Navbar";
 import { Suspense } from "react";
 import { FallBackComponent } from "@/components/FallBackComponent/FallBackComponent";
-
-const inter = Inter({ subsets: ["latin"] });
+import "react-responsive-carousel/lib/styles/carousel.css";
 
 export const metadata: Metadata = {
   title: "Arabia Fees System",

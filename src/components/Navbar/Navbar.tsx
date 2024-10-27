@@ -6,7 +6,6 @@ import { signOut } from "next-auth/react"; // Client-side function
 import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
 import { Avatar } from "../Avatar/Avatar";
-// import Image from 'next/image';
 
 type ButtonName = "Home" | "Class" | "Work" | "Registration" | "Sign Out";
 
@@ -113,11 +112,9 @@ const Navbar: React.FC = () => {
             </Link>
           ))}
         </nav>
-        <Avatar
-          height={40}
-          width={40}
-          name={session?.user?.name}
-        />
+        <div className="hidden md:flex">
+          <Avatar height={40} width={40} name={session?.user?.name} />
+        </div>
       </div>
     </header>
   );
@@ -135,7 +132,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ buttonName, isActive, onClick }, ref) => (
     <button
       ref={ref}
-      className={`relative px-6 py-2 rounded-full font-semibold text-sm ${
+      className={`relative px-3 md:px-6 py-2 rounded-full font-semibold text-xs mg:text-sm ${
         isActive ? "text-white" : "text-white hover:bg-amber-700"
       } transition-all duration-300 ease-in-out ${
         buttonName === "Sign Out"
