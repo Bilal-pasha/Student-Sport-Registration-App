@@ -43,7 +43,7 @@ const SignUp = () => {
 
     if (response.ok) {
       toast.success("User registered successfully");
-      router.push(publicRoutes.AUTH_SIGN_UP);
+      router.push(publicRoutes.AUTH_SIGN_IN);
     } else {
       toast.error("Failed to register");
       console.error("Failed to register");
