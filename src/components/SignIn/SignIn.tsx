@@ -6,7 +6,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"; // Import eye icons
 import scoutsImage from "/public/assets/signinLogo.png";
-import { publicRoutes } from "@/utils/routes";
+import { protectedRoutes, publicRoutes } from "@/utils/routes";
+import { useRouter } from "next/navigation";
 
 interface SignInFormValues {
   username: string;
@@ -16,7 +17,7 @@ interface SignInFormValues {
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
-
+  const router = useRouter()
   const initialValues: SignInFormValues = {
     username: "",
     password: "",
@@ -33,6 +34,7 @@ const SignIn = () => {
     if (res?.error) {
       toast.error("User Id / Password Incorrect");
     } else {
+      router.push(protectedRoutes.HOME)
       toast.success("Signed in successfully");
     }
   };
