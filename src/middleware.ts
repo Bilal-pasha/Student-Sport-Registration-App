@@ -4,7 +4,7 @@ import { publicRoutes, protectedRoutes } from '@/utils/routes';
 
 export function middleware(request: NextRequest) {
   // Get the token from the request cookies
-  const token = request.cookies.get('next-auth.session-token');
+  const token = request.cookies.get('__Secure-next-auth.session-token');
 
   // Define the protected routes based on the enum
   const protectedRoutesList = Object.values(protectedRoutes);
