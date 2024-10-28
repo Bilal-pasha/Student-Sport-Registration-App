@@ -5,7 +5,7 @@ export enum publicRoutes {
   }
   
   export enum protectedRoutes {
-    HOME = '/Home',
+    HOME = '/home',
     CLASS = '/class',
     WORK = '/work',
     REGISTRATION = '/registration',
