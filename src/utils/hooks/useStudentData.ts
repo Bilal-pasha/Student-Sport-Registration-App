@@ -24,7 +24,7 @@ export const useStudentData = (setIsLoading:any, params: any) => {
             }
           };
           fetchStudent()
-      }, [])
+      }, [params.id, setIsLoading])
 
   return {student, setStudent}
 }

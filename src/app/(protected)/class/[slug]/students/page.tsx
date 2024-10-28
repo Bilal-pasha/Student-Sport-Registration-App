@@ -8,7 +8,8 @@ import { getCurrentMonthYear, tableHead } from "@/constant/constant";
 import { useRouter } from "next/navigation";
 import { FaArrowLeft, FaPlus } from "react-icons/fa";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/solid";
-import useFetchStudents from "@/utlis/hooks/useFetchStudents";
+import useFetchStudents from "@/utils/hooks/useFetchStudents";
+import { protectedRoutes } from "@/utils/routes";
 
 const StudentTable = ({ params }: { params: { slug: string } }) => {
   const classSlug = params.slug;
@@ -71,7 +72,7 @@ const StudentTable = ({ params }: { params: { slug: string } }) => {
                   <tr key={index}>
                     <td className="whitespace-nowrap font-medium text-gray-900 py-3 px-5 border-b border-gray-400 border-l">
                       <Link
-                        href={`/class/${classSlug}/students/${student?.id}`}
+                        href={`${protectedRoutes.CLASS}/${classSlug}/students/${student?.id}`}
                         className="text-blue-500 hover:underline"
                       >
                         {student?.name}

@@ -6,6 +6,7 @@ import { signOut } from "next-auth/react"; // Client-side function
 import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
 import { Avatar } from "../Avatar/Avatar";
+import { protectedRoutes, publicRoutes } from "@/utils/routes";
 
 type ButtonName = "Home" | "Class" | "Work" | "Registration" | "Sign Out";
 
@@ -32,9 +33,9 @@ const Navbar: React.FC = () => {
 
   useEffect(() => {
     const getButtonNameFromPath = (path: string): ButtonName => {
-      if (path.startsWith("/class")) return "Class";
-      if (path.startsWith("/work")) return "Work";
-      if (path.startsWith("/registration")) return "Registration";
+      if (path.startsWith(protectedRoutes.CLASS)) return "Class";
+      if (path.startsWith(protectedRoutes.WORK)) return "Work";
+      if (path.startsWith(protectedRoutes.REGISTRATION)) return "Registration";
       return "Home";
     };
 
@@ -59,7 +60,7 @@ const Navbar: React.FC = () => {
 
   const handleClick = (buttonName: ButtonName) => {
     if (buttonName === "Sign Out") {
-      signOut({ callbackUrl: "https://localhost:3000/Login" });
+      signOut({ callbackUrl: "https://localhost:3000/" + publicRoutes.AUTH_SIGN_IN });
       toast.success("Signed Out Successfully");
     } else {
       setActiveButton(buttonName);
@@ -69,7 +70,7 @@ const Navbar: React.FC = () => {
   const getHref = (buttonName: ButtonName) => {
     switch (buttonName) {
       case "Home":
-        return "/Home";
+        return protectedRoutes.HOME;
       case "Class":
         return "/class";
       case "Work":
@@ -83,7 +84,7 @@ const Navbar: React.FC = () => {
   return (
     <header
       className={`w-full flex justify-center py-6 lg:sticky lg:top-0 top-auto bottom-0 fixed z-10 ${
-        pathname === "/Login" ? "hidden" : ""
+        pathname === publicRoutes.AUTH_SIGN_IN ? "hidden" : ""
       }`}
     >
       <div className="w-full flex px-8 items-center justify-between py-6">

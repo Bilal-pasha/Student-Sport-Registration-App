@@ -9,12 +9,11 @@ import Image from "next/image";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import scoutsImage from "/public/assets/signinLogo.png";
 import { passwordRegex } from "@/constant/constant";
+import { publicRoutes } from "@/utils/routes";
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
-
-  // Password regex: At least one uppercase letter and one special character
 
   // Validation schema using Yup
   const validationSchema = Yup.object({
@@ -44,7 +43,7 @@ const SignUp = () => {
 
     if (response.ok) {
       toast.success("User registered successfully");
-      router.push("/Login");
+      router.push(publicRoutes.AUTH_SIGN_UP);
     } else {
       toast.error("Failed to register");
       console.error("Failed to register");

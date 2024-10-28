@@ -4,9 +4,7 @@ import { useSession } from "next-auth/react";
 import { Button } from "../Button/Button";
 import toast from "react-hot-toast";
 import Link from "next/link";
-
-import Image from "next/image";
-import Typewriter from "@/components/TypeWritter/TypeWritter";
+import { protectedRoutes } from "@/utils/routes";
 interface Madrasa {
   _id: string;
   madrasaName: string;
@@ -119,7 +117,7 @@ const MadrasaTable: React.FC = () => {
               <tr key={madrasa?._id}>
                 <td className="py-3 px-5 border-b border-gray-300">
                   <Link
-                    href={`/Home/${madrasa?._id}`}
+                    href={`${protectedRoutes.HOME}/${madrasa?._id}`}
                     className="text-primary-500"
                   >
                     {madrasa.madrasaName}

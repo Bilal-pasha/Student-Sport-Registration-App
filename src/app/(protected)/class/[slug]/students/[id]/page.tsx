@@ -10,7 +10,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import { useReactToPrint } from 'react-to-print';
 import Invoice from "@/components/Invoice/Invoice";
 import { FaPrint, FaTrash, FaEdit } from 'react-icons/fa';
-import { useStudentData } from "@/utlis/hooks/useStudentData";
+import { useStudentData } from "@/utils/hooks/useStudentData";
   
 export default function Page({params}: any) {
     const [isLoading, setIsLoading] = useState<boolean>(true)

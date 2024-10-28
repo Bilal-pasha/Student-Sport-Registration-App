@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"; // Import eye icons
 import scoutsImage from "/public/assets/signinLogo.png";
+import { publicRoutes } from "@/utils/routes";
 
 interface SignInFormValues {
   username: string;
@@ -136,7 +137,7 @@ const SignIn = () => {
               <div className="flex items-center justify-between mb-6">
                 <div></div>
                 <Link
-                  href="/Signup"
+                  href={publicRoutes.AUTH_SIGN_UP}
                   className="text-sm text-blue-500 hover:underline"
                 >
                   Register?

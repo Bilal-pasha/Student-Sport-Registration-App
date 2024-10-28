@@ -6,6 +6,7 @@ import CheckAuthentication from '@/components/CheckAuth/CheckAuth';
 import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { protectedRoutes } from '@/utils/routes';
 
 interface RegistrationData {
   madrasaName: string;
@@ -49,7 +50,7 @@ const RegistrationForm: React.FC = () => {
       if (response.ok) {
         setRes(data)
         toast.success(data.message)
-        router.push('/Home')
+        router.push(protectedRoutes.HOME)
       } else {
         toast.error(data?.message)
       }

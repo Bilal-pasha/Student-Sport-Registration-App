@@ -1,5 +1,6 @@
 // Create a HOC (e.g., /components/withAuth.tsx)
 
+import { publicRoutes } from "@/utils/routes";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -11,13 +12,9 @@ const CheckAuthentication = (WrappedComponent: React.ComponentType) => {
 
     useEffect(() => {
       if (status === "unauthenticated") {
-        router.push("/Login");
+        router.push(publicRoutes.AUTH_SIGN_IN);
       }
     }, [status, router]);
-
-    // if (status === "loading") {
-    //   return <div>Loading...</div>;
-    // }
 
     if (session) {
       return <WrappedComponent {...props} />;
