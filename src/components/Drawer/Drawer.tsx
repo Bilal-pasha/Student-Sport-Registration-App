@@ -10,6 +10,7 @@ import { ROLE } from "@/constant/constant";
 import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai"; // Import icons
 import toast from "react-hot-toast";
 import { studentDrawerMappingKeys } from "./Drawer.types";
+import { IoPrintSharp } from "react-icons/io5";
 
 interface AvatarProps {
   src: string;
@@ -45,7 +46,7 @@ const InfoCard: React.FC<{ label: string; value: string | number }> = ({
   if (label === "fileUrl" || label === "_id" || label === "madrasaId") {
     return null;
   }
-  const displayName = studentDrawerMappingKeys[label] || label; 
+  const displayName = studentDrawerMappingKeys[label] || label;
   return (
     <div className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition duration-200">
       {label === "status" ? ( // Assuming the label for status is "status"
@@ -108,8 +109,20 @@ const Drawer: React.FC<{
     }
   };
 
-  const renderButton = () => (
+  const renderButton = (rowData: any) => (
     <div className="flex justify-end space-x-4">
+      {rowData.status === "Approve" && userName !== ROLE.ADMIN && (
+        <Button
+          variant="primary"
+          size="lg"
+          roundedness="md"
+          className="px-8"
+          onClick={() => {}}
+        >
+          <IoPrintSharp className="h-6 w-6" />
+          Print
+        </Button>
+      )}
       <Button
         variant="danger"
         size="lg"
@@ -161,7 +174,7 @@ const Drawer: React.FC<{
                 <Avatar src={studentImage} alt="Student Avatar" />
               </div>
             </div>
-            {renderButton()}
+            {renderButton(rowData)}
           </div>
         </FlowbiteModal.Items>
       </FlowbiteModal>

@@ -9,7 +9,10 @@ interface AddNewStudentModalProps {
   madrasaId: string;
 }
 
-export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({ setModalOpen, madrasaId }) => {
+export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({
+  setModalOpen,
+  madrasaId,
+}) => {
   // Initial form values
   const initialValues = {
     studentName: "",
@@ -20,7 +23,7 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({ setModal
     activity: "",
     // image: null as File | null, // New field for image upload
   };
-
+  const TshirtSizes = ["Medium", "large", "Xl"];
   // List of activities
   const activities = [
     "First Aid",
@@ -50,7 +53,9 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({ setModal
       .test("fileType", "Unsupported file format", (value) => {
         return (
           value &&
-          ["image/jpeg", "image/png", "image/gif"].includes((value as File).type)
+          ["image/jpeg", "image/png", "image/gif"].includes(
+            (value as File).type
+          )
         );
       }),
   });
@@ -61,26 +66,26 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({ setModal
     { setSubmitting, setErrors }: any
   ) => {
     const formData = new FormData();
-    
+
     // Append all fields to the FormData object
     for (const key in values) {
       formData.append(key, values[key]);
     }
-    
+
     // Append madrasaId as well
     formData.append("madrasaId", madrasaId);
-    
+
     try {
       const response = await fetch("/api/register-student", {
         method: "POST",
         body: formData, // Use FormData directly
       });
-      
+
       const data = await response.json();
       if (!response.ok) {
         throw new Error(data.error || "Something went wrong");
       }
-      
+
       toast.success(data.message);
       setModalOpen(false); // Close the modal after successful submission
     } catch (error: any) {
@@ -89,9 +94,6 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({ setModal
       setSubmitting(false);
     }
   };
-  
-  
-  
 
   return (
     <div className="container mx-auto">
@@ -182,10 +184,17 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({ setModal
                       T-shirt Size
                     </label>
                     <Field
-                      type="text"
+                      as="select"
                       name="TshirtSize"
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
+                    >
+                      <option value="" label="Select T-shirt Size" />
+                      {TshirtSizes.map((size) => (
+                        <option key={size} value={size}>
+                          {size}
+                        </option>
+                      ))}
+                    </Field>
                     <ErrorMessage
                       name="TshirtSize"
                       component="div"

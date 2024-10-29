@@ -4,7 +4,8 @@ import { publicRoutes, protectedRoutes } from '@/utils/routes';
 
 export function middleware(request: NextRequest) {
   // Get the token from the request cookies
-  const token = request.cookies.get('__Secure-next-auth.session-token');
+  const prod_token = request.cookies.get('__Secure-next-auth.session-token');
+  const dep_token = request.cookies.get('next-auth.session-token');
 
   // Define the protected routes based on the enum
   const protectedRoutesList = Object.values(protectedRoutes);
@@ -15,7 +16,7 @@ export function middleware(request: NextRequest) {
   );
 
   // If the token doesn't exist and trying to access a protected route
-  if (!token && isProtectedRoute) {
+  if (!prod_token && !dep_token && isProtectedRoute) {
     // Redirect to the login page
     return NextResponse.redirect(new URL(publicRoutes.AUTH_SIGN_IN, request.url));
   }
@@ -26,7 +27,7 @@ export function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith(route)
   );
 
-  if (token && isPublicRoute) {
+  if ((prod_token || dep_token) && isPublicRoute) {
     // Redirect to the home page (or another protected route)
     return NextResponse.redirect(new URL(protectedRoutes.HOME, request.url));
   }
