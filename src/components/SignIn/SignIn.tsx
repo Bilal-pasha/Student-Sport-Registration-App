@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"; // Import eye icons
 import scoutsImage from "/public/assets/signinLogo.png";
+import ArabiaLogo from "/public/assets/JamiaArabiaLogo.png"
 import { protectedRoutes, publicRoutes } from "@/utils/routes";
 import { useRouter } from "next/navigation";
 
@@ -50,9 +51,13 @@ const SignIn = () => {
             height={200}
             className="object-contain"
           />
-          <p className="font-urduNastaliq text-3xl ">
-            جامعہ عربیہ اسلامیہ <span className="text-xs">اسکاؤٹ کالونی</span>
-          </p>
+          <Image
+            src={ArabiaLogo}
+            alt="Logo"
+            width={300}
+            height={200}
+            className="object-contain"
+          />
         </div>
         <Formik initialValues={initialValues} onSubmit={handleSubmit}>
           {({ isSubmitting }) => (
