@@ -6,19 +6,19 @@ import { SessionWrapper } from "@/components/SessionWrapper/SessionWrapper";
 import Navbar from "@/components/Navbar/Navbar";
 import { Suspense } from "react";
 import { FallBackComponent } from "@/components/FallBackComponent/FallBackComponent";
+import FullScreenPoster from "@/components/FullScreenPoster/FullScreenPoster";
 
 export const metadata: Metadata = {
   title: "Inter Deeni Madaris Scouts Camp 2024",
-  description:
-    "Scouts Camp 2024 Organized by Jamia Arabia Islamia Scout Coloney",
+  description: "Scouts Camp 2024 Organized by Jamia Arabia Islamia Scout Coloney",
 };
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    // bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200
     <html lang="en">
       <body>
         <Suspense fallback={<FallBackComponent />}>
@@ -27,6 +27,7 @@ export default function RootLayout({
             <SessionWrapper>
               <Toaster position="top-right" />
               <Navbar />
+              <FullScreenPoster /> {/* Add the FullScreenPoster here */}
               <div className="relative z-10">{children}</div>
             </SessionWrapper>
           </div>
