@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { RxCrossCircled } from "react-icons/rx";
+import { ImCross } from "react-icons/im";
 
 const FullScreenPoster = () => {
   const { data: session } = useSession();
@@ -21,24 +21,26 @@ const FullScreenPoster = () => {
   if (!showPoster) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col  items-center justify-center bg-black bg-opacity-80">
-      <div className="w-full flex justify-end  max-w-xl">
-        <button
-          onClick={handleClose}
-          className=" text-white focus:outline-none"
-        >
-          <RxCrossCircled className="h-10 w-10 text-white bg-gray-800 rounded-full p-1 hover:bg-gray-600 transition-colors duration-200 ease-in-out" />
-        </button>
-      </div>
-      <div className="relative w-full max-w-5xl h-[80vh] sm:h-[90vh] lg:h-[80vh] p-4 md:p-8 rounded-lg shadow-xl flex items-center justify-center overflow-hidden">
-        <Image
-          src="/assets/poster.jpeg"
-          alt="Poster"
-          layout="fill"
-          objectFit="contain"
-          className="rounded-lg"
-          priority
-        />
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
+      <div className="relative bg-white p-4 sm:p-6 md:p-8 rounded-lg max-w-2xl w-full mx-4 sm:mx-8 shadow-lg space-y-4">
+        <div className="flex justify-end border-b-2 border-gray-200">
+          <button
+            onClick={handleClose}
+            className="text-gray-500 hover:text-gray-700 focus:outline-none pb-3"
+          >
+            <ImCross className="h-5 w-5" />
+          </button>
+        </div>
+        <div className="flex justify-center items-center">
+          <Image
+            src="/assets/poster.jpeg"
+            alt="Poster"
+            height={600}
+            width={600}
+            className="object-contain rounded-lg w-full h-auto"
+            priority
+          />
+        </div>
       </div>
     </div>
   );
