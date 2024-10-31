@@ -5,11 +5,12 @@ import { useRouter } from "next/navigation";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
-import Image from "next/image";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import scoutsImage from "/public/assets/signinLogo.png";
 import { passwordRegex } from "@/constant/constant";
 import { publicRoutes } from "@/utils/routes";
+import scoutsImage from "/public/assets/signinLogo.png";
+import Image from "next/image";
+import ArabiaLogo from "/public/assets/JamiaArabiaLogo.png"
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -60,9 +61,13 @@ const SignUp = () => {
             width={400}
             height={200}
           />
-          <p className="font-urduNastaliq text-3xl ">
-            جامعہ عربیہ اسلامیہ <span className="text-xs">اسکاؤٹ کالونی</span>
-          </p>
+           <Image
+            src={ArabiaLogo}
+            alt="Logo"
+            width={300}
+            height={200}
+            className="object-contain"
+          />
         </div>
         <Formik
           initialValues={{ username: "", password: "" }}

@@ -1,42 +1,47 @@
-import { signIn } from "next-auth/react";
-import { useState } from "react";
+"use client";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import toast from "react-hot-toast";
-import Link from "next/link";
-import Image from "next/image";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"; // Import eye icons
 import scoutsImage from "/public/assets/signinLogo.png";
-import ArabiaLogo from "/public/assets/JamiaArabiaLogo.png"
-import { protectedRoutes, publicRoutes } from "@/utils/routes";
+import Image from "next/image";
+import ArabiaLogo from "/public/assets/JamiaArabiaLogo.png";
 import { useRouter } from "next/navigation";
+import { publicRoutes } from "@/utils/routes";
+import { useState } from "react";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
-interface SignInFormValues {
-  username: string;
-  password: string;
-  rememberMe: boolean;
+interface ResetPasswordFormValues {
+  username: string; // Updated from "email" to "username"
+  newPassword: string;
 }
 
-const SignIn = () => {
-  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
-  const router = useRouter()
-  const initialValues: SignInFormValues = {
+const ResetPassword = () => {
+  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const initialValues: ResetPasswordFormValues = {
     username: "",
-    password: "",
-    rememberMe: false,
+    newPassword: "",
   };
 
-  const handleSubmit = async (values: SignInFormValues) => {
-    const res = await signIn("credentials", {
-      redirect: false,
-      username: values.username,
-      password: values.password,
-    });
+  const handleSubmit = async (values: ResetPasswordFormValues) => {
+    try {
+      const res = await fetch("/api/reset-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
 
-    if (res?.error) {
-      toast.error("User Id / Password Incorrect");
-    } else {
-      router.push(protectedRoutes.HOME)
-      toast.success("Signed in successfully");
+      const data = await res.json();
+
+      if (!data.success) {
+        toast.error(data.error || "Failed to reset password");
+      } else {
+        toast.success("Password has been reset successfully");
+        router.push(publicRoutes.AUTH_SIGN_IN);
+      }
+    } catch (error) {
+      toast.error("An error occurred. Please try again.");
     }
   };
 
@@ -44,13 +49,7 @@ const SignIn = () => {
     <div className="flex items-center h-screen justify-center">
       <div className="p-8 m-6 md:m-0 rounded-lg shadow-2xl drop-shadow-xl w-full max-w-md">
         <div className="flex flex-col items-center justify-center pb-5">
-          <Image
-            src={scoutsImage}
-            alt="Logo"
-            width={400}
-            height={200}
-            className="object-contain"
-          />
+          <Image src={scoutsImage} alt="Logo" width={400} height={200} />
           <Image
             src={ArabiaLogo}
             alt="Logo"
@@ -59,22 +58,26 @@ const SignIn = () => {
             className="object-contain"
           />
         </div>
+        <h2 className="text-2xl font-semibold mb-6 text-center">
+          Reset Password
+        </h2>
+
         <Formik initialValues={initialValues} onSubmit={handleSubmit}>
           {({ isSubmitting }) => (
             <Form>
-              {/* User Id input */}
+              {/* User ID input */}
               <div className="mb-4">
                 <label
                   htmlFor="username"
                   className="block text-gray-700 text-sm font-bold mb-2"
                 >
-                  User Id
+                  User ID
                 </label>
                 <Field
                   type="text"
                   name="username"
                   id="username"
-                  placeholder="Enter your User Id"
+                  placeholder="Enter your User ID"
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
                 <ErrorMessage
@@ -84,21 +87,21 @@ const SignIn = () => {
                 />
               </div>
 
-              {/* Password input */}
+              {/* New Password input */}
               <div className="mb-6 relative">
                 <label
-                  htmlFor="password"
+                  htmlFor="newPassword"
                   className="block text-gray-700 text-sm font-bold mb-2"
                 >
-                  Password
+                  New Password
                 </label>
                 <div className="relative">
                   <div className="flex items-center border rounded-md focus-within:ring-2 focus-within:ring-blue-500">
                     <Field
                       type={showPassword ? "text" : "password"}
-                      name="password"
-                      id="password"
-                      placeholder="Enter your password"
+                      name="newPassword"
+                      id="newPassword"
+                      placeholder="Enter your new password"
                       className="w-full px-4 py-2 border-none rounded-md focus:outline-none"
                     />
                     <button
@@ -114,44 +117,14 @@ const SignIn = () => {
                     </button>
                   </div>
                   <ErrorMessage
-                    name="password"
+                    name="newPassword"
                     component="div"
                     className="text-red-500 text-sm mt-1"
                   />
                 </div>
               </div>
 
-              {/* Remember me checkbox */}
-              <div className="flex items-center justify-between mb-2">
-                <label className="inline-flex items-center">
-                  <Field
-                    type="checkbox"
-                    name="rememberMe"
-                    className="form-checkbox text-blue-600"
-                  />
-                  <span className="ml-2 text-gray-700 text-sm">
-                    Remember me
-                  </span>
-                </label>
-                <Link
-                  href={publicRoutes.FORGOT_PASSWORD}
-                  className="text-sm text-blue-500 hover:underline"
-                >
-                  Forgot Password?
-                </Link>
-              </div>
-
-              <div className="flex items-center justify-between mb-6">
-                <div></div>
-                <Link
-                  href={publicRoutes.AUTH_SIGN_UP}
-                  className="text-sm text-blue-500 hover:underline"
-                >
-                  Register?
-                </Link>
-              </div>
-
-              {/* Login button */}
+              {/* Submit button */}
               <div className="mb-4">
                 <button
                   type="submit"
@@ -162,7 +135,7 @@ const SignIn = () => {
                       : "bg-blue-500 hover:bg-blue-600"
                   } text-white font-semibold py-2 px-4 rounded-lg w-full transition-colors duration-200`}
                 >
-                  {isSubmitting ? "Logging in..." : "Login"}
+                  {isSubmitting ? "Resetting..." : "Reset Password"}
                 </button>
               </div>
             </Form>
@@ -173,4 +146,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default ResetPassword;

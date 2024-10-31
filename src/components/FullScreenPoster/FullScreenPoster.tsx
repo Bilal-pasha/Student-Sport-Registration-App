@@ -22,7 +22,7 @@ const FullScreenPoster = () => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
-      <div className="relative bg-white p-4 sm:p-6 md:p-8 rounded-lg max-w-2xl w-full mx-4 sm:mx-8 shadow-lg space-y-4">
+      <div className="relative bg-white px-3 sm:py-4 md:py-6 rounded-lg max-w-2xl w-full shadow-lg space-y-4">
         <div className="flex justify-end border-b-2 border-gray-200">
           <button
             onClick={handleClose}

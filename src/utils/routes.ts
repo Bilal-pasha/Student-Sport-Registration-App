@@ -1,6 +1,7 @@
 export enum publicRoutes {
     AUTH_SIGN_IN = '/login',
     AUTH_SIGN_UP = '/signup',
+    FORGOT_PASSWORD = '/forgot-password',
     NOT_FOUND = '/404',
   }
   
