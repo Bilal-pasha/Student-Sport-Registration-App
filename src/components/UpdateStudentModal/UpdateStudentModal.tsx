@@ -39,7 +39,7 @@ export const UpdateStudentModal = ({
   ];
 
   // Status options
-  const statuses = ["Approve", "Decline"];
+  const statuses = ["Approved", "Rejected"];
 
   // Group options
   const groups = ["A", "B", "C"];
