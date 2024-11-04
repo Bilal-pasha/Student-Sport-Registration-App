@@ -5,7 +5,7 @@ import clientPromise from '@/lib/mongodb';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { madrasaName, madrasaAddress, totalStudents, userId, ContactPersonName, CellNumber } = body;
+    const { madrasaName, madrasaAddress, totalStudents, userId, contactPersonName, cellNumber } = body;
 
     const client = await clientPromise;
     const db = client.db('school');
@@ -13,8 +13,9 @@ export async function POST(request: Request) {
       madrasaName,
       madrasaAddress,
       totalStudents,
-      ContactPersonName,
-      CellNumber,
+      contactPersonName,
+      cellNumber,
+      status: "Pending",
       userId,
       createdAt: new Date(),
     });

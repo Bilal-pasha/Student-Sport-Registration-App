@@ -44,6 +44,7 @@ export const POST = async (req: Request) => {
       age: Number(age),
       grade,
       TshirtSize,
+      status: 'Pending',
       activity,
       fileUrl: uploadResult.Location, // Save the file URL from S3
       createdAt: new Date(),

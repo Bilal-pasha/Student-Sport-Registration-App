@@ -4,10 +4,13 @@ import { Drawer as FlowbiteModal } from "flowbite-react";
 import Image from "next/image";
 import { UpdateStudentModal } from "@/components/UpdateStudentModal/UpdateStudentModal";
 import { Button } from "../Button/Button";
-// import studentImage from "/public/assets/male-student.png";
 import useSearchRole from "@/hooks/useSearchRole/useSearchRole";
 import { ROLE } from "@/constant/constant";
-import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai"; // Import icons
+import {
+  AiOutlineCheck,
+  AiOutlineClockCircle,
+  AiOutlineClose,
+} from "react-icons/ai";
 import toast from "react-hot-toast";
 import { studentDrawerMappingKeys } from "./Drawer.types";
 import { IoPrintSharp } from "react-icons/io5";
@@ -26,6 +29,31 @@ const Avatar: React.FC<AvatarProps> = ({ src, alt = "Avatar" }) => (
     height={96}
   />
 );
+interface IStatusIndicator {
+  status: string;
+}
+
+export const StatusIndicator: React.FC<IStatusIndicator> = ({ status }) => {
+  const icon = {
+    Approved: <AiOutlineCheck className="mr-2" />,
+    Rejected: <AiOutlineClose className="mr-2" />,
+    Pending: <AiOutlineClockCircle className="mr-2" />,
+  }[status] || <AiOutlineClockCircle className="mr-2" />;
+
+  const statusStyles =
+    {
+      Approved: "bg-green-200 text-green-700",
+      Rejected: "bg-red-200 text-red-700",
+      Pending: "bg-yellow-50 text-yellow-700",
+    }[status] || "bg-gray-200 text-gray-700";
+
+  return (
+    <div className={`flex items-center px-3 py-1 rounded-lg ${statusStyles}`}>
+      {icon}
+      {status}
+    </div>
+  );
+};
 
 const customTheme = {
   root: {
@@ -38,21 +66,22 @@ const customTheme = {
     },
   },
 };
+interface IInfoCard {
+  label: string;
+  value: string;
+}
 
-const InfoCard: React.FC<{ label: string; value: string | number }> = ({
-  label,
-  value,
-}) => {
+const InfoCard: React.FC<IInfoCard> = ({ label, value }) => {
   if (label === "fileUrl" || label === "_id" || label === "madrasaId") {
     return null;
   }
   const displayName = studentDrawerMappingKeys[label] || label;
   return (
     <div className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition duration-200">
-      {label === "status" ? ( // Assuming the label for status is "status"
+      {label === "status" ? (
         <div className="flex items-center justify-between">
           <span className="font-semibold">{displayName}:</span>
-          <StatusIndicator status={value} /> {/* Display status */}
+          <StatusIndicator status={value} /> {/* Pass status correctly */}
         </div>
       ) : (
         <>
@@ -60,27 +89,6 @@ const InfoCard: React.FC<{ label: string; value: string | number }> = ({
           <span className="ml-2">{value}</span>
         </>
       )}
-    </div>
-  );
-};
-
-const StatusIndicator: React.FC<{ status: string | number }> = ({ status }) => {
-  const isApproved = status === "Approve";
-  const isRejected = status === "Decline";
-
-  return (
-    <div
-      className={`flex items-center px-3 py-1 rounded-lg ${
-        isApproved
-          ? "bg-green-200 text-green-700"
-          : isRejected
-          ? "bg-red-200 text-red-700"
-          : "bg-gray-200 text-gray-700"
-      }`}
-    >
-      {isApproved && <AiOutlineCheck className="mr-2" />}
-      {isRejected && <AiOutlineClose className="mr-2" />}
-      {isApproved ? "Approved" : isRejected ? "Rejected" : "Pending"}
     </div>
   );
 };
@@ -102,7 +110,7 @@ const Drawer: React.FC<{
 
     if (response.ok) {
       toast.success("Student deleted successfully.");
-      handleClose(); // Close the drawer after deletion
+      handleClose();
     } else {
       const errorData = await response.json();
       toast.error(errorData.error || "Failed to delete student.");

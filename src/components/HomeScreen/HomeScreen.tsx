@@ -27,7 +27,7 @@ const HomeScreen: React.FC = () => {
         ))}
       </Carousel>
 
-      <div className="container mx-auto p-6">
+      <div className="w-full p-6">
         <h1 className="text-2xl font-bold mb-4 text-slate-200">
           Registered Schools
         </h1>
