@@ -33,7 +33,7 @@ const FullScreenPoster = () => {
         </div>
         <div className="flex justify-center items-center">
           <Image
-            src="/assets/poster.jpeg"
+            src="/assets/poster.webp"
             alt="Poster"
             height={600}
             width={600}
