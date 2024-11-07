@@ -98,7 +98,7 @@ const MadrasaTable: React.FC = () => {
   }
   return madrasas.length !== 0 ? (
     <>
-      <div className="overflow-x-auto">
+      <div className="">
         <table className="w-full bg-white opacity-90 text-left">
           <thead className="bg-[#714620fa] text-white text-sm uppercase">
             <tr>
