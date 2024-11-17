@@ -29,7 +29,7 @@ export default function RootLayout({
               <SessionWrapper>
                 <Toaster position="top-right" />
                 <Navbar />
-                <FullScreenPoster /> {/* Add the FullScreenPoster here */}
+                {/* <FullScreenPoster /> Add the FullScreenPoster here */}
                 <div className="relative z-10">{children}</div>
               </SessionWrapper>
             </div>

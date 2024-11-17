@@ -76,18 +76,15 @@ const RegistrationForm: React.FC = () => {
 
   return (
     <>
-      {madrasas.length > 0 ? (
-        <>
-          <div className="flex justify-center items-center flex-col max-w-2xl mx-auto space-y-8">
-            <h2 className="text-center text-lg text-white font-semibold mt-6">
-              You have already registered your madrasa.
-            </h2>
-            <Button variant="primary" size="md">
-              <Link href={protectedRoutes.HOME}>Registration Page</Link>
-            </Button>
-          </div>
-        </>
-      ) : !response ? (
+      {!response ? (
+        //   <div className="flex justify-center items-center flex-col max-w-2xl mx-auto space-y-8">
+        //   <h2 className="text-center text-lg text-white font-semibold mt-6">
+        //     You have already registered your madrasa.
+        //   </h2>
+        //   <Button variant="primary" size="md">
+        //     <Link href={protectedRoutes.HOME}>Registration Page</Link>
+        //   </Button>
+        // </div>
         <div className="flex justify-center m-6 items-center h-[76vh]">
           <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-lg transform transition hover:scale-105 duration-300 ease-in-out">
             <h1 className="text-3xl font-extrabold text-indigo-600 mb-6 text-center">

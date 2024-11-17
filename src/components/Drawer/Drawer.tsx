@@ -198,7 +198,7 @@ const Drawer: React.FC<{
 
   const renderButton = (rowData: any) => (
     <div className="flex justify-end space-x-4">
-      {rowData.status === STATUS.APPROVED && userName !== ROLE.ADMIN && (
+      {rowData.status === STATUS.APPROVED && (
         <ReactToPrint
           trigger={() => (
             <Button
