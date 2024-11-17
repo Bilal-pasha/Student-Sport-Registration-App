@@ -27,6 +27,15 @@ export async function POST(request: Request) {
             );
         }
 
+        // Check the number of students in the subCamp across all madrasas
+        const subCampCount = await db.collection('students').countDocuments({ camp });
+        if (subCampCount >= 4) {
+            return NextResponse.json(
+                { success: false, error: 'This Camp is Full Please use Another Camp Number' },
+                { status: 400 }
+            );
+        }
+
         // Update the student in the students collection
         const result = await db.collection('students').updateOne(
             { _id: new ObjectId(studentId) }, // Filter by studentId

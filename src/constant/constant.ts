@@ -35,3 +35,8 @@ export enum STATUS {
   DECLINE = 'Decline'
 }
 export const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{6,}$/;
+export enum SubCamps {
+  Iqbal = "Sub Camp Iqbal",
+  Jinnah = "Sub Camp Jinnah",
+  Liaqat = "Sub Camp Liaqat",
+}

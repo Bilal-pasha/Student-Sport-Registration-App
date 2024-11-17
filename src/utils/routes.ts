@@ -10,5 +10,6 @@ export enum publicRoutes {
     CLASS = '/class',
     WORK = '/work',
     REGISTRATION = '/registration',
+    FILTER = '/filter'
   }
   

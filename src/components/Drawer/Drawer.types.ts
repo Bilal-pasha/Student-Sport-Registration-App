@@ -6,7 +6,7 @@ export const studentDrawerMappingKeys: { [key: string]: string } = {
     TshirtSize: 'T-Shirt Size',
     activity: 'Activity',
     createdAt: 'Created Date',
-    camp: 'Camp',
+    camp: 'Camp Number',
     group: 'Group',
     report: 'Report',
     status: 'Status',

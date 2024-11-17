@@ -3,6 +3,7 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import toast from "react-hot-toast";
 import { validationSchema } from "./validationSchema";
+import { SubCamps } from "@/constant/constant";
 
 export const UpdateStudentModal = ({
   setModalOpen,
@@ -42,14 +43,13 @@ export const UpdateStudentModal = ({
   const statuses = ["Approved", "Rejected"];
 
   // Group options
-  const groups = ["A", "B", "C"];
+  const groups = ["A", "B", "C", "D", "E", "F", "G", "H"];
 
   // Camp options
-  const camps = ["Camp Deene-Madarasa Scouts"];
 
   // Sub-camp options
-  const subCamps = ["Sub Camp Iqbal", "Sub Camp Jinnah", "Sub Camp Liaqat"];
-
+  const campNo = Array.from({ length: 50 }, (_, i) => `Camp ${i + 1}`);
+  const subCamps = [SubCamps.Iqbal, SubCamps.Jinnah, SubCamps.Liaqat];
   // Form validation schema
 
   // Handle form submission
@@ -74,7 +74,11 @@ export const UpdateStudentModal = ({
       });
 
       const data = await response.json();
-      toast.success(data.message);
+      if (data.success) {
+        toast.success(data.message);
+      } else {
+        toast.error(data.error);
+      }
       if (!response.ok) {
         throw new Error(data.error || "Something went wrong");
       }
@@ -261,7 +265,7 @@ export const UpdateStudentModal = ({
                   </div>
 
                   {/* Camp Dropdown */}
-                  <div>
+                  {/* <div>
                     <label className="block text-sm font-medium text-gray-700">
                       Camp
                     </label>
@@ -271,7 +275,7 @@ export const UpdateStudentModal = ({
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="" label="Select camp" />
-                      {camps.map((camp , index) => (
+                      {camps.map((camp, index) => (
                         <option key={camp + index} value={camp}>
                           {camp}
                         </option>
@@ -282,7 +286,7 @@ export const UpdateStudentModal = ({
                       component="div"
                       className="text-red-600 text-sm mt-1"
                     />
-                  </div>
+                  </div> */}
 
                   {/* Sub Camp Dropdown */}
                   <div>
@@ -307,7 +311,29 @@ export const UpdateStudentModal = ({
                       className="text-red-600 text-sm mt-1"
                     />
                   </div>
-
+                  {/* camp no Dropdown */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Camp Number
+                    </label>
+                    <Field
+                      as="select"
+                      name="camp"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="" label="Select Camp Number" />
+                      {campNo.map((camp, index) => (
+                        <option key={camp + index} value={camp}>
+                          {camp}
+                        </option>
+                      ))}
+                    </Field>
+                    <ErrorMessage
+                      name="camp"
+                      component="div"
+                      className="text-red-600 text-sm mt-1"
+                    />
+                  </div>
                   {/* Student Report Text Area */}
                   <div className="col-span-3">
                     <label className="block text-sm font-medium text-gray-700">

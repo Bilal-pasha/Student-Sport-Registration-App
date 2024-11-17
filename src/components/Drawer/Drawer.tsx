@@ -5,7 +5,7 @@ import Image from "next/image";
 import { UpdateStudentModal } from "@/components/UpdateStudentModal/UpdateStudentModal";
 import { Button } from "../Button/Button";
 import useSearchRole from "@/hooks/useSearchRole/useSearchRole";
-import { ROLE, STATUS } from "@/constant/constant";
+import { ROLE, STATUS, SubCamps } from "@/constant/constant";
 import {
   AiOutlineCheck,
   AiOutlineClockCircle,
@@ -15,7 +15,10 @@ import toast from "react-hot-toast";
 import { studentDrawerMappingKeys } from "./Drawer.types";
 import { IoPrintSharp } from "react-icons/io5";
 import ReactToPrint from "react-to-print";
-import slip from "/public/assets/slip.jpeg";
+import IqbalCampSlipImage from "/public/assets/iqbalCamp.jpeg";
+import JinnahCampSlipImage from "/public/assets/jinnahCamp.jpeg";
+import LiaqatCampSlipImage from "/public/assets/liaqatCamp.jpeg";
+
 interface AvatarProps {
   src: string;
   alt?: string;
@@ -98,25 +101,45 @@ const InfoCard: React.FC<IInfoCard> = ({ label, value }) => {
 const PrintContent = React.forwardRef<HTMLDivElement, { rowData: any }>(
   ({ rowData }, ref) => (
     <div ref={ref} className="w-full h-screen print-page flex flex-col">
-      
       {/* Top Half - Background Image */}
       <div className="relative w-full h-2/3">
-        <Image
-          src={slip} // Use the slip image
-          alt="Student Slip"
-          layout="fill"
-          objectFit="cover"
-          className="w-full h-full"
-        />
+        {rowData.subCamp === SubCamps.Iqbal && (
+          <Image
+            src={IqbalCampSlipImage} // Use the slip image
+            alt="Student Slip"
+            layout="fill"
+            objectFit="cover"
+            className="w-full h-full"
+          />
+        )}
+        {rowData.subCamp === SubCamps.Jinnah && (
+          <Image
+            src={JinnahCampSlipImage} // Use the slip image
+            alt="Student Slip"
+            layout="fill"
+            objectFit="cover"
+            className="w-full h-full"
+          />
+        )}
+        {rowData.subCamp === SubCamps.Liaqat && (
+          <Image
+            src={LiaqatCampSlipImage} // Use the slip image
+            alt="Student Slip"
+            layout="fill"
+            objectFit="cover"
+            className="w-full h-full"
+          />
+        )}
       </div>
 
       {/* Bottom Half - Student Information */}
-      <div className="w-full h-1/3 bg-white text-black p-8 space-y-4 px-28" >
+      <div className="w-full h-1/3 bg-white text-black p-8 space-y-4 px-28">
         <div className="text-3xl">
           Name: <span className="font-semibold">{rowData.studentName}</span>
         </div>
         <div className="text-3xl">
-          Father&apos;s Name: <span className="font-semibold">{rowData.FatherName}</span>
+          Father&apos;s Name:{" "}
+          <span className="font-semibold">{rowData.FatherName}</span>
         </div>
         <div className="text-3xl">
           Sub Camp: <span className="font-semibold">{rowData.subCamp}</span>
@@ -131,8 +154,18 @@ const PrintContent = React.forwardRef<HTMLDivElement, { rowData: any }>(
           Activity: <span className="font-semibold">{rowData.activity}</span>
         </div>
       </div>
-      <div className="bg-blue-900 flex justify-center text-white text-2xl py-1">
-        <h2> <span className="text-red-600">Organized by: </span> Jamia Arabia Islamia</h2>
+      <div
+        className={`${rowData.subCamp === SubCamps.Jinnah && "bg-yellow-300"} ${
+          rowData.subCamp === SubCamps.Iqbal && "bg-green-500"
+        }  ${
+          rowData.subCamp === SubCamps.Liaqat && "bg-blue-800"
+        } flex justify-center text-white text-2xl py-1`}
+      >
+        <h2>
+          {" "}
+          <span className="text-red-600 font-bold">Organized by: </span> Jamia
+          Arabia Islamia
+        </h2>
       </div>
     </div>
   )

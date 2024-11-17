@@ -9,7 +9,7 @@ export const validationSchema = Yup.object().shape({
     activity: Yup.string().required("Activity is required"),
     status: Yup.string().required("Status is required"),
     group: Yup.string().required("Group is required"),
-    camp: Yup.string().required("Camp is required"),
+    camp: Yup.string().required("Camp Number is required"),
     subCamp: Yup.string().required("Sub Camp is required"),
     report: Yup.string(), // Validation for report
 });
