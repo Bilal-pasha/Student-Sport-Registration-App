@@ -4,7 +4,7 @@ import clientPromise from '@/lib/mongodb';
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const { activity, age, camp, madrasa, status, subCamp } = body;
+        const { activity, age, campNumber, madrasa, status, subCamp } = body;
         const client = await clientPromise;
         const db = client.db('school');
 
@@ -12,7 +12,7 @@ export async function POST(request: Request) {
         const filter: any = {};
         if (activity) filter.activity = new RegExp(activity, 'i');
         if (age) filter.age = Number(age);
-        if (camp) filter.camp = camp;
+        if (campNumber) filter.camp = campNumber.charAt(0).toUpperCase() + campNumber.slice(1);
         if (madrasa) filter.madrasa = new RegExp(madrasa, 'i');
         if (status) filter.status = new RegExp(status, 'i');
         if (subCamp) filter.subCamp = new RegExp(subCamp, 'i');
