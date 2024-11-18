@@ -19,7 +19,6 @@ export async function POST(request: Request) {
 
         // Query the students collection with the filter
         const result = await db.collection('students').find(filter).toArray();
-        console.log(filter)
         // Return the filtered result
         return NextResponse.json({ success: true, data: result }, { status: 200 });
 
