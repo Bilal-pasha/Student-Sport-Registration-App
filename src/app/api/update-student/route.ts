@@ -29,7 +29,7 @@ export async function POST(request: Request) {
 
         // Check the number of students in the subCamp across all madrasas
         const subCampCount = await db.collection('students').countDocuments({ camp });
-        if (subCampCount >= 4) {
+        if (subCampCount >= 8) {
             return NextResponse.json(
                 { success: false, error: 'This Camp is Full Please use Another Camp Number' },
                 { status: 400 }

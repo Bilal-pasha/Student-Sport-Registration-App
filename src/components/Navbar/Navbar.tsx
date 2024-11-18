@@ -16,8 +16,8 @@ interface ButtonStyles {
 
 const BUTTON_NAMES: ButtonName[] = [
   "Home",
-  "Class",
-  "Work",
+  // "Class",
+  // "Work",
   "Registration",
   "Sign Out",
 ];
@@ -89,7 +89,7 @@ const Navbar: React.FC = () => {
     >
       <div className="w-full flex px-8 items-center justify-between py-6">
         <div></div>
-        <nav className="relative px-2 py-2 bg-[#714620fa]  rounded-full shadow-lg">
+        <nav className="relative px-2 py-2 bg-[#714620fa] space-x-2 rounded-full shadow-lg">
           <div
             className="absolute bottom-2 bg-yellow-700 rounded-full transition-all duration-500 ease-in-out"
             style={{
