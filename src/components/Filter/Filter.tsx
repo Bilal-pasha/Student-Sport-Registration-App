@@ -122,14 +122,14 @@ const PrintContent = React.forwardRef<HTMLDivElement, { data: StudentData[] }>(
     <div ref={ref}>
       <div className="flex items-center justify-evenly space-x-4 py-3">
         <Image
-          src="/assets/signinLogo.png" 
+          src="/assets/signinLogo.png"
           alt="Sign In Logo"
           width={200}
           height={200}
           className="object-contain"
         />
         <Image
-          src="/assets/JamiaArabiaLogo.png" 
+          src="/assets/JamiaArabiaLogo.png"
           alt="Jamia Arabia Logo"
           width={200}
           height={200}
@@ -150,7 +150,10 @@ const PrintContent = React.forwardRef<HTMLDivElement, { data: StudentData[] }>(
               "Camp Number",
               "Sub Camp",
             ].map((header, index) => (
-              <th key={index} className="px-4 py-2 text-xs font-semibold border-b border-gray-300 text-start">
+              <th
+                key={index}
+                className="px-4 py-2 text-xs font-semibold border-b border-gray-300 text-start"
+              >
                 {header}
               </th>
             ))}
@@ -170,7 +173,10 @@ const PrintContent = React.forwardRef<HTMLDivElement, { data: StudentData[] }>(
                 student.camp,
                 student.subCamp,
               ].map((value, index) => (
-                <td key={index} className="px-4 py-2 text-xs text-gray-800 border-r border-gray-300">
+                <td
+                  key={index}
+                  className="px-4 py-2 text-xs text-gray-800 border-r border-gray-300"
+                >
                   {value}
                 </td>
               ))}
@@ -185,6 +191,7 @@ const PrintContent = React.forwardRef<HTMLDivElement, { data: StudentData[] }>(
 export const Filter = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const printRef = useRef<HTMLDivElement>(null);
+
   const filters: (keyof TfilterValues)[] = [
     "status",
     "subCamp",
@@ -194,7 +201,7 @@ export const Filter = () => {
     "madrasa",
   ];
 
-  // Handle input field changes
+  // Handle input field changes for text and dropdowns
   const handleInputChange = (filter: keyof TfilterValues, value: string) => {
     dispatch({
       type: "SET_FILTER_VALUE",
@@ -229,6 +236,25 @@ export const Filter = () => {
       dispatch({ type: "SET_LOADING", loading: false });
     }
   };
+
+  // Options for dropdowns
+  const campNumberOptions = Array.from(
+    { length: 50 },
+    (_, index) => `Camp ${index + 1}`
+  );
+  const activityOptions = [
+    "First Aid",
+    "Traffic Police",
+    "Rally Police",
+    "Civil Defence",
+    "Football",
+    "Volleyball",
+    "Spoon Race",
+    "100 Meter Race",
+    "Tug of War",
+  ];
+  const subCampOptions = ["Iqbal", "Jinnah", "Liaqat"];
+  const statusOptions = ["Approved"];
 
   return (
     <div className="flex flex-col justify-center items-end px-4 space-x-4">
@@ -274,26 +300,110 @@ export const Filter = () => {
                   >
                     {filter.charAt(0).toUpperCase() + filter.slice(1)}
                   </label>
-                  <input
-                    type={filter === "age" ? "number" : "text"}
-                    id={filter}
-                    value={state.filterValues[filter]}
-                    onChange={(e) => handleInputChange(filter, e.target.value)}
-                    placeholder={`Enter ${
-                      filter.charAt(0).toUpperCase() + filter.slice(1)
-                    }`}
-                    className="px-4 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
+                  {/* Render dropdown for specific filters */}
+                  {(filter === "age" || filter === "madrasa") && (
+                    <input
+                      type={filter === "age" ? "number" : "text"}
+                      id={filter}
+                      value={state.filterValues[filter]}
+                      onChange={(e) =>
+                        handleInputChange(filter, e.target.value)
+                      }
+                      placeholder={`Enter ${
+                        filter.charAt(0).toUpperCase() + filter.slice(1)
+                      }`}
+                      className="px-4 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  )}
+                  {filter === "campNumber" && (
+                    <select
+                      id={filter}
+                      value={state.filterValues[filter]}
+                      onChange={(e) =>
+                        handleInputChange(filter, e.target.value)
+                      }
+                      className="px-4 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="">Select Camp Number</option>
+                      {campNumberOptions.map((camp, index) => (
+                        <option key={index} value={camp}>
+                          {camp}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                  {filter === "activity" && (
+                    <select
+                      id={filter}
+                      value={state.filterValues[filter]}
+                      onChange={(e) =>
+                        handleInputChange(filter, e.target.value)
+                      }
+                      className="px-4 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="">Select Activity</option>
+                      {activityOptions.map((activity, index) => (
+                        <option key={index} value={activity}>
+                          {activity}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                  {filter === "subCamp" && (
+                    <select
+                      id={filter}
+                      value={state.filterValues[filter]}
+                      onChange={(e) =>
+                        handleInputChange(filter, e.target.value)
+                      }
+                      className="px-4 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="">Select Sub Camp</option>
+                      {subCampOptions.map((subCamp, index) => (
+                        <option key={index} value={subCamp}>
+                          {subCamp}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                  {filter === "status" && (
+                    <select
+                      id={filter}
+                      value={state.filterValues[filter]}
+                      onChange={(e) =>
+                        handleInputChange(filter, e.target.value)
+                      }
+                      className="px-4 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="">Select Status</option>
+                      {statusOptions.map((status, index) => (
+                        <option key={index} value={status}>
+                          {status}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </div>
               ))}
             </div>
-            <div className="py-1 px-2 flex justify-end">
+            <div className="py-1 px-2 space-x-4 flex justify-end">
               <Button
-                variant="primary"
-                size="sm"
+                variant={"primary"}
+                size={"md"}
                 onClick={handleApplyFilters}
+                className="px-4"
               >
                 Apply
+              </Button>
+              <Button
+                variant={"danger"}
+                size={"md"}
+                onClick={() =>
+                  dispatch({ type: "SET_LOADING", loading: false })
+                }
+                className="px-4"
+              >
+                Cancel
               </Button>
             </div>
           </div>
@@ -322,7 +432,10 @@ export const Filter = () => {
                   "Camp Number",
                   "Sub Camp",
                 ].map((header, index) => (
-                  <th key={index} className="px-4 py-2 text-sm font-semibold border-b text-start">
+                  <th
+                    key={index}
+                    className="px-4 py-2 text-sm font-semibold border-b text-start"
+                  >
                     {header}
                   </th>
                 ))}

@@ -15,16 +15,9 @@ export const POST = async (req: Request) => {
     // Destructure form fields
     const { madrasaId, studentName, FatherName, age, grade, TshirtSize, activity } = fields;
 
-    if (!file) {
-      return NextResponse.json(
-        { success: false, error: 'No file uploaded.' },
-        { status: 400 }
-      );
-    }
 
     // Upload to S3
-    const uploadResult = await uploadToS3(file);
-
+    const uploadResult = file ? await uploadToS3(file as any) : null;
     // Database operations
     const client = await clientPromise;
     const db = client.db('school');
@@ -46,14 +39,15 @@ export const POST = async (req: Request) => {
       TshirtSize,
       status: 'Pending',
       activity,
-      fileUrl: uploadResult.Location, // Save the file URL from S3
+      ...(uploadResult && { fileUrl: uploadResult.Location }), // Conditionally add fileUrl
       createdAt: new Date(),
     });
+    
 
     return NextResponse.json(
-      { success: true, message: 'Student added successfully', data: result },
-      { status: 201 }
-    );
+          { success: true, message: 'Student added successfully', data: result },
+          { status: 201 }
+        );
   } catch (error: any) {
     return NextResponse.json(
       { success: false, error: error.message },

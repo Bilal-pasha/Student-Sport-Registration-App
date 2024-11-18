@@ -18,21 +18,24 @@ import ReactToPrint from "react-to-print";
 import IqbalCampSlipImage from "/public/assets/iqbalCamp.jpeg";
 import JinnahCampSlipImage from "/public/assets/jinnahCamp.jpeg";
 import LiaqatCampSlipImage from "/public/assets/liaqatCamp.jpeg";
-
+import fallbackSrc from "/public/assets/male-student.png";
 interface AvatarProps {
   src: string;
   alt?: string;
 }
 
-const Avatar: React.FC<AvatarProps> = ({ src, alt = "Avatar" }) => (
-  <Image
-    src={src}
-    alt={alt}
-    className="w-24 h-24 rounded-full border-2 border-gray-300 shadow-lg"
-    width={96}
-    height={96}
-  />
-);
+const Avatar: React.FC<AvatarProps> = ({ src, alt = "Avatar" }) => {
+  return (
+    <Image
+      src={src || fallbackSrc}
+      alt={alt}
+      className="w-24 h-24 rounded-full border-2 border-gray-300 shadow-lg"
+      width={96}
+      height={96}
+    />
+  );
+};
+
 interface IStatusIndicator {
   status: string;
 }

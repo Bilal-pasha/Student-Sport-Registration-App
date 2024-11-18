@@ -46,19 +46,20 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({
     TshirtSize: Yup.string().required("Required"),
     activity: Yup.string().required("Required"),
     image: Yup.mixed()
-      .required("An image file is required")
+      .notRequired()
       .test("fileSize", "File size must be less than 1 Mb", (value) => {
-        return value && (value as File).size <= 1024 * 1024; // 1 MB
+        return !value || (value as File).size <= 1024 * 1024; // Apply only if value exists
       })
       .test("fileType", "Unsupported file format", (value) => {
         return (
-          value &&
+          !value ||
           ["image/jpeg", "image/png", "image/gif"].includes(
             (value as File).type
           )
-        );
+        ); // Apply only if value exists
       }),
   });
+  
 
   // Handle form submission
   const handleSubmit = async (
