@@ -22,16 +22,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <MadrasaRegistrationProvider>
-          <Suspense fallback={<FallBackComponent />}>
-            <SessionWrapper>
-              <Toaster position="top-right" />
-              <Navbar />
-              {/* <FullScreenPoster /> Add the FullScreenPoster here */}
-              {children}
-            </SessionWrapper>
-          </Suspense>
-        </MadrasaRegistrationProvider>
+        <div className="protected-class">
+          <MadrasaRegistrationProvider>
+            <Suspense fallback={<FallBackComponent />}>
+              <SessionWrapper>
+                <Toaster position="top-right" />
+                <Navbar />
+                {/* <FullScreenPoster /> Add the FullScreenPoster here */}
+                {children}
+              </SessionWrapper>
+            </Suspense>
+          </MadrasaRegistrationProvider>
+        </div>
       </body>
     </html>
   );

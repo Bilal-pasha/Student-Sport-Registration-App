@@ -17,6 +17,7 @@
   ::-webkit-scrollbar-track {
     background: transparent;
   }
-  body{
+  .protected-class{
     background-color:  rgb(84, 50, 5) !important;
+    min-height: 100vh;
   }
