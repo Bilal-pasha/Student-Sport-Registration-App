@@ -26,6 +26,21 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: false, error: error.message }, { status: 400 });
   }
 }
+export async function GET(request: Request) {
+  try {
+    const client = await clientPromise;
+    const db = client.db('school');
+
+    // Fetch all madrasa names from the collection
+    const result = await db.collection('madrasas').find({}, { projection: { madrasaName: 1, _id: 0 } }).toArray();
+    // Extract madrasaName from the result
+    const madrasaNames = result.map((madrasa) => madrasa.madrasaName);
+
+    return NextResponse.json({ success: true, data: madrasaNames }, { status: 200 });
+  } catch (error: any) {
+    return NextResponse.json({ success: false, error: error.message }, { status: 400 });
+  }
+}
 
 
 
