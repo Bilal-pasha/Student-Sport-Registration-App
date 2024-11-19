@@ -100,7 +100,7 @@ const MadrasaTable: React.FC = () => {
     <>
       <div className="">
         <table className="w-full bg-white opacity-90 text-left">
-          <thead className="bg-[#714620fa] text-white text-sm uppercase">
+          <thead className="bg-[#714620fa] text-white text-xs uppercase">
             <tr>
               {tableHeadings.map((heading, index) => (
                 <th key={index} className="py-3 px-5 border-b border-gray-400">
@@ -109,7 +109,7 @@ const MadrasaTable: React.FC = () => {
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="divide-y divide-gray-200 text-xs">
             {madrasas.map((madrasa) => (
               <tr key={madrasa?._id}>
                 <td className="py-3 px-5 border-l border-gray-300">

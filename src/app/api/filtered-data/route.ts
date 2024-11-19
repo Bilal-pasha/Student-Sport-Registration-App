@@ -12,7 +12,7 @@ export async function POST(request: Request) {
         const db = client.db('school');
 
         // Find madrasa by its name
-        const selectedMadrasa = await db.collection('madrasas').find({ madrasaName: madrasa }).toArray();
+        // const selectedMadrasa = await db.collection('madrasas').find({ madrasaName: madrasa }).toArray();
         // Initialize the filter object
         const filter: Record<string, any> = {};
 
@@ -23,9 +23,9 @@ export async function POST(request: Request) {
         if (status) filter.status = new RegExp(status, 'i');
         
         // Ensure selectedMadrasa has results before accessing _id
-        if (selectedMadrasa) {
-            filter._id = selectedMadrasa[0]._id.toString();  // Access first madrasa object and its _id
-        }
+        // if (selectedMadrasa) {
+        //     filter._id = selectedMadrasa[0]._id.toString();  // Access first madrasa object and its _id
+        // }
         if (subCamp) filter.subCamp = new RegExp(subCamp, 'i');
         // Query the students collection with the filter
         const result = await db.collection('students').find(filter).toArray();
