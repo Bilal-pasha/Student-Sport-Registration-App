@@ -79,6 +79,7 @@ const MadrasaTable: React.FC = () => {
 
   // Table Headings
   const tableHeadings = [
+    'No#',
     "Madrasa Name",
     "Madrasa Address",
     "Total Students",
@@ -110,8 +111,9 @@ const MadrasaTable: React.FC = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 text-xs">
-            {madrasas.map((madrasa) => (
+            {madrasas.map((madrasa, index) => (
               <tr key={madrasa?._id}>
+                <td className="py-3 px-8">{index + 1}</td>
                 <td className="py-3 px-5 border-l border-gray-300">
                   {madrasa.status === STATUS.APPROVED ? (
                     <Link

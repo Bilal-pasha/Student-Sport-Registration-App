@@ -76,7 +76,7 @@ const RegistrationForm: React.FC = () => {
 
   return (
     <>
-      {!response ? (
+      {response ? (
         //   <div className="flex justify-center items-center flex-col max-w-2xl mx-auto space-y-8">
         //   <h2 className="text-center text-lg text-white font-semibold mt-6">
         //     You have already registered your madrasa.
@@ -160,7 +160,9 @@ const RegistrationForm: React.FC = () => {
             </Formik>
           </div>
         </div>
-      ) : null}
+      ) : (
+        <div className="h-[70vh] w-screen flex justify-center items-center text-white">Registration is Full Please Contact Support Arabia Islamia</div>
+      )}
     </>
   );
 };
