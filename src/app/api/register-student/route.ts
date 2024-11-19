@@ -32,6 +32,7 @@ export const POST = async (req: Request) => {
 
     const result = await db.collection('students').insertOne({
       madrasaId,
+      madrasaName: madrasa.madrasaName,  // Corrected here
       studentName,
       FatherName,
       age: Number(age),

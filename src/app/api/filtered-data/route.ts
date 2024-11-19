@@ -21,15 +21,9 @@ export async function POST(request: Request) {
         if (age) filter.age = Number(age);
         if (campNumber) filter.camp = campNumber;
         if (status) filter.status = new RegExp(status, 'i');
-        
-        // Ensure selectedMadrasa has results before accessing _id
-        // if (selectedMadrasa) {
-        //     filter._id = selectedMadrasa[0]._id.toString();  // Access first madrasa object and its _id
-        // }
         if (subCamp) filter.subCamp = new RegExp(subCamp, 'i');
-        // Query the students collection with the filter
+        if (madrasa) filter.madrasaName = new RegExp(madrasa, 'i');
         const result = await db.collection('students').find(filter).toArray();
-        console.log(result)
 
         // Return the response with the filtered results
         return NextResponse.json({ success: true, data: result }, { status: 200 });

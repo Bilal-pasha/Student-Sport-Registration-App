@@ -10,6 +10,7 @@ import { TableSkeleton } from "@/components/TableSkeleton/TabelSkeleton";
 interface Student {
   studentName: string;
   FatherName: string;
+  madrasaName: string;
   age: number;
   grade: string;
   TshirtSize: string;
@@ -77,6 +78,7 @@ const StudentTable = ({ params }: any) => {
                 <tr>
                   <th className="py-3 px-5 border-b border-gray-400 text-left">Student Name</th>
                   <th className="py-3 px-5 border-b border-gray-400 text-left">Father Name</th>
+                  <th className="py-3 px-5 border-b border-gray-400 text-left">Madrasa Name</th>
                   <th className="py-3 px-5 border-b border-gray-400 text-left">Level</th>
                   <th className="py-3 px-5 border-b border-gray-400 text-left">T-Shirt Size</th>
                   <th className="py-3 px-5 border-b border-gray-400 text-left">Activity</th>
@@ -89,6 +91,7 @@ const StudentTable = ({ params }: any) => {
                   <tr key={index} className="border-t border-black cursor-pointer" onClick={() => handleRowClick(student)}>
                     <td className="px-6 py-4">{student.studentName}</td>
                     <td className="px-6 py-4">{student.FatherName}</td>
+                    <td className="px-6 py-4">{student.madrasaName ?? ''}</td>
                     <td className="px-6 py-4">{student.grade}</td>
                     <td className="px-6 py-4">{student.TshirtSize}</td>
                     <td className="px-6 py-4">{student.activity}</td>

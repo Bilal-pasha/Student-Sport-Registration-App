@@ -19,6 +19,7 @@ interface StudentData {
   _id: string;
   madrasaId: string;
   studentName: string;
+  madrasaName: string;
   FatherName: string;
   age: number;
   grade: string;
@@ -143,6 +144,7 @@ const PrintContent = React.forwardRef<HTMLDivElement, { data: StudentData[] }>(
               "No#",
               "Name",
               "Father Name",
+              "Madrasa Name",
               "Age",
               "Status",
               "Activity",
@@ -166,6 +168,7 @@ const PrintContent = React.forwardRef<HTMLDivElement, { data: StudentData[] }>(
                 index + 1,
                 student.studentName,
                 student.FatherName,
+                student.madrasaName,
                 student.age,
                 student.status,
                 student.activity,
@@ -425,6 +428,7 @@ export const Filter = () => {
                   "No#",
                   "Student Name",
                   "Father Name",
+                  "Madrasa Name",
                   "Age",
                   "Status",
                   "Activity",
@@ -448,6 +452,7 @@ export const Filter = () => {
                     index + 1,
                     student.studentName,
                     student.FatherName,
+                    student.madrasaName,
                     student.age,
                     student.status,
                     student.activity,

@@ -17,4 +17,6 @@
   ::-webkit-scrollbar-track {
     background: transparent;
   }
-  
+  body{
+    background-color: rgb(84, 50, 5);
+  }
