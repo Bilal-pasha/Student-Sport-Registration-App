@@ -37,6 +37,8 @@ export const UpdateStudentModal = ({
     "Spoon Race",
     "100 Meter Race",
     "Tug of War",
+    "Physical Fitness",
+    "Sack Race",
   ];
 
   // Status options

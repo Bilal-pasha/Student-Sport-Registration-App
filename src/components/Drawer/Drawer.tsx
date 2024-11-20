@@ -102,77 +102,103 @@ const InfoCard: React.FC<IInfoCard> = ({ label, value }) => {
 };
 // eslint-disable-next-line react/display-name
 const PrintContent = React.forwardRef<HTMLDivElement, { rowData: any }>(
-  ({ rowData }, ref) => (
-    <div ref={ref} className="w-full h-screen print-page flex flex-col">
-      {/* Top Half - Background Image */}
-      <div className="relative w-full h-2/3">
-        {rowData.subCamp === SubCamps.Iqbal && (
-          <Image
-            src={IqbalCampSlipImage} // Use the slip image
-            alt="Student Slip"
-            layout="fill"
-            objectFit="cover"
-            className="w-full h-full"
-          />
-        )}
-        {rowData.subCamp === SubCamps.Jinnah && (
-          <Image
-            src={JinnahCampSlipImage} // Use the slip image
-            alt="Student Slip"
-            layout="fill"
-            objectFit="cover"
-            className="w-full h-full"
-          />
-        )}
-        {rowData.subCamp === SubCamps.Liaqat && (
-          <Image
-            src={LiaqatCampSlipImage} // Use the slip image
-            alt="Student Slip"
-            layout="fill"
-            objectFit="cover"
-            className="w-full h-full"
-          />
-        )}
-      </div>
+  ({ rowData }, ref) => {
+    // Ensure rowData is an array
+    const dataArray = Array.isArray(rowData) ? rowData : [rowData];
 
-      {/* Bottom Half - Student Information */}
-      <div className="w-full h-1/3 bg-white text-black p-8 space-y-4 px-28">
-        <div className="text-3xl">
-          Name: <span className="font-semibold">{rowData.studentName}</span>
-        </div>
-        <div className="text-3xl">
-          Father&apos;s Name:{" "}
-          <span className="font-semibold">{rowData.FatherName}</span>
-        </div>
-        <div className="text-3xl">
-          Sub Camp: <span className="font-semibold">{rowData.subCamp}</span>
-        </div>
-        <div className="text-3xl">
-          Camp: <span className="font-semibold">{rowData.camp}</span>
-        </div>
-        <div className="text-3xl">
-          Group: <span className="font-semibold">{rowData.group}</span>
-        </div>
-        <div className="text-3xl">
-          Activity: <span className="font-semibold">{rowData.activity}</span>
-        </div>
-      </div>
+    return (
       <div
-        className={`${rowData.subCamp === SubCamps.Jinnah && "bg-yellow-300"} ${
-          rowData.subCamp === SubCamps.Iqbal && "bg-green-500"
-        }  ${
-          rowData.subCamp === SubCamps.Liaqat && "bg-blue-800"
-        } flex justify-center text-white text-2xl py-1`}
+        ref={ref}
+        className="w-full h-full print-page grid grid-cols-4 gap-2 p-2"
+        style={{
+          height: "297mm", // A4 height
+          width: "210mm", // A4 width
+        }}
       >
-        <h2>
-          {" "}
-          <span className="text-red-600 font-bold">Organized by: </span> Jamia
-          Arabia Islamia
-        </h2>
+        {dataArray.slice(0, 8).map((data, index) => (
+          <div
+            key={index}
+            className="flex flex-col "
+            style={{
+              height: "70mm", // Adjusted slip height
+              width: "52.5mm", // Adjusted slip width
+            }}
+          >
+            {/* Top Half - Background Image */}
+            <div className="relative w-full h-2/3">
+              {data.subCamp === SubCamps.Iqbal && (
+                <Image
+                  src={IqbalCampSlipImage}
+                  alt="Student Slip"
+                  layout="fill"
+                  objectFit="contain"
+                  className="w-full h-full"
+                />
+              )}
+              {data.subCamp === SubCamps.Jinnah && (
+                <Image
+                  src={JinnahCampSlipImage}
+                  alt="Student Slip"
+                  layout="fill"
+                  objectFit="contain"
+                  className="w-full h-full"
+                />
+              )}
+              {data.subCamp === SubCamps.Liaqat && (
+                <Image
+                  src={LiaqatCampSlipImage}
+                  alt="Student Slip"
+                  layout="fill"
+                  objectFit="contain"
+                  className="w-full h-full"
+                />
+              )}
+            </div>
+
+            {/* Bottom Half - Student Information */}
+            <div className="w-full h-1/3 bg-white text-black p-1 space-y-0.5 text-[8px] leading-tight">
+              <div>
+                <strong>Name:</strong> <span>{data.studentName}</span>
+              </div>
+              <div>
+                <strong>Father&apos;s Name:</strong>{" "}
+                <span>{data.FatherName}</span>
+              </div>
+              <div>
+                <strong>Sub Camp:</strong> <span>{data.subCamp}</span>
+              </div>
+              <div>
+                <strong>Camp:</strong> <span>{data.camp}</span>
+              </div>
+              <div>
+                <strong>Group:</strong> <span>{data.group}</span>
+              </div>
+              <div>
+                <strong>Activity:</strong> <span>{data.activity}</span>
+              </div>
+            </div>
+
+            {/* Footer Section */}
+            <div
+              className={`${
+                data.subCamp === SubCamps.Jinnah && "bg-yellow-300"
+              } ${data.subCamp === SubCamps.Iqbal && "bg-green-500"} ${
+                data.subCamp === SubCamps.Liaqat && "bg-blue-800"
+              } flex justify-center items-center text-white text-[7px] py-0.5`}
+            >
+              <h2 className="text-center">
+                <span className="text-red-600 font-bold">Organized by:</span>{" "}
+                Jamia Arabia Islamia
+              </h2>
+            </div>
+          </div>
+        ))}
       </div>
-    </div>
-  )
+    );
+  }
 );
+
+
 
 const Drawer: React.FC<{
   isOpen: boolean;

@@ -11,6 +11,8 @@ import { protectedRoutes } from "@/utils/routes";
 import { useMadrasaRegistrationContext } from "@/context/useMadrasaRegistrationContext";
 import { Button } from "@/components/Button/Button";
 import Link from "next/link";
+import useSearchRole from "@/hooks/useSearchRole/useSearchRole";
+import { ROLE } from "@/constant/constant";
 
 interface RegistrationData {
   madrasaName: string;
@@ -25,6 +27,7 @@ const RegistrationForm: React.FC = () => {
   const { madrasas, loading, fetchMadrasas } = useMadrasaRegistrationContext();
   const [response, setResponse] = useState<any>(null);
   const router = useRouter();
+  const userName = useSearchRole();
 
   const initialValues: RegistrationData = {
     madrasaName: "",
@@ -76,7 +79,7 @@ const RegistrationForm: React.FC = () => {
 
   return (
     <>
-      {response ? (
+      {response ||  userName === ROLE.ADMIN ? (
         //   <div className="flex justify-center items-center flex-col max-w-2xl mx-auto space-y-8">
         //   <h2 className="text-center text-lg text-white font-semibold mt-6">
         //     You have already registered your madrasa.
