@@ -109,7 +109,7 @@ const PrintContent = React.forwardRef<HTMLDivElement, { rowData: any }>(
     return (
       <div
         ref={ref}
-        className="w-full h-full print-page grid grid-cols-4 gap-2 p-2"
+        className="w-full h-full print-page grid grid-cols-4 gap-4 p-4"
         style={{
           height: "297mm", // A4 height
           width: "210mm", // A4 width
@@ -118,10 +118,10 @@ const PrintContent = React.forwardRef<HTMLDivElement, { rowData: any }>(
         {dataArray.slice(0, 8).map((data, index) => (
           <div
             key={index}
-            className="flex flex-col "
+            className="flex flex-col border border-gray-300 rounded-md shadow"
             style={{
-              height: "70mm", // Adjusted slip height
-              width: "52.5mm", // Adjusted slip width
+              height: "75mm", // Slightly taller for better content spacing
+              width: "60mm", // Increased width for better readability
             }}
           >
             {/* Top Half - Background Image */}
@@ -156,25 +156,28 @@ const PrintContent = React.forwardRef<HTMLDivElement, { rowData: any }>(
             </div>
 
             {/* Bottom Half - Student Information */}
-            <div className="w-full h-1/3 bg-white text-black p-1 space-y-0.5 text-[8px] leading-tight">
+            <div className="w-full h-1/3 bg-white text-black p-2 space-y-1 text-[8px] leading-tight">
               <div>
-                <strong>Name:</strong> <span>{data.studentName}</span>
+                <strong>NAME:</strong> <span>{data.studentName}</span>
               </div>
               <div>
-                <strong>Father&apos;s Name:</strong>{" "}
+                <strong>FATHER&apos;S NAME:</strong>{" "}
                 <span>{data.FatherName}</span>
               </div>
               <div>
-                <strong>Sub Camp:</strong> <span>{data.subCamp}</span>
+                <strong>INSTITUTE:</strong> <span>{data.madrasaName}</span>
               </div>
               <div>
-                <strong>Camp:</strong> <span>{data.camp}</span>
+                <strong>SUB CAMP:</strong> <span>{data.subCamp}</span>
               </div>
               <div>
-                <strong>Group:</strong> <span>{data.group}</span>
+                <strong>CAMP NUMBER:</strong> <span>{data.camp}</span>
               </div>
               <div>
-                <strong>Activity:</strong> <span>{data.activity}</span>
+                <strong>GROUP:</strong> <span>{data.group}</span>
+              </div>
+              <div>
+                <strong>ACTIVITY:</strong> <span>{data.activity}</span>
               </div>
             </div>
 
@@ -184,7 +187,7 @@ const PrintContent = React.forwardRef<HTMLDivElement, { rowData: any }>(
                 data.subCamp === SubCamps.Jinnah && "bg-yellow-300"
               } ${data.subCamp === SubCamps.Iqbal && "bg-green-500"} ${
                 data.subCamp === SubCamps.Liaqat && "bg-blue-800"
-              } flex justify-center items-center text-white text-[7px] py-0.5`}
+              } flex justify-center items-center text-white text-[7px] py-1`}
             >
               <h2 className="text-center">
                 <span className="text-red-600 font-bold">Organized by:</span>{" "}
@@ -197,8 +200,6 @@ const PrintContent = React.forwardRef<HTMLDivElement, { rowData: any }>(
     );
   }
 );
-
-
 
 const Drawer: React.FC<{
   isOpen: boolean;
