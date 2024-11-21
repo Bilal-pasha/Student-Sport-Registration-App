@@ -27,13 +27,24 @@ export async function POST(request: Request) {
             );
         }
 
-        // Check the number of students in the subCamp across all madrasas
-        const subCampCount = await db.collection('students').countDocuments({ camp });
-        if (subCampCount >= 8) {
+        // Fetch the current student record
+        const currentStudent = await db.collection('students').findOne({ _id: new ObjectId(studentId) });
+        if (!currentStudent) {
             return NextResponse.json(
-                { success: false, error: 'This Camp is Full Please use Another Camp Number' },
-                { status: 400 }
+                { success: false, error: 'Student not found.' },
+                { status: 404 }
             );
+        }
+
+        // Check camp capacity only if camp or subCamp is changing
+        if (currentStudent.camp !== camp || currentStudent.subCamp !== subCamp) {
+            const subCampCount = await db.collection('students').countDocuments({ camp });
+            if (subCampCount >= 8) {
+                return NextResponse.json(
+                    { success: false, error: 'This Camp is Full. Please use Another Camp Number.' },
+                    { status: 400 }
+                );
+            }
         }
 
         // Update the student in the students collection

@@ -43,20 +43,20 @@ const PrintContent = React.forwardRef<HTMLDivElement, { students: any }>(
               key={index}
               className="flex flex-col border border-gray-200 rounded-md shadow"
               style={{
-                height: "75mm", // Adjusted for fitting A4
-                width: "60mm", // Adjusted width
+                height: "95mm", // Increased height from 90mm
+                width: "60mm", // Adjusted width remains the same
                 pageBreakInside: "avoid", // Prevent splitting across pages
               }}
             >
               {/* Top Half - Background Image */}
-              <div className="relative w-full h-2/3">
+              <div className="relative w-full h-3/5"> {/* Adjusted height proportion */}
                 {student.subCamp === SubCamps.Iqbal && (
                   <Image
                     src={IqbalCampSlipImage}
                     alt="Student Slip"
                     layout="fill"
-                    objectFit="contain"  // Ensures the image covers the container
-                    objectPosition="center"  // Keeps the image centered, preventing cropping from top and bottom
+                    objectFit="cover" // Ensures the image covers the container
+                    objectPosition="center" // Keeps the image centered, preventing cropping from top and bottom
                     className="w-full h-full"
                   />
                 )}
@@ -65,8 +65,8 @@ const PrintContent = React.forwardRef<HTMLDivElement, { students: any }>(
                     src={JinnahCampSlipImage}
                     alt="Student Slip"
                     layout="fill"
-                    objectFit="contain"  // Ensures the image covers the container
-                    objectPosition="center"  // Keeps the image centered, preventing cropping from top and bottom
+                    objectFit="cover"
+                    objectPosition="center"
                     className="w-full h-full"
                   />
                 )}
@@ -75,15 +75,15 @@ const PrintContent = React.forwardRef<HTMLDivElement, { students: any }>(
                     src={LiaqatCampSlipImage}
                     alt="Student Slip"
                     layout="fill"
-                    objectFit="contain"  // Ensures the image covers the container
-                    objectPosition="center"  // Keeps the image centered, preventing cropping from top and bottom
+                    objectFit="cover"
+                    objectPosition="center"
                     className="w-full h-full"
                   />
                 )}
               </div>
 
               {/* Bottom Half - Student Information */}
-              <div className="w-full h-1/3 !x-12  text-black p-1 space-y-1 text-[7px] leading-tight ml-6">
+              <div className="w-full h-2/5 p-2 space-y-2 text-[8px] text-black leading-tight">
                 <div>
                   <strong>NAME:</strong> <span>{student.studentName}</span>
                 </div>
@@ -131,6 +131,8 @@ const PrintContent = React.forwardRef<HTMLDivElement, { students: any }>(
     );
   }
 );
+
+
 
 
 const StudentTable = ({ params }: any) => {
