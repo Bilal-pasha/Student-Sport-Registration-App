@@ -10,7 +10,7 @@ interface TfilterValues {
   subCamp: string;
   campNumber: string;
   activity: string;
-  age: number;
+  age: number | string;
   madrasa: string;
 }
 
@@ -67,7 +67,7 @@ const initialState: State = {
     subCamp: "",
     campNumber: "",
     activity: "",
-    age: 0,
+    age: "",
     madrasa: "",
   },
   appliedFilters: {
@@ -283,7 +283,9 @@ export const Filter = () => {
   ];
   const subCampOptions = ["Iqbal", "Jinnah", "Liaqat"];
   const statusOptions = ["Approved"];
-
+  const handleClear = (filter: keyof TfilterValues) => {
+    dispatch({ type: "SET_FILTER_VALUE", filter, value: "" });
+  };
   return (
     <div className="flex flex-col justify-center items-end px-4 space-x-4">
       {/* Filter Button */}
@@ -323,9 +325,19 @@ export const Filter = () => {
                 <div key={filter} className="flex flex-col space-y-1">
                   <label
                     htmlFor={filter}
-                    className="text-sm font-medium text-gray-700"
+                    className="text-sm flex justify-between font-medium text-gray-700"
                   >
                     {filter.charAt(0).toUpperCase() + filter.slice(1)}
+                    {state.filterValues[filter] && (
+                      <Button
+                        variant={"primary"}
+                        size={"sm"}
+                        roundedness={"lg"}
+                        onClick={() => handleClear(filter)}
+                      >
+                        clear
+                      </Button>
+                    )}
                   </label>
                   {filter === "age" && (
                     <input
