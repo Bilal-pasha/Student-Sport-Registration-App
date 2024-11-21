@@ -22,7 +22,7 @@ export async function POST(request: Request) {
         if (campNumber) filter.camp = campNumber;
         if (status) filter.status = new RegExp(status, 'i');
         if (subCamp) filter.subCamp = new RegExp(subCamp, 'i');
-        if (madrasa) filter.madrasaName = new RegExp(madrasa, 'i');
+        if (madrasa !== "Madrasa Sayyadina Bilal(R.A)") { filter.madrasaName = new RegExp(madrasa, 'i') } else { filter.madrasaName = madrasa }
         const result = await db.collection('students').find(filter).toArray();
 
         // Return the response with the filtered results

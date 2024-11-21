@@ -50,7 +50,7 @@ export const UpdateStudentModal = ({
   // Camp options
 
   // Sub-camp options
-  const campNo = Array.from({ length: 50 }, (_, i) => `Camp ${i + 1}`);
+  const campNo = Array.from({ length: 65 }, (_, i) => `Camp ${i + 1}`);
   const subCamps = [SubCamps.Iqbal, SubCamps.Jinnah, SubCamps.Liaqat];
   // Form validation schema
 
