@@ -30,10 +30,10 @@ const PrintContent = React.forwardRef<HTMLDivElement, { students: any }>(
     return (
       <div
         ref={ref}
-        className="w-full h-full print-page grid grid-cols-4 gap-2 p-2"
+        className="w-full h-full print-page grid grid-cols-3 gap-12 p-2"
         style={{
-          height: "297mm", // A4 height
-          width: "210mm", // A4 width
+          height: "300mm", // A4 height
+          width: "230mm", // A4 width
           boxSizing: "border-box",
         }}
       >
@@ -41,10 +41,10 @@ const PrintContent = React.forwardRef<HTMLDivElement, { students: any }>(
           student.status === STATUS.APPROVED ? (
             <div
               key={index}
-              className="flex flex-col border border-gray-300 rounded-md shadow"
+              className="flex flex-col border border-gray-200 rounded-md shadow"
               style={{
                 height: "75mm", // Adjusted for fitting A4
-                width: "48mm", // Adjusted width
+                width: "60mm", // Adjusted width
                 pageBreakInside: "avoid", // Prevent splitting across pages
               }}
             >
@@ -55,7 +55,8 @@ const PrintContent = React.forwardRef<HTMLDivElement, { students: any }>(
                     src={IqbalCampSlipImage}
                     alt="Student Slip"
                     layout="fill"
-                    objectFit="contain"
+                    objectFit="contain"  // Ensures the image covers the container
+                    objectPosition="center"  // Keeps the image centered, preventing cropping from top and bottom
                     className="w-full h-full"
                   />
                 )}
@@ -64,7 +65,8 @@ const PrintContent = React.forwardRef<HTMLDivElement, { students: any }>(
                     src={JinnahCampSlipImage}
                     alt="Student Slip"
                     layout="fill"
-                    objectFit="contain"
+                    objectFit="contain"  // Ensures the image covers the container
+                    objectPosition="center"  // Keeps the image centered, preventing cropping from top and bottom
                     className="w-full h-full"
                   />
                 )}
@@ -73,14 +75,15 @@ const PrintContent = React.forwardRef<HTMLDivElement, { students: any }>(
                     src={LiaqatCampSlipImage}
                     alt="Student Slip"
                     layout="fill"
-                    objectFit="contain"
+                    objectFit="contain"  // Ensures the image covers the container
+                    objectPosition="center"  // Keeps the image centered, preventing cropping from top and bottom
                     className="w-full h-full"
                   />
                 )}
               </div>
 
               {/* Bottom Half - Student Information */}
-              <div className="w-full h-1/3 bg-white text-black p-1 space-y-1 text-[7px] leading-tight">
+              <div className="w-full h-1/3 !x-12  text-black p-1 space-y-1 text-[7px] leading-tight ml-6">
                 <div>
                   <strong>NAME:</strong> <span>{student.studentName}</span>
                 </div>
@@ -114,9 +117,9 @@ const PrintContent = React.forwardRef<HTMLDivElement, { students: any }>(
                   student.subCamp === SubCamps.Jinnah && "bg-yellow-300"
                 } ${student.subCamp === SubCamps.Iqbal && "bg-green-500"} ${
                   student.subCamp === SubCamps.Liaqat && "bg-blue-800"
-                } flex justify-center items-center text-white text-[7px] py-1`}
+                } flex justify-center items-center text-white text-[10px] py-1`}
               >
-                <h2 className="text-center">
+                <h2 className="text-center font-black">
                   <span className="text-red-600 font-bold">Organized by:</span>{" "}
                   Jamia Arabia Islamia
                 </h2>
@@ -128,8 +131,6 @@ const PrintContent = React.forwardRef<HTMLDivElement, { students: any }>(
     );
   }
 );
-
-
 
 
 const StudentTable = ({ params }: any) => {
