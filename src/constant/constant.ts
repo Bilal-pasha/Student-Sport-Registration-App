@@ -24,7 +24,7 @@ export const feesStatus = [
   { month: 'December', status: 'Not Paid' },
 ];
 
-export const tableHead = ['Name', "Father Name", "ID Number", "Fees", "Status"]
+export const tableHead = ['Name', "Father Name", "GR number", "Fees", "Status"]
 
 export enum ROLE {
   ADMIN = "admin"

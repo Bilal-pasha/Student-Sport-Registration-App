@@ -16,7 +16,7 @@ interface ButtonStyles {
 
 const BUTTON_NAMES: ButtonName[] = [
   "Home",
-  // "Class",
+  "Class",
   // "Work",
   "Registration",
   "Sign Out",

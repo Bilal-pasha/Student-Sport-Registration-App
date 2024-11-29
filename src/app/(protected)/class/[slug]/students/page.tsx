@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/Button/Button";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { TableSkeleton } from "@/components/TableSkeleton/TabelSkeleton";
 import StudentModal from "@/components/StudentModal/StudenModal";
 import { getCurrentMonthYear, tableHead } from "@/constant/constant";
@@ -10,6 +10,9 @@ import { FaArrowLeft, FaPlus } from "react-icons/fa";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/solid";
 import useFetchStudents from "@/utils/hooks/useFetchStudents";
 import { protectedRoutes } from "@/utils/routes";
+import { PrinterIcon } from "@heroicons/react/24/outline";
+import PrintComponent from "@/components/PrintStudentIdCard/PrintStudentIdCard";
+import { useReactToPrint } from "react-to-print";
 
 const StudentTable = ({ params }: { params: { slug: string } }) => {
   const classSlug = params.slug;
@@ -21,11 +24,20 @@ const StudentTable = ({ params }: { params: { slug: string } }) => {
     classSlug,
     setTableLoading
   );
+
+  // Ref for react-to-print
+  const printRef = useRef<HTMLDivElement>(null);
+
+  const handlePrint = useReactToPrint({
+    content: () => printRef.current,
+    documentTitle: "Student_ID_Cards",
+  });
+
   return (
     <>
       <div className="container mx-auto">
         <div className="py-4 space-y-4">
-          <h1 className="text-2xl font-bold">Student Information</h1>
+          <h1 className="text-2xl font-bold text-white">Student Information</h1>
           <div className="flex justify-between">
             <Button
               onClick={() => setIsModalOpen(true)}
@@ -37,16 +49,28 @@ const StudentTable = ({ params }: { params: { slug: string } }) => {
               <FaPlus />
               Add New Student
             </Button>
-            <Button
-              onClick={() => router.back()}
-              variant="primary"
-              type="button"
-              size="md"
-              className="!px-4 flex items-center gap-2"
-            >
-              <FaArrowLeft />
-              Go Back
-            </Button>
+            <div className="flex space-x-5">
+              <Button
+                onClick={handlePrint}
+                variant="primary"
+                type="button"
+                size="md"
+                className="!px-4 flex items-center gap-2"
+              >
+                <PrinterIcon className="w-5 h-5" />
+                Print All Students ID Cards
+              </Button>
+              <Button
+                onClick={() => router.back()}
+                variant="primary"
+                type="button"
+                size="md"
+                className="!px-4 flex items-center gap-2"
+              >
+                <FaArrowLeft />
+                Go Back
+              </Button>
+            </div>
           </div>
         </div>
         {/* Table */}
@@ -54,23 +78,23 @@ const StudentTable = ({ params }: { params: { slug: string } }) => {
           {tableLoading ? (
             <TableSkeleton numberOfRows={18} />
           ) : (
-            <table className=" w-full border-collapse text-black rounded-full border-gray-400">
-              <thead className=" text-left text-gray-600 uppercase text-sm border border-gray-400">
+            <table className="w-full text-left">
+              <thead className="bg-[#714620fa] text-white text-xs uppercase">
                 <tr>
                   {tableHead.map((value, index) => (
                     <th
                       key={index}
-                      className="py-3 px-5 border-b border-slate-400"
+                      className="py-3 px-5 border-b border-gray-400"
                     >
                       {value}
                     </th>
                   ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-400">
+              <tbody className="divide-y divide-gray-200 bg-white text-xs">
                 {students.map((student: any, index) => (
                   <tr key={index}>
-                    <td className="whitespace-nowrap font-medium text-gray-900 py-3 px-5 border-b border-gray-400 border-l">
+                    <td className="py-3 px-5 border-l border-gray-300 border-r">
                       <Link
                         href={`${protectedRoutes.CLASS}/${classSlug}/students/${student?.id}`}
                         className="text-blue-500 hover:underline"
@@ -78,16 +102,16 @@ const StudentTable = ({ params }: { params: { slug: string } }) => {
                         {student?.name}
                       </Link>
                     </td>
-                    <td className="py-3 px-5 border-b border-gray-400">
+                    <td className="py-3 px-5 border-l border-gray-300">
                       {student.fatherName}
                     </td>
-                    <td className="py-3 px-5 border-b border-gray-400">
-                      {student.rollNumber}
+                    <td className="py-3 px-5 border-l border-gray-300">
+                      {student.GRNumber}
                     </td>
-                    <td className="py-3 px-5 border-b border-gray-400">
+                    <td className="py-3 px-5 border-l border-gray-300">
                       {student.fees}
                     </td>
-                    <td className="py-3 px-5 border-b border-gray-400 border-r">
+                    <td className="py-3 px-5 border-l border-gray-300 border-r">
                       {student.status === "Paid" ? (
                         <div className="flex font-medium text-xs">
                           <span className="text-green-500 flex gap-x-1 rounded-md bg-green-100 py-1 px-2">
@@ -110,6 +134,12 @@ const StudentTable = ({ params }: { params: { slug: string } }) => {
             </table>
           )}
         </div>
+
+        {/* Print Student Card Component */}
+        <div style={{ display: "none" }}>
+          <PrintComponent ref={printRef} students={students} />
+        </div>
+
         {isModalOpen && (
           <StudentModal
             setStudents={setStudents}
