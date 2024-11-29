@@ -24,6 +24,7 @@ const StudentModal = ({
       fees: !create ? studentData?.fees : "",
       feesStatus: !create ? studentData?.feesStatus : feesStatus,
       status: "Unpaid",
+      image: null, // New field for the image
     },
     validationSchema: StudentSchema,
     onSubmit: async (values, { resetForm }) => {
@@ -32,28 +33,30 @@ const StudentModal = ({
         : await UpdateStudent(values, resetForm, id);
     },
   });
+
   const CreateStudent = async (formValues: any, resetForm: () => void) => {
-    const payload = {
-      ...formValues, // This includes other form fields like name, fatherName, rollNumber, etc.
-      feesStatus: formValues.feesStatus, // Passing the updated feesStatus array from form values
-    };
+    const formData = new FormData();
+
+    // Append form fields to FormData
+    Object.entries(formValues).forEach(([key, value]) => {
+      if (key === "feesStatus") {
+        formData.append(key, JSON.stringify(value)); // Convert feesStatus to JSON
+      } else {
+        formData.append(key, value as string);
+      }
+    });
 
     try {
-      let response = await fetch(`/api/class/${classSlug}/student`, {
+      const response = await fetch(`/api/class/${classSlug}/student`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        redirect: "follow",
-        referrerPolicy: "no-referrer",
-        body: JSON.stringify(payload),
+        body: formData,
       });
 
       const res = await response.json();
       setStudents([...students, res.result]);
       toast.success("Student Added Successfully");
       setIsModalOpen(false);
-      resetForm(); // Clear form after successful submission
+      resetForm();
     } catch (error) {
       console.error("Fetch error: ", error);
       toast.error("Failed to add student");
@@ -65,29 +68,29 @@ const StudentModal = ({
     resetForm: () => void,
     StudentID: string
   ) => {
-    try {
-      // Add the StudentID to formValues
-      const updatedFormValues = { ...formValues, studentId: StudentID };
+    const formData = new FormData();
 
-      let response = await fetch(`/api/student/${StudentID}`, {
+    Object.entries(formValues).forEach(([key, value]) => {
+      if (key === "feesStatus") {
+        formData.append(key, JSON.stringify(value));
+      } else {
+        formData.append(key, value as string);
+      }
+    });
+
+    try {
+      const response = await fetch(`/api/student/${StudentID}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        redirect: "follow",
-        referrerPolicy: "no-referrer",
-        body: JSON.stringify(updatedFormValues),
+        body: formData,
       });
 
       const res = await response.json();
 
       if (response.ok) {
-        // Update the student in the current list with the updated data from backend
         setStudent(res.body);
-        // Show success message with the backend response message
         toast.success(res?.message);
         setIsModalOpen(false);
-        resetForm(); // Clear the form after successful submission
+        resetForm();
       } else {
         toast.error(res?.message);
       }
@@ -174,6 +177,29 @@ const StudentModal = ({
             <p className="text-red-500 text-sm">{formik.errors.fees}</p>
           ) : null}
 
+          {/* Image Upload Field */}
+
+          <div className="mb-4">
+            <label
+              htmlFor="image"
+              className="block text-gray-700 font-semibold mb-2"
+            >
+              Upload Image
+            </label>
+            <input
+              id="image"
+              name="image"
+              type="file"
+              accept="image/*"
+              onChange={(event) =>
+                formik.setFieldValue("image", event.currentTarget.files?.[0])
+              }
+              className="w-full px-3 py-2 border rounded"
+            />
+            {formik.errors.image && formik.touched.image && (
+              <p className="text-red-500 text-sm">{formik.errors.image}</p>
+            )}
+          </div>
           {/* Monthly Fees Status Checkboxes */}
           <div className="mt-4 mb-4">
             <h3 className="text-lg font-semibold mb-2">Monthly Fees Status</h3>

@@ -3,7 +3,6 @@ import React from "react";
 import Image from "next/image";
 import StudentCardFront from "/public/assets/StudentCardFront.jpg";
 import StudentCardBack from "/public/assets/StudentCardBack.jpg";
-import pasportSizeImage from "/public/assets/pasportSizeImage.jpg";
 const PrintContent = React.forwardRef<HTMLDivElement, { students: any }>(
   ({ students }, ref) => {
     return (
@@ -38,16 +37,18 @@ const PrintContent = React.forwardRef<HTMLDivElement, { students: any }>(
                 />
               </div>
 
-              <div className={`absolute mt-[4.4rem] left-[4.4rem] w-[6.5rem] h-36`}>
-              <Image
-                src={pasportSizeImage}
-                alt="Student Image"
-                layout="fill"
-                objectFit="cover"
-                objectPosition="center"
-                className="w-full h-full"
-              />
-            </div>
+              <div
+                className={`absolute mt-[4.4rem] left-[4.4rem] w-[6.5rem] h-36`}
+              >
+                <Image
+                  src={student.fileUrl}
+                  alt="Student Image"
+                  layout="fill"
+                  objectFit="cover"
+                  objectPosition="center"
+                  className="w-full h-full"
+                />
+              </div>
 
               {/* Bottom Half - Content */}
               <div className="w-full h-auto pt-6 pb-3 space-y-3 text-xs text-black leading-tight">

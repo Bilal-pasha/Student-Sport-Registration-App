@@ -1,34 +1,50 @@
 import { NextResponse } from "next/server";
 import clientPromise from '@/lib/mongodb';
+import { parseFormData } from '@/lib/helper';
+import { uploadToS3 } from '@/lib/UploadTos3'; // Adjust the import path
 
-export async function POST(request: any, { params }: { params: { slug: string } }) {
+export async function POST(req: Request, { params }: { params: { slug: string } }) {
   try {
-    // Parse the JSON body from the request
-    const body = await request.json();
-    
-    // Get the classSlug from params (dynamic route)
+    // Parse the form data from the request
+    const { fields, file } = await parseFormData(req);
+
+    // Destructure only the fields provided by the frontend
+    const { name, fatherName, GRNumber, fees, feesStatus, status } = fields;
+
+    // If there's a file, upload it to S3 and get the upload result
+    const uploadResult = file ? await uploadToS3(file as any) : null;
+
+    // Get the classSlug from the route parameters
     const classSlug = params.slug;
 
-    // Add the classSlug to the student's data
+    // Prepare the student data object to insert into the database
     const studentData = {
-      ...body,       // Spread the parsed student data
-      classSlug,     // Include the classSlug
+      name,
+      fatherName,
+      GRNumber,
+      fees,
+      feesStatus,
+      status,
+      classSlug, // Include classSlug from the route
+      ...(uploadResult && { fileUrl: uploadResult.Location }), // Conditionally add fileUrl
     };
 
+    // Connect to the MongoDB client and select the database
     const client = await clientPromise;
-    const db = client.db('school');
-    
-    // Insert the student with classSlug into the database
-    const result = await db.collection('students').insertOne(studentData);
+    const db = client.db("school");
 
+    // Insert the student into the `students` collection
+    const result = await db.collection("students").insertOne(studentData);
+
+    // Return a success response
     return NextResponse.json({
       success: true,
-      message: 'Student added successfully',
+      message: "Student added successfully",
       data: result,
-      result: studentData
+      result: studentData,
     });
-
   } catch (error: any) {
+    // Handle errors and return a 400 response with the error message
     return NextResponse.json(
       { success: false, error: error.message },
       { status: 400 }
@@ -36,24 +52,25 @@ export async function POST(request: any, { params }: { params: { slug: string } 
   }
 }
 
+
 export async function GET(request: any, { params }: { params: { slug: string } }) {
   try {
     const client = await clientPromise;
     const db = client.db('school');
-    
+
     // Get the class slug from the request params
     const classSlug = params.slug;
-    
+
     // Fetch students only for the specific class using the slug
     const students = await db.collection('students').find({ classSlug }).toArray();
-    
+
     const modifiedStudents = students.map((student) => {
       return {
         ...student,  // Spread the student properties
         id: student._id,  // Include the `_id` field as `id`
       };
     });
-    
+
     return new Response(JSON.stringify(modifiedStudents), {
       headers: { 'Content-Type': 'application/json' },
       status: 200,
