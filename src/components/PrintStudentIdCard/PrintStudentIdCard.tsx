@@ -13,7 +13,6 @@ const PrintContent = React.forwardRef<HTMLDivElement, { students: any }>(
         style={{
           height: "300mm", // A4 height
           width: "230mm", // A4 width
-          boxSizing: "border-box",
         }}
       >
         {students.map((student: any, index: number) => (
@@ -52,38 +51,30 @@ const PrintContent = React.forwardRef<HTMLDivElement, { students: any }>(
 
               {/* Bottom Half - Content */}
               <div className="w-full h-auto pt-6 pb-3 space-y-3 text-xs text-black leading-tight">
-                <div>
-                  <p className="bg-white mx-3 ">
-                    <span className="bg-[#2186d2] font-medium py-1 px-1 text-white">
-                      GR#:
-                    </span>
-                    <span className="ms-0.5">{student.GRNumber}</span>
-                  </p>
-                </div>
-                <div>
-                  <p className="bg-white mx-3 ">
-                    <span className="bg-[#2186d2] font-medium py-1 px-1 text-white">
-                      Name:
-                    </span>
-                    <span className="ms-0.5">{student.name}</span>
-                  </p>
-                </div>
-                <div>
-                  <p className="bg-white mx-3 ">
-                    <span className="bg-[#2186d2] py-1 px-1 font-medium text-white">
-                      F Name:
-                    </span>
-                    <span className="ms-0.5">{student.fatherName}</span>
-                  </p>
-                </div>
-                <div>
-                  <p className="bg-white mx-3 ">
-                    <span className="bg-[#2186d2] py-1 px-1 font-medium text-white">
-                      Class:
-                    </span>
-                    <span className="ms-0.5">{student.classSlug}</span>
-                  </p>
-                </div>
+                <p className="bg-white max-w-48 mx-auto container">
+                  <span className="bg-[#2186d2] font-medium py-1 px-1 text-white">
+                    GR#:
+                  </span>
+                  <span className="ms-0.5">{student.GRNumber}</span>
+                </p>
+                <p className="bg-white max-w-48 mx-auto container">
+                  <span className="bg-[#2186d2] font-medium py-1 px-1 text-white">
+                    Name:
+                  </span>
+                  <span className="ms-0.5">{student.name}</span>
+                </p>
+                <p className="bg-white max-w-48 mx-auto container">
+                  <span className="bg-[#2186d2] py-1 px-1 font-medium text-white">
+                    F Name:
+                  </span>
+                  <span className="ms-0.5">{student.fatherName}</span>
+                </p>
+                <p className="bg-white max-w-48 mx-auto container">
+                  <span className="bg-[#2186d2] py-1 px-1 font-medium text-white">
+                    Class:
+                  </span>
+                  <span className="ms-0.5">{student.classSlug}</span>
+                </p>
               </div>
             </div>
             <div
