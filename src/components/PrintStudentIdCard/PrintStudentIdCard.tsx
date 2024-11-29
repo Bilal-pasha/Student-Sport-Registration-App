@@ -38,7 +38,7 @@ const PrintContent = React.forwardRef<HTMLDivElement, { students: any }>(
                 />
               </div>
 
-              {/* <div className={`absolute top-${index + 20} left-[4.4rem] w-[6.5rem] h-36`}>
+              <div className={`absolute mt-[4.4rem] left-[4.4rem] w-[6.5rem] h-36`}>
               <Image
                 src={pasportSizeImage}
                 alt="Student Image"
@@ -47,7 +47,7 @@ const PrintContent = React.forwardRef<HTMLDivElement, { students: any }>(
                 objectPosition="center"
                 className="w-full h-full"
               />
-            </div> */}
+            </div>
 
               {/* Bottom Half - Content */}
               <div className="w-full h-auto pt-6 pb-3 space-y-3 text-xs text-black leading-tight">
