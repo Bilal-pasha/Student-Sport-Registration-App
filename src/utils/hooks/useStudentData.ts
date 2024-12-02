@@ -6,7 +6,7 @@ interface Student {
     name: string;
     rollNumber: string;
     status: "Paid" | "Unpaid"; // Assuming the status can be either "Paid" or "Unpaid"
-    feesStatus: any
+    feesStatusChart: any
   }
 export const useStudentData = (setIsLoading:any, params: any) => {
     const [student, setStudent] = useState<Student>()

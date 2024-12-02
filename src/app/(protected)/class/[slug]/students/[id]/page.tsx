@@ -57,30 +57,30 @@ export default function Page({params}: any) {
               Go Back
             </Button>
           </div>
-    <div className="container mx-auto py-10">
+    <div className="container mx-auto py-10 text-black px-8 rounded-lg bg-white">
     <>{isLoading ? (<TableSkeleton numberOfRows={10}/>) : (
       <>
           <div className="border-b border-gray-400 mb-4 flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-gray-800">Student&apos; Name</h2>
-              <p className="text-lg text-gray-700 py-2 px-4">{student?.name}</p>
+              <h2 className="text-xl font-semibold ">Student&apos; Name</h2>
+              <p className="text-lg py-2 px-4">{student?.name}</p>
           </div>
           <div className="border-b border-gray-400 mb-4 flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-gray-800">Father&apos; Name</h2>
-              <p className="text-lg text-gray-700 py-2 px-4">{student?.fatherName}</p>
+              <h2 className="text-xl font-semibold ">Father&apos; Name</h2>
+              <p className="text-lg py-2 px-4">{student?.fatherName}</p>
           </div>
           <div className="border-b border-gray-400 mb-4 flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-gray-800">ID Number</h2>
-              <p className="text-lg text-gray-700 py-2 px-4">{student?.rollNumber}</p>
+              <h2 className="text-xl font-semibold ">ID Number</h2>
+              <p className="text-lg py-2 px-4">{student?.rollNumber}</p>
           </div>
           <div className="border-b border-gray-400 mb-4 flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-gray-800">Fees</h2>
-              <p className="text-lg text-gray-700 py-2 px-4">{student?.fees}</p>
+              <h2 className="text-xl font-semibold ">Fees</h2>
+              <p className="text-lg py-2 px-4">{student?.fees}</p>
           </div>
           <div className={`border-b border-gray-400 mb-4`}>
           <div className="grid mb-4 grid-cols-3 items">
-            <h2 className="text-xl font-semibold text-gray-800 col-span-1">Status</h2>
+            <h2 className="text-xl font-semibold  col-span-1">Status</h2>
             <div className=" gap-2 mt-2 space-y-2 space-x-4 col-span-2">
-              {student?.feesStatus?.map((m: any, index: number) => (
+              {student?.feesStatusChart?.map((m: any, index: number) => (
                 <span
                   key={m.month + index}
                   className={`inline-block py-2 px-4 rounded-lg text-sm font-semibold 

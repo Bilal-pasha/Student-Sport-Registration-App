@@ -10,6 +10,7 @@ export async function POST(req: Request, { params }: { params: { slug: string } 
 
     // Destructure only the fields provided by the frontend
     const { name, fatherName, GRNumber, fees, feesStatus, status } = fields;
+    const feesStatusChart = JSON.parse(feesStatus); // Convert string back to array
 
     // If there's a file, upload it to S3 and get the upload result
     const uploadResult = file ? await uploadToS3(file as any) : null;
@@ -23,7 +24,7 @@ export async function POST(req: Request, { params }: { params: { slug: string } 
       fatherName,
       GRNumber,
       fees,
-      feesStatus,
+      feesStatusChart,
       status,
       classSlug, // Include classSlug from the route
       ...(uploadResult && { fileUrl: uploadResult.Location }), // Conditionally add fileUrl

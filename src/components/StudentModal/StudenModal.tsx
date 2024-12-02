@@ -22,7 +22,7 @@ const StudentModal = ({
       fatherName: !create ? studentData?.fatherName : "",
       GRNumber: !create ? studentData?.GRNumber : "",
       fees: !create ? studentData?.fees : "",
-      feesStatus: !create ? studentData?.feesStatus : feesStatus,
+      feesStatus: !create ? studentData?.feesStatusChart : feesStatus,
       status: "Unpaid",
       image: null, // New field for the image
     },
@@ -37,13 +37,15 @@ const StudentModal = ({
   const CreateStudent = async (formValues: any, resetForm: () => void) => {
     const formData = new FormData();
 
+    // Ensure feesStatus is stringified
+    const updatedFormValues = {
+      ...formValues,
+      feesStatus: JSON.stringify(formValues.feesStatus),
+    };
+
     // Append form fields to FormData
-    Object.entries(formValues).forEach(([key, value]) => {
-      if (key === "feesStatus") {
-        formData.append(key, JSON.stringify(value)); // Convert feesStatus to JSON
-      } else {
-        formData.append(key, value as string);
-      }
+    Object.entries(updatedFormValues).forEach(([key, value]) => {
+      formData.append(key, value as string);
     });
 
     try {
