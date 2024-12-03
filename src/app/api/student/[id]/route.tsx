@@ -73,7 +73,7 @@ export async function DELETE(
   }
 }
 
-export async function PUT(req: NextApiRequest, res: NextApiResponse) {
+export async function PUT(req: Request) {
   try {
     // Parse form data from the request
     const { fields, file } = await parseFormData(req as any);
