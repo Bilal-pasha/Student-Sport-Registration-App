@@ -1,40 +1,146 @@
-<<<<<<< HEAD
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Deene Madaris Scouts
 
-## Getting Started
+Deene Madaris Scouts is a web application designed to manage and scout madaris (Islamic schools). It provides features for madrasa registration, student management, authentication, and more. Built with **Next.js**, **MongoDB**, and **Tailwind CSS**, it ensures a seamless user experience.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🌐 Live Demo
+
+Visit the live application: [Deene Madaris Scouts](https://deene-madaris-scouts.vercel.app)
+
+---
+
+## ✨ Features
+
+- **Madrasa Registration**: Easily register madaris with detailed information.
+- **Student Management**: Add, update, and delete student records efficiently.
+- **Authentication**: Secure login using Google, GitHub, and custom credentials.
+- **Role-based Access**:
+  - Users can view their own registered madrasas.
+  - Admins have access to all madrasas.
+- **Notifications**: Real-time feedback with `react-hot-toast`.
+- **Monthly Fee Tracking**: Monitor the payment status of students.
+- **Invoice Printing**: Generate and print student fee invoices.
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend:
+- **React.js** with **TypeScript**
+- **Next.js 13+** (App Router)
+- **Tailwind CSS** for modern styling
+- **Formik** for form handling
+- **react-hot-toast** for notifications
+- **react-icons** for icons
+
+### Backend:
+- **Next.js API Routes**
+- **MongoDB** for data storage
+- **bcryptjs** for secure password hashing
+
+### Authentication:
+- **NextAuth**
+
+
+### Deployment:
+- **Vercel** for hosting and CI/CD
+
+---
+
+## 📦 Installation
+
+### Prerequisites
+
+- Node.js >= 18
+- MongoDB Database
+- Google and GitHub credentials for authentication (optional)
+
+### Steps
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-repo/deene-madaris-scouts.git
+   cd deene-madaris-scouts
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Create a `.env.local` file in the root directory and add the following:
+   ```env
+   NEXT_PUBLIC_SITE_URL=https://deene-madaris-scouts.vercel.app
+   MONGODB_URI=<your-mongodb-connection-string>
+   NEXTAUTH_SECRET=<your-nextauth-secret>
+   NEXTAUTH_URL=http://localhost:3000
+   GOOGLE_CLIENT_ID=<your-google-client-id>
+   GOOGLE_CLIENT_SECRET=<your-google-client-secret>
+   GITHUB_CLIENT_ID=<your-github-client-id>
+   GITHUB_CLIENT_SECRET=<your-github-client-secret>
+   ```
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+   The application will run on `http://localhost:3000`.
+
+---
+
+## 🚀 Deployment
+
+The project is pre-configured for deployment on **Vercel**:
+
+1. Push the code to a GitHub repository.
+2. Link the repository to your Vercel account.
+3. Configure the environment variables in Vercel's settings.
+4. Deploy!
+
+---
+
+## 📚 Folder Structure
+
+```plaintext
+src/
+├── app/
+│   ├── api/          # API Routes for backend functionality
+│   ├── components/   # Reusable UI components
+│   ├── pages/        # Page-level components
+│   ├── styles/       # Global styles
+├── public/           # Public assets
+├── utils/            # Utility functions
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🤝 Contributing
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Contributions are welcome! To contribute:
 
-## Learn More
+1. Fork the repository.
+2. Create a new branch:
+   ```bash
+   git checkout -b feature-branch-name
+   ```
+3. Commit your changes:
+   ```bash
+   git commit -m "Add feature or fix description"
+   ```
+4. Push the branch:
+   ```bash
+   git push origin feature-branch-name
+   ```
+5. Open a pull request.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🧑‍💻 Author
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Developed and maintained by **[Bilal-pasha](https://github.com/your-profile)**.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📝 Acknowledgments
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-=======
-# Arabia-Fees-System
->>>>>>> f28592e7bb94d76232336a1a9b41536ab2dc45c6
+- **Vercel** for hosting.
+- **Next.js** and **MongoDB** communities for their fantastic resources.
+
