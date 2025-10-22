@@ -269,20 +269,14 @@ export const Filter = () => {
     (_, index) => `Camp ${index + 1}`
   );
   const activityOptions = [
-    "First Aid",
-    "Traffic Police",
-    "Rally Police",
-    "Civil Defence",
-    "Football",
-    "Volleyball",
+    "Highway Police",
+    "Arm wrestling",
     "Spoon Race",
     "100 Meter Race",
     "Tug of War",
-    "Physical Fitness",
-    "Sack Race",
   ];
-  const subCampOptions = ["Iqbal", "Jinnah", "Liaqat"];
-  const statusOptions = ["Approved"];
+  const subCampOptions = ["Ghazali", "Abdali"];
+  const statusOptions = ["Approved", "Rejected"];
   const handleClear = (filter: keyof TfilterValues) => {
     dispatch({ type: "SET_FILTER_VALUE", filter, value: "" });
   };

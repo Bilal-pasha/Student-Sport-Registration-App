@@ -32,11 +32,14 @@ export enum ROLE {
 export enum STATUS {
   APPROVED = "Approved",
   PENDING = 'Pending',
-  DECLINE = 'Decline'
+  DECLINE = 'Decline',
+  REJECTED = 'Rejected'
 }
 export const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{6,}$/;
 export enum SubCamps {
   Iqbal = "Sub Camp Iqbal",
   Jinnah = "Sub Camp Jinnah",
   Liaqat = "Sub Camp Liaqat",
+  Ghazali = "Sub Camp Ghazali",
+  Abdali = "Sub Camp Abdali",
 }

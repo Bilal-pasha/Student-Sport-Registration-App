@@ -26,12 +26,8 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({
   const TshirtSizes = ["Medium", "large", "Xl"];
   // List of activities
   const activities = [
-    "First Aid",
-    "Traffic Police",
     "Highway Police",
-    "Civil Defence",
-    "Football",
-    "Volleyball",
+    "Arm wrestling",
     "Spoon Race",
     "100 Meter Race",
     "Tug of War",

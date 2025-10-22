@@ -51,7 +51,7 @@ export const UpdateStudentModal = ({
 
   // Sub-camp options
   const campNo = Array.from({ length: 65 }, (_, i) => `Camp ${i + 1}`);
-  const subCamps = [SubCamps.Iqbal, SubCamps.Jinnah, SubCamps.Liaqat];
+  const subCamps = [ SubCamps.Ghazali, SubCamps.Abdali];
   // Form validation schema
 
   // Handle form submission
