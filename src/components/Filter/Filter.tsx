@@ -281,7 +281,7 @@ export const Filter = () => {
     dispatch({ type: "SET_FILTER_VALUE", filter, value: "" });
   };
   return (
-    <div className="flex flex-col justify-center items-end px-4 space-x-4">
+    <div className="flex flex-col justify-center items-end px-4 space-x-4 py-28 animate">
       {/* Filter Button */}
       <div className="relative inline-block text-left">
         <div className="flex space-x-5">
@@ -465,8 +465,8 @@ export const Filter = () => {
       {/* Display Filtered Data */}
       <div className="mt-4 w-full">
         {state.filteredData.data.length > 0 ? (
-          <table className="w-full bg-white shadow-md rounded-md">
-            <thead className="bg-[#714620fa] text-white text-sm uppercase">
+          <table className="w-full animate bg-white shadow-md rounded-md border border-green-200">
+            <thead className="bg-green-600 text-white text-sm uppercase">
               <tr>
                 {[
                   "No#",
@@ -482,14 +482,14 @@ export const Filter = () => {
                 ].map((header, index) => (
                   <th
                     key={index}
-                    className="px-4 py-2 text-sm font-semibold border-b text-start"
+                    className="px-4 py-2 text-sm font-semibold border-b border-green-300 text-start"
                   >
                     {header}
                   </th>
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-green-100">
               {state.filteredData.data.map((student, index) => (
                 <tr key={student._id}>
                   {[
@@ -504,7 +504,7 @@ export const Filter = () => {
                     student.camp,
                     student.subCamp,
                   ].map((value, index) => (
-                    <td key={index} className="px-4 py-2 text-sm text-gray-800">
+                    <td key={index} className="px-4 py-2 text-sm text-gray-700">
                       {value}
                     </td>
                   ))}
@@ -513,7 +513,7 @@ export const Filter = () => {
             </tbody>
           </table>
         ) : (
-          <div className="text-sm text-gray-200 text-center">
+          <div className="text-sm text-gray-600 text-center">
             No filtered data available.
           </div>
         )}

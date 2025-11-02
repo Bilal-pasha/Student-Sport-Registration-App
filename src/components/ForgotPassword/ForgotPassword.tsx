@@ -46,8 +46,8 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="flex items-center h-screen justify-center">
-      <div className="p-8 m-6 md:m-0 rounded-lg shadow-2xl drop-shadow-xl w-full max-w-md">
+    <div className="flex items-center h-screen justify-center bg-gray-50">
+      <div className="p-8 m-6 md:m-0 rounded-lg shadow-2xl drop-shadow-xl w-full max-w-md bg-white border border-green-200">
         <div className="flex flex-col items-center justify-center pb-5">
           <Image src={scoutsImage} alt="Logo" width={400} height={200} />
           <Image
@@ -78,7 +78,7 @@ const ResetPassword = () => {
                   name="username"
                   id="username"
                   placeholder="Enter your User ID"
-                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 />
                 <ErrorMessage
                   name="username"
@@ -96,7 +96,7 @@ const ResetPassword = () => {
                   New Password
                 </label>
                 <div className="relative">
-                  <div className="flex items-center border rounded-md focus-within:ring-2 focus-within:ring-blue-500">
+                  <div className="flex items-center border rounded-md focus-within:ring-2 focus-within:ring-green-500">
                     <Field
                       type={showPassword ? "text" : "password"}
                       name="newPassword"
@@ -107,7 +107,7 @@ const ResetPassword = () => {
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="px-2 text-gray-500 hover:text-blue-500"
+                      className="px-2 text-gray-500 hover:text-green-600"
                     >
                       {!showPassword ? (
                         <AiFillEyeInvisible size={24} />
@@ -132,7 +132,7 @@ const ResetPassword = () => {
                   className={`${
                     isSubmitting
                       ? "bg-gray-400"
-                      : "bg-blue-500 hover:bg-blue-600"
+                      : "bg-green-600 hover:bg-green-700"
                   } text-white font-semibold py-2 px-4 rounded-lg w-full transition-colors duration-200`}
                 >
                   {isSubmitting ? "Resetting..." : "Reset Password"}

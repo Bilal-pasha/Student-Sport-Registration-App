@@ -207,42 +207,42 @@ const StudentTable = ({ params }: any) => {
         {loading ? (
           <TableSkeleton numberOfRows={6} />
         ) : students.length === 0 ? (
-          <div className="text-center text-gray-200">No students found</div>
+          <div className="text-center text-gray-600">No students found</div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="min-w-full shadow-md rounded-lg bg-gray-300">
-              <thead className="bg-[#714620fa] text-white">
+            <table className="min-w-full shadow-md rounded-lg bg-white border border-green-200">
+              <thead className="bg-green-600 text-white">
                 <tr>
-                  <th className="py-3 px-5 border-b border-gray-400 text-left">
+                  <th className="py-3 px-5 border-b border-green-300 text-left">
                     No#
                   </th>
-                  <th className="py-3 px-5 border-b border-gray-400 text-left">
+                  <th className="py-3 px-5 border-b border-green-300 text-left">
                     Student Name
                   </th>
-                  <th className="py-3 px-5 border-b border-gray-400 text-left">
+                  <th className="py-3 px-5 border-b border-green-300 text-left">
                     Father Name
                   </th>
-                  <th className="py-3 px-5 border-b border-gray-400 text-left">
+                  <th className="py-3 px-5 border-b border-green-300 text-left">
                     Madrasa Name
                   </th>
-                  <th className="py-3 px-5 border-b border-gray-400 text-left">
+                  <th className="py-3 px-5 border-b border-green-300 text-left">
                     Level
                   </th>
-                  <th className="py-3 px-5 border-b border-gray-400 text-left">
+                  <th className="py-3 px-5 border-b border-green-300 text-left">
                     T-Shirt Size
                   </th>
-                  <th className="py-3 px-5 border-b border-gray-400 text-left">
+                  <th className="py-3 px-5 border-b border-green-300 text-left">
                     Activity
                   </th>
-                  <th className="py-3 px-5 border-b border-gray-400 text-left">
+                  <th className="py-3 px-5 border-b border-green-300 text-left">
                     Grade
                   </th>
-                  <th className="py-3 px-5 border-b border-gray-400 text-left">
+                  <th className="py-3 px-5 border-b border-green-300 text-left">
                     Age
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-green-100">
                 {students.map((student, index) => (
                   <tr
                     key={index}

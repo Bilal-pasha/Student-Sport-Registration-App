@@ -10,11 +10,11 @@ export const buttonStyles = cva(
       },
       variant: {
         primary:
-          'border-primary-500 bg-primary-500 text-white hover:bg-primary-700 active:bg-primary-700 hover:border-primary-700 disabled:cursor-not-allowed',
+          'border-green-600 bg-green-600 text-white hover:bg-green-700 active:bg-green-700 hover:border-green-700 disabled:cursor-not-allowed',
         secondary:
           'border-gray-200 bg-white text-gray-900 hover:bg-gray-100 disabled:cursor-not-allowed',
         tertiary:
-          'text-primary-500 hover:text-primary-700 bg-transparent border-0 px-1 disabled:cursor-not-allowed',
+          'text-green-600 hover:text-green-700 bg-transparent border-0 px-1 disabled:cursor-not-allowed',
         danger:
           'bg-red-500 text-white hover:bg-red-700 hover:border-red-700 disabled:cursor-not-allowed',
       },

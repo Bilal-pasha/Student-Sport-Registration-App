@@ -5,7 +5,7 @@ import React from "react";
 
 const Page: React.FC = () => {
   return (
-    <main className="flex flex-col justify-center items-center">
+    <main className="flex flex-col animate justify-center items-center">
       <HomeScreen />
     </main>
   );

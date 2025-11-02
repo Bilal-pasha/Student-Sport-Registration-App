@@ -100,21 +100,21 @@ const MadrasaTable: React.FC = () => {
   return madrasas.length !== 0 ? (
     <>
       <div className="">
-        <table className="w-full bg-white opacity-90 text-left">
-          <thead className="bg-[#714620fa] text-white text-xs uppercase">
+        <table className="w-full bg-white shadow-md rounded-lg border border-green-200 text-left">
+          <thead className="bg-green-600 text-white text-xs uppercase">
             <tr>
               {tableHeadings.map((heading, index) => (
-                <th key={index} className="py-3 px-5 border-b border-gray-400">
+                <th key={index} className="py-3 px-5 border-b border-green-300">
                   {heading}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 text-xs">
+          <tbody className="divide-y divide-green-100 text-xs">
             {madrasas.map((madrasa, index) => (
               <tr key={madrasa?._id}>
                 <td className="py-3 px-8">{index + 1}</td>
-                <td className="py-3 px-5 border-l border-gray-300">
+                <td className="py-3 px-5 border-l border-green-200">
                   {madrasa.status === STATUS.APPROVED ? (
                     <Link
                       href={`${protectedRoutes.HOME}/${madrasa?._id}`}
@@ -131,29 +131,29 @@ const MadrasaTable: React.FC = () => {
                     </span>
                   )}
                 </td>
-                <td className="py-3 px-5 border-l border-gray-300">
+                <td className="py-3 px-5 border-l border-green-200">
                   {madrasa.madrasaAddress}
                 </td>
-                <td className="py-3 px-5 border-l border-gray-300">
+                <td className="py-3 px-5 border-l border-green-200">
                   {madrasa.totalStudents}
                 </td>
-                <td className="py-3 px-5 border-l border-gray-300">
+                <td className="py-3 px-5 border-l border-green-200">
                   {madrasa.contactPersonName}
                 </td>
-                <td className="py-3 px-5 border-l border-gray-300">
+                <td className="py-3 px-5 border-l border-green-200">
                   {madrasa.cellNumber}
                 </td>
-                <td className="py-3 px-5 border-l border-gray-300">
+                <td className="py-3 px-5 border-l border-green-200">
                   {new Date(madrasa.createdAt).toLocaleDateString()}
                 </td>
-                <td className="py-3 px-5 border-l border-gray-300">
+                <td className="py-3 px-5 border-l border-green-200">
                   {madrasa.registeredStudents}
                 </td>
                 <td className="py-3 px-5 border-l border-gray-300 space-x-3">
                   <StatusIndicator status={madrasa.status} />
                 </td>
                 {userName === ROLE.ADMIN && (
-                  <td className="py-3 px-5 border-l border-gray-300">
+                  <td className="py-3 px-5 border-l border-green-200">
                     <div className="flex items-center justify-center relative">
                       <Dropdown
                         label=""

@@ -38,7 +38,7 @@ const HomeScreen: React.FC = () => {
 
       <div className="w-full p-6">
         <div className="flex justify-between py-4">
-          <h1 className="text-2xl font-bold mb-4 text-slate-200">
+          <h1 className="text-2xl font-bold mb-4 text-green-800">
             Registered Schools
           </h1>
           {userName === ROLE.ADMIN && (

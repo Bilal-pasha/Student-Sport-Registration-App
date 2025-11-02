@@ -52,8 +52,8 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="bg-white shadow-md rounded-lg p-8 w-full max-w-sm space-y-12">
+    <div className="flex justify-center items-center h-screen bg-gray-50">
+      <div className="bg-white shadow-md rounded-lg p-8 w-full max-w-sm space-y-12 border border-green-200">
         <div className="flex flex-col items-center justify-center pb-5">
           <Image
             src={scoutsImage}
@@ -83,14 +83,14 @@ const SignUp = () => {
                   name="username"
                   value={values.username}
                   onChange={handleChange}
-                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
                   placeholder="Enter your username"
                 />
                 <ErrorMessage name="username" component="div" className="text-red-500 text-sm mt-1" />
               </div>
               <div className="relative">
                 <label className="block text-sm font-medium text-gray-700">Password</label>
-                <div className="flex items-center border rounded-md focus-within:ring-2 focus-within:ring-blue-500">
+                <div className="flex items-center border rounded-md focus-within:ring-2 focus-within:ring-green-500">
                   <Field
                     type={showPassword ? "text" : "password"}
                     name="password"
@@ -102,7 +102,7 @@ const SignUp = () => {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="px-2 text-gray-500 hover:text-blue-500"
+                    className="px-2 text-gray-500 hover:text-green-600"
                   >
                     {!showPassword ? <AiFillEyeInvisible size={24} /> : <AiFillEye size={24} />}
                   </button>
@@ -111,7 +111,7 @@ const SignUp = () => {
               </div>
               <button
                 type="submit"
-                className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                className="w-full py-2 px-4 bg-green-600 text-white font-semibold rounded-md shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
               >
                 Register Your Account
               </button>

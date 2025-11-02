@@ -88,9 +88,9 @@ const RegistrationForm: React.FC = () => {
         //     <Link href={protectedRoutes.HOME}>Registration Page</Link>
         //   </Button>
         // </div>
-        <div className="flex justify-center m-6 items-center h-[76vh]">
-          <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-lg transform transition hover:scale-105 duration-300 ease-in-out">
-            <h1 className="text-3xl font-extrabold text-indigo-600 mb-6 text-center">
+        <div className="flex justify-center items-center h-screen animate">
+          <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-lg transform transition hover:scale-105 duration-300 ease-in-out border border-green-200">
+            <h1 className="text-3xl font-extrabold text-green-600 mb-6 text-center">
               Register Your School
             </h1>
             <Formik
@@ -142,7 +142,7 @@ const RegistrationForm: React.FC = () => {
                       type={type}
                       id={id}
                       name={id as keyof RegistrationData}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-300 focus:outline-none"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-green-300 focus:outline-none focus:border-green-500"
                       placeholder={placeholder}
                     />
                     <ErrorMessage
@@ -155,7 +155,7 @@ const RegistrationForm: React.FC = () => {
 
                 <button
                   type="submit"
-                  className="w-full bg-indigo-600 text-white font-bold py-3 rounded-lg hover:bg-indigo-700 transition duration-300"
+                  className="w-full bg-green-600 text-white font-bold py-3 rounded-lg hover:bg-green-700 transition duration-300 shadow-lg hover:shadow-green-500/50"
                 >
                   Register
                 </button>
@@ -164,7 +164,12 @@ const RegistrationForm: React.FC = () => {
           </div>
         </div>
       ) : (
-        <div className="h-[70vh] w-screen flex justify-center items-center text-white">Registration is Full Please Contact Support Arabia Islamia</div>
+        <div className="h-[70vh] w-screen flex justify-center items-center">
+          <div className="bg-white p-8 rounded-lg shadow-xl border border-green-200 text-center max-w-md">
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">Registration Closed</h2>
+            <p className="text-gray-600">Registration is Full. Please Contact Support Arabia Islamia</p>
+          </div>
+        </div>
       )}
     </>
   );

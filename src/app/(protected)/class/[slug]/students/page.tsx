@@ -78,23 +78,23 @@ const StudentTable = ({ params }: { params: { slug: string } }) => {
           {tableLoading ? (
             <TableSkeleton numberOfRows={18} />
           ) : (
-            <table className="w-full text-left">
-              <thead className="bg-[#714620fa] text-white text-xs uppercase">
+            <table className="w-full text-left bg-white shadow-md rounded-lg border border-green-200">
+              <thead className="bg-green-600 text-white text-xs uppercase">
                 <tr>
                   {tableHead.map((value, index) => (
                     <th
                       key={index}
-                      className="py-3 px-5 border-b border-gray-400"
+                      className="py-3 px-5 border-b border-green-300"
                     >
                       {value}
                     </th>
                   ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200 bg-white text-xs">
+              <tbody className="divide-y divide-green-100 bg-white text-xs">
                 {students.map((student: any, index) => (
                   <tr key={index}>
-                    <td className="py-3 px-5 border-l border-gray-300 border-r">
+                    <td className="py-3 px-5 border-l border-green-200 border-r">
                       <Link
                         href={`${protectedRoutes.CLASS}/${classSlug}/students/${student?.id}`}
                         className="text-blue-500 hover:underline"
@@ -102,16 +102,16 @@ const StudentTable = ({ params }: { params: { slug: string } }) => {
                         {student?.name}
                       </Link>
                     </td>
-                    <td className="py-3 px-5 border-l border-gray-300">
+                    <td className="py-3 px-5 border-l border-green-200">
                       {student.fatherName}
                     </td>
-                    <td className="py-3 px-5 border-l border-gray-300">
+                    <td className="py-3 px-5 border-l border-green-200">
                       {student.GRNumber}
                     </td>
-                    <td className="py-3 px-5 border-l border-gray-300">
+                    <td className="py-3 px-5 border-l border-green-200">
                       {student.fees}
                     </td>
-                    <td className="py-3 px-5 border-l border-gray-300 border-r">
+                    <td className="py-3 px-5 border-l border-green-200 border-r">
                       {student.status === "Paid" ? (
                         <div className="flex font-medium text-xs">
                           <span className="text-green-500 flex gap-x-1 rounded-md bg-green-100 py-1 px-2">

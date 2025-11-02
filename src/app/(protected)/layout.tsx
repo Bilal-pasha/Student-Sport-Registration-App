@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "../globals.css";
 import { Toaster } from "react-hot-toast";
 import { SessionWrapper } from "@/components/SessionWrapper/SessionWrapper";
-import Navbar from "@/components/Navbar/Navbar";
+import Sidebar from "@/components/Sidebar/Sidebar";
 import { Suspense } from "react";
 import { FallBackComponent } from "@/components/FallBackComponent/FallBackComponent";
 // import FullScreenPoster from "@/components/FullScreenPoster/FullScreenPoster";
@@ -22,14 +22,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className="protected-class">
+        <div className="protected-class animate">
           <MadrasaRegistrationProvider>
             <Suspense fallback={<FallBackComponent />}>
               <SessionWrapper>
                 <Toaster position="top-right" />
-                <Navbar />
+                <Sidebar />
                 {/* <FullScreenPoster /> Add the FullScreenPoster here */}
-                {children}
+                <main className="lg:ml-64 min-h-screen bg-gray-50">
+                  {children}
+                </main>
               </SessionWrapper>
             </Suspense>
           </MadrasaRegistrationProvider>

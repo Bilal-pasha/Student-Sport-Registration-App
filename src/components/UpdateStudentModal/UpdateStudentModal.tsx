@@ -344,7 +344,7 @@ export const UpdateStudentModal = ({
                     <Field
                       as="textarea"
                       name="report"
-                      className="w-full h-24 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full h-24 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                       placeholder="Enter student report here..."
                     />
                     <ErrorMessage
@@ -363,7 +363,7 @@ export const UpdateStudentModal = ({
                     className={`${
                       isSubmitting
                         ? "bg-gray-400"
-                        : "bg-blue-500 hover:bg-blue-600"
+                        : "bg-green-600 hover:bg-green-700"
                     } text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200`}
                   >
                     {isSubmitting ? "Updating..." : "Update Student"}
