@@ -79,7 +79,7 @@ const RegistrationForm: React.FC = () => {
 
   return (
     <>
-      {response ||  userName === ROLE.ADMIN ? (
+      {!response ||  userName === ROLE.ADMIN ? (
         //   <div className="flex justify-center items-center flex-col max-w-2xl mx-auto space-y-8">
         //   <h2 className="text-center text-lg text-white font-semibold mt-6">
         //     You have already registered your madrasa.
