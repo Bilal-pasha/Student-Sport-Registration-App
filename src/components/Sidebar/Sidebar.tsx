@@ -16,10 +16,15 @@ import {
   ArrowRightOnRectangleIcon,
   Bars3Icon,
   XMarkIcon,
+  InformationCircleIcon,
+  ExclamationTriangleIcon,
+  MapIcon,
+  CalendarDaysIcon,
+  PhotoIcon,
 } from "@heroicons/react/24/outline";
 import scoutsImage from "/public/assets/signinLogo.png";
 
-type ButtonName = "Home" | "Class" | "Work" | "Registration" | "Sign Out";
+type ButtonName = "Home" | "Intro And Services" | "Guidelines" | "Camping Guide" | "Schedule" | "Gallery" | "Registration" | "Sign Out";
 
 interface SidebarItem {
   name: ButtonName;
@@ -33,16 +38,31 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
     icon: HomeIcon,
     href: protectedRoutes.HOME,
   },
-  // {
-  //   name: "Class",
-  //   icon: AcademicCapIcon,
-  //   href: "/class",
-  // },
-  // {
-  //   name: "Work",
-  //   icon: BriefcaseIcon,
-  //   href: "/work",
-  // },
+  {
+    name: "Intro And Services",
+    icon: InformationCircleIcon,
+    href: protectedRoutes.INTRO,
+  },
+  {
+    name: "Guidelines",
+    icon: ExclamationTriangleIcon,
+    href: protectedRoutes.IMPORTANT_INSTRUCTIONS,
+  },
+  {
+    name: "Camping Guide",
+    icon: MapIcon,
+    href: protectedRoutes.INSTRUCTION_ABOUT_CAMPING,
+  },
+  {
+    name: "Schedule",
+    icon: CalendarDaysIcon,
+    href: protectedRoutes.SCHEDULE,
+  },
+  {
+    name: "Gallery",
+    icon: PhotoIcon,
+    href: protectedRoutes.GALLERY,
+  },
   {
     name: "Registration",
     icon: UserPlusIcon,
@@ -58,9 +78,12 @@ const Sidebar: React.FC = () => {
 
   useEffect(() => {
     const getButtonNameFromPath = (path: string): ButtonName => {
-      if (path.startsWith(protectedRoutes.CLASS)) return "Class";
-      if (path.startsWith(protectedRoutes.WORK)) return "Work";
       if (path.startsWith(protectedRoutes.REGISTRATION)) return "Registration";
+      if (path.startsWith(protectedRoutes.INTRO)) return "Intro And Services";
+      if (path.startsWith(protectedRoutes.IMPORTANT_INSTRUCTIONS)) return "Guidelines";
+      if (path.startsWith(protectedRoutes.INSTRUCTION_ABOUT_CAMPING)) return "Camping Guide";
+      if (path.startsWith(protectedRoutes.SCHEDULE)) return "Schedule";
+      if (path.startsWith(protectedRoutes.GALLERY)) return "Gallery";
       return "Home";
     };
 

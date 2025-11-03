@@ -8,6 +8,7 @@ import { Suspense } from "react";
 import { FallBackComponent } from "@/components/FallBackComponent/FallBackComponent";
 // import FullScreenPoster from "@/components/FullScreenPoster/FullScreenPoster";
 import { MadrasaRegistrationProvider } from "@/context/useMadrasaRegistrationContext";
+import FullScreenPoster from "@/components/FullScreenPoster/FullScreenPoster";
 export const metadata: Metadata = {
   title: "Inter Deeni Madaris Scouts Camp 2024",
   description:

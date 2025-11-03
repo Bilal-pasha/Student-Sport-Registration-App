@@ -10,6 +10,12 @@ export enum publicRoutes {
     CLASS = '/class',
     WORK = '/work',
     REGISTRATION = '/registration',
-    FILTER = '/filter'
+    FILTER = '/filter',
+    INTRO = '/intro',
+    SERVICES = '/services',
+    IMPORTANT_INSTRUCTIONS = '/important-instructions',
+    INSTRUCTION_ABOUT_CAMPING = '/instruction-about-camping',
+    SCHEDULE = '/schedule',
+    GALLERY = '/gallery'
   }
   
