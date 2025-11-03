@@ -176,7 +176,7 @@ const StudentTable = ({ params }: any) => {
     <>
       <div className="container mx-auto">
         <div className="flex justify-between">
-          <div>
+          <div className="py-6">
             <Button
               onClick={() => setModalOpen(true)}
               variant="primary"
