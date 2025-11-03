@@ -15,16 +15,22 @@ export const UpdateStudentModal = ({
   const initialValues = {
     studentName: student.studentName,
     FatherName: student.FatherName,
-    age: student.age,
+    ageGroup: student.ageGroup || student.age, // Handle both old and new field names
     grade: student.grade,
     TshirtSize: student.TshirtSize,
-    activity: student.activity,
+    activity: student.activity || "",
     status: student.status || "", // New field for status
     group: student.group || "", // New field for group
     camp: student.camp || "", // New field for camp
     subCamp: student.subCamp || "", // New field for sub-camp
     report: student.report || "", // New field for student report
   };
+
+  // Age groups
+  const ageGroups = [
+    { value: "13-16", label: "13-16 Junior" },
+    { value: "17-20", label: "17-20 Senior" },
+  ];
 
   // List of activities
   const activities = [
@@ -117,7 +123,7 @@ export const UpdateStudentModal = ({
                     <Field
                       type="text"
                       name="studentName"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     />
                     <ErrorMessage
                       name="studentName"
@@ -134,7 +140,7 @@ export const UpdateStudentModal = ({
                     <Field
                       type="text"
                       name="FatherName"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     />
                     <ErrorMessage
                       name="FatherName"
@@ -143,18 +149,25 @@ export const UpdateStudentModal = ({
                     />
                   </div>
 
-                  {/* Age */}
+                  {/* Age Group */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700">
-                      Age
+                      Age Group
                     </label>
                     <Field
-                      type="number"
-                      name="age"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
+                      as="select"
+                      name="ageGroup"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    >
+                      <option value="" label="Select Age Group" />
+                      {ageGroups.map((group) => (
+                        <option key={group.value} value={group.value}>
+                          {group.label}
+                        </option>
+                      ))}
+                    </Field>
                     <ErrorMessage
-                      name="age"
+                      name="ageGroup"
                       component="div"
                       className="text-red-600 text-sm mt-1"
                     />
@@ -168,7 +181,7 @@ export const UpdateStudentModal = ({
                     <Field
                       type="text"
                       name="grade"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     />
                     <ErrorMessage
                       name="grade"
@@ -185,7 +198,7 @@ export const UpdateStudentModal = ({
                     <Field
                       type="text"
                       name="TshirtSize"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     />
                     <ErrorMessage
                       name="TshirtSize"
@@ -202,7 +215,7 @@ export const UpdateStudentModal = ({
                     <Field
                       as="select"
                       name="activity"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     >
                       <option value="" label="Select an activity" />
                       {activities.map((activity, index) => (
@@ -226,7 +239,7 @@ export const UpdateStudentModal = ({
                     <Field
                       as="select"
                       name="status"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     >
                       <option value="" label="Select status" />
                       {statuses.map((status, index) => (
@@ -250,7 +263,7 @@ export const UpdateStudentModal = ({
                     <Field
                       as="select"
                       name="group"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     >
                       <option value="" label="Select group" />
                       {groups.map((group, index) => (
@@ -274,7 +287,7 @@ export const UpdateStudentModal = ({
                     <Field
                       as="select"
                       name="camp"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     >
                       <option value="" label="Select camp" />
                       {camps.map((camp, index) => (
@@ -298,7 +311,7 @@ export const UpdateStudentModal = ({
                     <Field
                       as="select"
                       name="subCamp"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     >
                       <option value="" label="Select sub camp" />
                       {subCamps.map((subCamp, index) => (
@@ -321,7 +334,7 @@ export const UpdateStudentModal = ({
                     <Field
                       as="select"
                       name="camp"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     >
                       <option value="" label="Select Camp Number" />
                       {campNo.map((camp, index) => (

@@ -17,43 +17,38 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({
   const initialValues = {
     studentName: "",
     FatherName: "",
-    age: "",
+    ageGroup: "",
     grade: "",
     TshirtSize: "",
-    activity: "",
     // image: null as File | null, // New field for image upload
   };
   const TshirtSizes = ["Medium", "large", "Xl"];
-  // List of activities
-  const activities = [
-    "Highway Police",
-    "Arm wrestling",
-    "Spoon Race",
-    "100 Meter Race",
-    "Tug of War",
+  // Age groups
+  const ageGroups = [
+    { value: "13-16 Junior", label: "13-16 Junior" },
+    { value: "17-20 Senior", label: "17-20 Senior" },
   ];
 
   // Form validation schema
   const validationSchema = Yup.object({
     studentName: Yup.string().required("Required"),
     FatherName: Yup.string().required("Required"),
-    age: Yup.number().required("Required").positive().integer(),
+    ageGroup: Yup.string().required("Required"),
     grade: Yup.string().required("Required"),
     TshirtSize: Yup.string().required("Required"),
-    activity: Yup.string().required("Required"),
-    image: Yup.mixed()
-      .notRequired()
-      .test("fileSize", "File size must be less than 1 Mb", (value) => {
-        return !value || (value as File).size <= 1024 * 1024; // Apply only if value exists
-      })
-      .test("fileType", "Unsupported file format", (value) => {
-        return (
-          !value ||
-          ["image/jpeg", "image/png", "image/gif"].includes(
-            (value as File).type
-          )
-        ); // Apply only if value exists
-      }),
+    // image: Yup.mixed()
+    //   .notRequired()
+    //   .test("fileSize", "File size must be less than 1 Mb", (value) => {
+    //     return !value || (value as File).size <= 1024 * 1024; // Apply only if value exists
+    //   })
+    //   .test("fileType", "Unsupported file format", (value) => {
+    //     return (
+    //       !value ||
+    //       ["image/jpeg", "image/png", "image/gif"].includes(
+    //         (value as File).type
+    //       )
+    //     ); // Apply only if value exists
+    //   }),
   });
   
 
@@ -95,7 +90,7 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({
   return (
     <div className="container mx-auto">
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-75">
-        <div className="bg-white rounded-lg shadow-lg w-2/3 p-6 relative">
+        <div className="bg-white rounded-lg shadow-lg w-2/3 p-12 gap-12 relative border border-green-200">
           <h2 className="text-2xl pb-2 font-bold mb-4 text-center">
             Add New Student
           </h2>
@@ -115,7 +110,7 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({
                     <Field
                       type="text"
                       name="studentName"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     />
                     <ErrorMessage
                       name="studentName"
@@ -132,7 +127,7 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({
                     <Field
                       type="text"
                       name="FatherName"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     />
                     <ErrorMessage
                       name="FatherName"
@@ -141,18 +136,25 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({
                     />
                   </div>
 
-                  {/* Age */}
+                  {/* Age Group */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700">
-                      Age
+                      Age Group
                     </label>
                     <Field
-                      type="number"
-                      name="age"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
+                      as="select"
+                      name="ageGroup"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    >
+                      <option value="" label="Select Age Group" />
+                      {ageGroups.map((group) => (
+                        <option key={group.value} value={group.value}>
+                          {group.label}
+                        </option>
+                      ))}
+                    </Field>
                     <ErrorMessage
-                      name="age"
+                      name="ageGroup"
                       component="div"
                       className="text-red-600 text-sm mt-1"
                     />
@@ -166,7 +168,7 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({
                     <Field
                       type="text"
                       name="grade"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     />
                     <ErrorMessage
                       name="grade"
@@ -183,7 +185,7 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({
                     <Field
                       as="select"
                       name="TshirtSize"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     >
                       <option value="" label="Select T-shirt Size" />
                       {TshirtSizes.map((size) => (
@@ -199,32 +201,9 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({
                     />
                   </div>
 
-                  {/* Activity Dropdown */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">
-                      Activity
-                    </label>
-                    <Field
-                      as="select"
-                      name="activity"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      <option value="" label="Select an activity" />
-                      {activities.map((activity) => (
-                        <option key={activity} value={activity}>
-                          {activity}
-                        </option>
-                      ))}
-                    </Field>
-                    <ErrorMessage
-                      name="activity"
-                      component="div"
-                      className="text-red-600 text-sm mt-1"
-                    />
-                  </div>
 
                   {/* Image Upload */}
-                  <div>
+                  {/* <div>
                     <label className="block text-sm font-medium text-gray-700">
                       Upload Image (max 1 MB)
                     </label>
@@ -238,14 +217,14 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({
                           setFieldValue("image", file);
                         }
                       }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     />
                     <ErrorMessage
                       name="image"
                       component="div"
                       className="text-red-600 text-sm mt-1"
                     />
-                  </div>
+                  </div> */}
                 </div>
 
                 {/* Submit Button */}
@@ -256,7 +235,7 @@ export const AddNewStudentModal: React.FC<AddNewStudentModalProps> = ({
                     className={`${
                       isSubmitting
                         ? "bg-gray-400"
-                        : "bg-blue-500 hover:bg-blue-600"
+                        : "bg-green-600 hover:bg-green-700"
                     } text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200`}
                   >
                     {isSubmitting ? "Adding..." : "Add Student"}

@@ -13,7 +13,7 @@ export const POST = async (req: Request) => {
     const { fields, file } = await parseFormData(req);
 
     // Destructure form fields
-    const { madrasaId, studentName, FatherName, age, grade, TshirtSize, activity } = fields;
+    const { madrasaId, studentName, FatherName, ageGroup, grade, TshirtSize } = fields;
 
 
     // Upload to S3
@@ -35,11 +35,10 @@ export const POST = async (req: Request) => {
       madrasaName: madrasa.madrasaName,  // Corrected here
       studentName,
       FatherName,
-      age: Number(age),
+      ageGroup,
       grade,
       TshirtSize,
       status: 'Pending',
-      activity,
       ...(uploadResult && { fileUrl: uploadResult.Location }), // Conditionally add fileUrl
       createdAt: new Date(),
     });

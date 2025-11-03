@@ -5,10 +5,10 @@ import { ObjectId } from "mongodb";
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const { studentId, madrasaId, studentName, FatherName, age, grade, TshirtSize, activity, status, group, camp, subCamp, report } = body;
+        const { studentId, madrasaId, studentName, FatherName, ageGroup, grade, TshirtSize, activity, status, group, camp, subCamp, report } = body;
 
         // Validate input
-        if (!studentId || !madrasaId || !studentName || !age || !grade) {
+        if (!studentId || !madrasaId || !studentName || !ageGroup || !grade) {
             return NextResponse.json(
                 { success: false, error: 'All fields are required.' },
                 { status: 400 }
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
         // Update the student in the students collection
         const result = await db.collection('students').updateOne(
             { _id: new ObjectId(studentId) }, // Filter by studentId
-            { $set: { studentName, FatherName, age, grade, TshirtSize, activity, status, group, camp, subCamp, report, updatedAt: new Date() } }
+            { $set: { studentName, FatherName, ageGroup, grade, TshirtSize, activity, status, group, camp, subCamp, report, updatedAt: new Date() } }
         );
 
         if (result.modifiedCount === 0) {
