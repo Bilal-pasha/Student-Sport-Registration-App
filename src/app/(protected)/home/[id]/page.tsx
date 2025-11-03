@@ -174,7 +174,7 @@ const StudentTable = ({ params }: any) => {
   console.log(students);
   return (
     <>
-      <div className="mt-10 container mx-auto">
+      <div className="container mx-auto">
         <div className="flex justify-between">
           <div>
             <Button
@@ -185,7 +185,7 @@ const StudentTable = ({ params }: any) => {
             >
               Add New Student
             </Button>
-            <h2 className="text-xl font-semibold text-gray-200 mb-4">
+            <h2 className="text-xl font-semibold mb-4">
               Students List
             </h2>
           </div>
