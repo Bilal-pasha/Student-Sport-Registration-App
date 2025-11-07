@@ -35,3 +35,4 @@ export function middleware(request: NextRequest) {
   // Allow the request to continue
   return NextResponse.next();
 }
+
