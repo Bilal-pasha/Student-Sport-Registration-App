@@ -11,19 +11,33 @@ export const UpdateStudentModal = ({
   student,
   handleClose,
 }: any) => {
-  // Initial form values
+  // Early return if no student data
+  if (!student) {
+    console.error("No student data provided to UpdateStudentModal");
+    return null;
+  }
+  
+  // Helper function to convert age to age group
+  const getAgeGroupFromAge = (age: number | string) => {
+    const numAge = typeof age === 'string' ? parseInt(age) : age;
+    if (numAge >= 13 && numAge <= 16) return "13-16";
+    if (numAge >= 17 && numAge <= 20) return "17-20";
+    return "";
+  };
+
+  // Initial form values - handle cases where student might be undefined or properties don't exist
   const initialValues = {
-    studentName: student.studentName,
-    FatherName: student.FatherName,
-    ageGroup: student.ageGroup || student.age, // Handle both old and new field names
-    grade: student.grade,
-    TshirtSize: student.TshirtSize,
-    activity: student.activity || "",
-    status: student.status || "", // New field for status
-    group: student.group || "", // New field for group
-    camp: student.camp || "", // New field for camp
-    subCamp: student.subCamp || "", // New field for sub-camp
-    report: student.report || "", // New field for student report
+    studentName: student?.studentName || student?.name || "",
+    FatherName: student?.FatherName || student?.fatherName || "",
+    ageGroup: student?.ageGroup || (student?.age ? getAgeGroupFromAge(student.age) : ""), // Convert age to age group
+    grade: student?.grade || "",
+    TshirtSize: student?.TshirtSize || student?.tshirtSize || "",
+    activity: student?.activity || "",
+    status: student?.status || "", // New field for status
+    group: student?.group || "", // New field for group
+    camp: student?.camp || "", // New field for camp
+    subCamp: student?.subCamp || "", // New field for sub-camp
+    report: student?.report || "", // New field for student report
   };
 
   // Age groups
@@ -34,18 +48,13 @@ export const UpdateStudentModal = ({
 
   // List of activities
   const activities = [
-    "First Aid",
-    "Traffic Police",
-    "Rally Police",
-    "Civil Defence",
-    "Football",
-    "Volleyball",
-    "Spoon Race",
-    "100 Meter Race",
-    "Tug of War",
-    "Physical Fitness",
     "Sack Race",
+    "One-Leg Race",
+    "Relay Race",
+    "High Jump",
+    "Chin-Up",
   ];
+  
 
   // Status options
   const statuses = ["Approved", "Rejected"];
@@ -57,7 +66,7 @@ export const UpdateStudentModal = ({
 
   // Sub-camp options
   const campNo = Array.from({ length: 65 }, (_, i) => `Camp ${i + 1}`);
-  const subCamps = [ SubCamps.Ghazali, SubCamps.Abdali];
+  const subCamps = [ SubCamps.Jinnah, SubCamps.Iqbal];
   // Form validation schema
 
   // Handle form submission
@@ -111,6 +120,7 @@ export const UpdateStudentModal = ({
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
+            enableReinitialize={true}
           >
             {({ isSubmitting }) => (
               <Form className="space-y-4">
