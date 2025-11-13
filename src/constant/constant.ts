@@ -43,3 +43,12 @@ export enum SubCamps {
   Ghazali = "Sub Camp Ghazali",
   Abdali = "Sub Camp Abdali",
 }
+
+  // List of activities
+  export const activities = [
+    "Sack Race",
+    "One-Leg Race",
+    "Relay Race",
+    "High Jump",
+    "Chin-Up",
+  ];
