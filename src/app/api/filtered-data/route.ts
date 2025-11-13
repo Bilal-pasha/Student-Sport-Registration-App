@@ -5,7 +5,7 @@ export async function POST(request: Request) {
     try {
         // Parse the request body
         const body = await request.json();
-        const { activity, age, campNumber, madrasa, status, subCamp } = body;
+        const { activity, ageGroup, campNumber, madrasa, status, subCamp } = body;
 
         // Connect to the MongoDB client
         const client = await clientPromise;
@@ -18,7 +18,14 @@ export async function POST(request: Request) {
 
         // Dynamically build filter object
         if (activity) filter.activity = new RegExp(activity, 'i');
-        if (age) filter.age = Number(age);
+        if (ageGroup) {
+            // Convert age group to age range filter
+            if (ageGroup === "13-16") {
+                filter.age = { $gte: 13, $lte: 16 };
+            } else if (ageGroup === "17-20") {
+                filter.age = { $gte: 17, $lte: 20 };
+            }
+        }
         if (campNumber) filter.camp = campNumber;
         if (status) filter.status = new RegExp(status, 'i');
         if (subCamp) filter.subCamp = new RegExp(subCamp, 'i');

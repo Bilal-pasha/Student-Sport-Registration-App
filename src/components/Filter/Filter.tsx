@@ -3,6 +3,7 @@ import { Button } from "@/components/Button/Button";
 import ReactToPrint from "react-to-print";
 import { IoPrintSharp } from "react-icons/io5";
 import Image from "next/image";
+import { activities, STATUS, SubCamps } from "@/constant/constant";
 
 // Define the types for the filter values
 interface TfilterValues {
@@ -10,7 +11,7 @@ interface TfilterValues {
   subCamp: string;
   campNumber: string;
   activity: string;
-  age: number | string;
+  ageGroup: string;
   madrasa: string;
 }
 
@@ -67,7 +68,7 @@ const initialState: State = {
     subCamp: "",
     campNumber: "",
     activity: "",
-    age: "",
+    ageGroup: "",
     madrasa: "",
   },
   appliedFilters: {
@@ -75,7 +76,7 @@ const initialState: State = {
     subCamp: "",
     campNumber: "",
     activity: "",
-    age: 0,
+    ageGroup: "",
     madrasa: "",
   },
   madrasaList: [],
@@ -127,6 +128,13 @@ const reducer = (state: State, action: Action): State => {
   }
 };
 
+// Helper function to convert age to age group
+const getAgeGroupFromAge = (age: number) => {
+  if (age >= 13 && age <= 16) return "13-16 Junior";
+  if (age >= 17 && age <= 20) return "17-20 Senior";
+  return "Unknown";
+};
+
 // PrintContent Component
 // eslint-disable-next-line react/display-name
 const PrintContent = React.forwardRef<HTMLDivElement, { data: StudentData[] }>(
@@ -156,7 +164,7 @@ const PrintContent = React.forwardRef<HTMLDivElement, { data: StudentData[] }>(
               "Name",
               "Father Name",
               "Madrasa Name",
-              "Age",
+              "Age Group",
               "Status",
               "Activity",
               "Group",
@@ -180,7 +188,7 @@ const PrintContent = React.forwardRef<HTMLDivElement, { data: StudentData[] }>(
                 student.studentName,
                 student.FatherName,
                 student.madrasaName,
-                student.age,
+                getAgeGroupFromAge(student.age),
                 student.status,
                 student.activity,
                 student.group,
@@ -231,7 +239,7 @@ export const Filter = () => {
     "subCamp",
     "campNumber",
     "activity",
-    "age",
+    "ageGroup",
     "madrasa",
   ];
 
@@ -268,15 +276,13 @@ export const Filter = () => {
     { length: 65 },
     (_, index) => `Camp ${index + 1}`
   );
-  const activityOptions = [
-    "Highway Police",
-    "Arm wrestling",
-    "Spoon Race",
-    "100 Meter Race",
-    "Tug of War",
+  const activityOptions = activities;
+  const subCampOptions = [SubCamps.Jinnah, SubCamps.Iqbal];
+  const statusOptions = [STATUS.APPROVED, STATUS.REJECTED];
+  const ageGroupOptions = [
+    { value: "13-16", label: "13-16 Junior" },
+    { value: "17-20", label: "17-20 Senior" },
   ];
-  const subCampOptions = ["Ghazali", "Abdali"];
-  const statusOptions = ["Approved", "Rejected"];
   const handleClear = (filter: keyof TfilterValues) => {
     dispatch({ type: "SET_FILTER_VALUE", filter, value: "" });
   };
@@ -333,17 +339,22 @@ export const Filter = () => {
                       </Button>
                     )}
                   </label>
-                  {filter === "age" && (
-                    <input
-                      type="number"
+                  {filter === "ageGroup" && (
+                    <select
                       id={filter}
                       value={state.filterValues[filter]}
                       onChange={(e) =>
                         handleInputChange(filter, e.target.value)
                       }
-                      placeholder={`Enter ${filter}`}
                       className="px-4 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
+                    >
+                      <option value="">Select Age Group</option>
+                      {ageGroupOptions.map((ageGroup, index) => (
+                        <option key={index} value={ageGroup.value}>
+                          {ageGroup.label}
+                        </option>
+                      ))}
+                    </select>
                   )}
                   {filter === "subCamp" && (
                     <select
@@ -473,7 +484,7 @@ export const Filter = () => {
                   "Student Name",
                   "Father Name",
                   "Madrasa Name",
-                  "Age",
+                  "Age Group",
                   "Status",
                   "Activity",
                   "Group",
@@ -497,7 +508,7 @@ export const Filter = () => {
                     student.studentName,
                     student.FatherName,
                     student.madrasaName,
-                    student.age,
+                    getAgeGroupFromAge(student.age),
                     student.status,
                     student.activity,
                     student.group,

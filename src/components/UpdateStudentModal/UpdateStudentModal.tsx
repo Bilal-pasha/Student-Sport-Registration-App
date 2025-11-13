@@ -3,7 +3,7 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import toast from "react-hot-toast";
 import { validationSchema } from "./validationSchema";
-import { SubCamps } from "@/constant/constant";
+import { activities, SubCamps } from "@/constant/constant";
 
 export const UpdateStudentModal = ({
   setModalOpen,
@@ -46,14 +46,6 @@ export const UpdateStudentModal = ({
     { value: "17-20", label: "17-20 Senior" },
   ];
 
-  // List of activities
-  const activities = [
-    "Sack Race",
-    "One-Leg Race",
-    "Relay Race",
-    "High Jump",
-    "Chin-Up",
-  ];
   
 
   // Status options
