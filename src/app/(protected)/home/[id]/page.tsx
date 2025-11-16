@@ -209,9 +209,9 @@ const StudentTable = ({ params }: any) => {
         ) : students.length === 0 ? (
           <div className="text-center text-gray-600">No students found</div>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto max-h-[80vh] overflow-y-auto">
             <table className="min-w-full shadow-md rounded-lg bg-white border border-green-200">
-              <thead className="bg-green-600 text-white">
+              <thead className="bg-green-600 text-white sticky top-0">
                 <tr>
                   <th className="py-3 px-5 border-b border-green-300 text-left">
                     No#
