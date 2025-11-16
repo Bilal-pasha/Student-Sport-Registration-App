@@ -449,7 +449,7 @@ export const Filter = () => {
             )}
             content={() => printRef.current}
           />
-          <Button
+          {/* <Button
             variant="primary"
             size="md"
             roundedness="md"
@@ -467,7 +467,7 @@ export const Filter = () => {
                 <FaFilePdf className="h-6 w-6" /> Save PDF
               </>
             )}
-          </Button>
+          </Button> */}
           <Button
             variant="primary"
             size="md"
