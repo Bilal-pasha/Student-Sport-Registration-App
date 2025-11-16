@@ -25,11 +25,18 @@ export const UpdateStudentModal = ({
     return "";
   };
 
+  // Helper function to extract age group value from full label
+  const getAgeGroupValue = (ageGroupLabel: string) => {
+    if (ageGroupLabel.includes("13-16")) return "13-16";
+    if (ageGroupLabel.includes("17-20")) return "17-20";
+    return ageGroupLabel; // Return as-is if it's already a value
+  };
+
   // Initial form values - handle cases where student might be undefined or properties don't exist
   const initialValues = {
     studentName: student?.studentName || student?.name || "",
     FatherName: student?.FatherName || student?.fatherName || "",
-    ageGroup: student?.ageGroup, // Convert age to age group
+    ageGroup: student?.ageGroup ? getAgeGroupValue(student.ageGroup) : (student?.age ? getAgeGroupFromAge(student.age) : ""), // Convert age group label to value or age to age group
     grade: student?.grade || "",
     TshirtSize: student?.TshirtSize || student?.tshirtSize || "",
     activity: student?.activity || "",
