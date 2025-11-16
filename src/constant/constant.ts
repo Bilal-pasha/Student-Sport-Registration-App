@@ -46,9 +46,15 @@ export enum SubCamps {
 
   // List of activities
   export const activities = [
+    "Spoon Race",
+    "100 Meter Race",
+    "Tug of War",
+    "Physical Fitness",
     "Sack Race",
     "One-Leg Race",
     "Relay Race",
     "High Jump",
     "Chin-Up",
+    "Arm Wrestling",
   ];
+  
