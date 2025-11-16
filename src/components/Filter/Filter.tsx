@@ -2,8 +2,11 @@ import React, { useEffect, useReducer, useRef, useMemo } from "react";
 import { Button } from "@/components/Button/Button";
 import ReactToPrint from "react-to-print";
 import { IoPrintSharp } from "react-icons/io5";
+import { FaFilePdf } from "react-icons/fa6";
 import Image from "next/image";
 import { activities, STATUS, SubCamps } from "@/constant/constant";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 // Define the types for the filter values
 interface TfilterValues {
@@ -49,6 +52,7 @@ interface State {
   filteredData: ApiResponse;
   madrasaName: string[]; // List of madrasa names (used for filters)
   loading: boolean;
+  pdfLoading: boolean; // New loading state for PDF generation
   error: string | null;
 }
 
@@ -59,6 +63,7 @@ type Action =
   | { type: "SET_MADRASA_LIST"; data: string[] }
   | { type: "SET_FILTERED_DATA"; data: StudentData[] }
   | { type: "SET_LOADING"; loading: boolean }
+  | { type: "SET_PDF_LOADING"; loading: boolean }
   | { type: "SET_ERROR"; error: string };
 
 // Initial state
@@ -83,6 +88,7 @@ const initialState: State = {
   madrasaName: [],
   filteredData: { success: false, data: [] },
   loading: false,
+  pdfLoading: false,
   error: null,
 };
 
@@ -117,6 +123,11 @@ const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         loading: action.loading,
+      };
+    case "SET_PDF_LOADING":
+      return {
+        ...state,
+        pdfLoading: action.loading,
       };
     case "SET_ERROR":
       return {
@@ -286,6 +297,139 @@ export const Filter = () => {
   const handleClear = (filter: keyof TfilterValues) => {
     dispatch({ type: "SET_FILTER_VALUE", filter, value: "" });
   };
+
+  // Function to save table data as PDF
+  const handleSavePDF = async () => {
+    if (state.filteredData.data.length === 0) {
+      alert('No data available to generate PDF.');
+      return;
+    }
+
+    // Set loading state
+    dispatch({ type: "SET_PDF_LOADING", loading: true });
+
+    try {
+      // Create a temporary container for PDF generation
+      const tempContainer = document.createElement('div');
+      tempContainer.style.position = 'absolute';
+      tempContainer.style.top = '0';
+      tempContainer.style.left = '0';
+      tempContainer.style.width = '210mm'; // A4 width
+      tempContainer.style.backgroundColor = '#ffffff';
+      tempContainer.style.padding = '20px';
+      tempContainer.style.fontFamily = 'Arial, sans-serif';
+      tempContainer.style.fontSize = '12px';
+      tempContainer.style.zIndex = '9999';
+
+      // Create the content HTML directly
+      tempContainer.innerHTML = `
+        <div style="display: flex; align-items: center; justify-content: space-evenly; margin-bottom: 20px;">
+          <img src="/assets/signinLogo.png" alt="Sign In Logo" style="width: 150px; height: auto;" />
+          <img src="/assets/JamiaArabiaLogo.png" alt="Jamia Arabia Logo" style="width: 150px; height: auto;" />
+        </div>
+        <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc;">
+          <thead style="background-color: #e5e7eb; color: #000;">
+            <tr>
+              <th style="padding: 8px; border: 1px solid #ccc; text-align: left; font-size: 10px;">No#</th>
+              <th style="padding: 8px; border: 1px solid #ccc; text-align: left; font-size: 10px;">Name</th>
+              <th style="padding: 8px; border: 1px solid #ccc; text-align: left; font-size: 10px;">Father Name</th>
+              <th style="padding: 8px; border: 1px solid #ccc; text-align: left; font-size: 10px;">Madrasa Name</th>
+              <th style="padding: 8px; border: 1px solid #ccc; text-align: left; font-size: 10px;">Age Group</th>
+              <th style="padding: 8px; border: 1px solid #ccc; text-align: left; font-size: 10px;">Status</th>
+              <th style="padding: 8px; border: 1px solid #ccc; text-align: left; font-size: 10px;">Activity</th>
+              <th style="padding: 8px; border: 1px solid #ccc; text-align: left; font-size: 10px;">Group</th>
+              <th style="padding: 8px; border: 1px solid #ccc; text-align: left; font-size: 10px;">Camp Number</th>
+              <th style="padding: 8px; border: 1px solid #ccc; text-align: left; font-size: 10px;">Sub Camp</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${state.filteredData.data.map((student, index) => `
+              <tr>
+                <td style="padding: 6px; border: 1px solid #ccc; font-size: 10px;">${index + 1}</td>
+                <td style="padding: 6px; border: 1px solid #ccc; font-size: 10px;">${student.studentName}</td>
+                <td style="padding: 6px; border: 1px solid #ccc; font-size: 10px;">${student.FatherName}</td>
+                <td style="padding: 6px; border: 1px solid #ccc; font-size: 10px;">${student.madrasaName}</td>
+                <td style="padding: 6px; border: 1px solid #ccc; font-size: 10px;">${getAgeGroupFromAge(student.age)}</td>
+                <td style="padding: 6px; border: 1px solid #ccc; font-size: 10px;">${student.status}</td>
+                <td style="padding: 6px; border: 1px solid #ccc; font-size: 10px;">${student.activity}</td>
+                <td style="padding: 6px; border: 1px solid #ccc; font-size: 10px;">${student.group}</td>
+                <td style="padding: 6px; border: 1px solid #ccc; font-size: 10px;">${student.camp}</td>
+                <td style="padding: 6px; border: 1px solid #ccc; font-size: 10px;">${student.subCamp}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+
+      // Append to body temporarily
+      document.body.appendChild(tempContainer);
+
+      // Wait for images to load and content to render
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      // Create canvas from the temporary container
+      const canvas = await html2canvas(tempContainer, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff',
+        logging: false,
+        width: tempContainer.scrollWidth,
+        height: tempContainer.scrollHeight
+      });
+
+      // Remove the temporary container
+      document.body.removeChild(tempContainer);
+
+      // Check if canvas is valid
+      if (!canvas || canvas.width === 0 || canvas.height === 0) {
+        throw new Error('Failed to generate canvas from content');
+      }
+
+      // Get image data
+      const imgData = canvas.toDataURL('image/jpeg', 0.95);
+      
+      // Validate image data
+      if (!imgData || imgData === 'data:,' || imgData.length < 100) {
+        throw new Error('Invalid image data generated');
+      }
+      
+      // Calculate PDF dimensions
+      const imgWidth = 210; // A4 width in mm
+      const pageHeight = 295; // A4 height in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+
+      // Create PDF
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      let position = 0;
+
+      // Add first page
+      pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      // Add additional pages if content is longer than one page
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      // Generate filename with current date
+      const currentDate = new Date().toISOString().split('T')[0];
+      const filename = `student-data-${currentDate}.pdf`;
+
+      // Save the PDF
+      pdf.save(filename);
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      alert('Error generating PDF. Please try again.');
+    } finally {
+      // Clear loading state
+      dispatch({ type: "SET_PDF_LOADING", loading: false });
+    }
+  };
   return (
     <div className="flex flex-col justify-center items-end px-4 space-x-4 py-28 animate">
       {/* Filter Button */}
@@ -298,12 +442,32 @@ export const Filter = () => {
                 size="md"
                 roundedness="md"
                 className="px-8"
+                disabled={state.filteredData.data.length === 0}
               >
                 <IoPrintSharp className="h-6 w-6" /> Print
               </Button>
             )}
             content={() => printRef.current}
           />
+          <Button
+            variant="primary"
+            size="md"
+            roundedness="md"
+            className="px-8"
+            onClick={handleSavePDF}
+            disabled={state.filteredData.data.length === 0 || state.pdfLoading}
+          >
+            {state.pdfLoading ? (
+              <>
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
+                Generating PDF...
+              </>
+            ) : (
+              <>
+                <FaFilePdf className="h-6 w-6" /> Save PDF
+              </>
+            )}
+          </Button>
           <Button
             variant="primary"
             size="md"
@@ -534,6 +698,20 @@ export const Filter = () => {
       <div style={{ display: "none" }}>
         <PrintContent ref={printRef} data={state.filteredData.data} />
       </div>
+
+      {/* PDF Loading Overlay */}
+      {state.pdfLoading && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-8 flex flex-col items-center space-y-4">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
+            <h3 className="text-lg font-semibold text-gray-800">Generating PDF...</h3>
+            <p className="text-sm text-gray-600 text-center">
+              Please wait while we prepare your PDF document.<br />
+              This may take a few moments.
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
