@@ -29,7 +29,7 @@ export const UpdateStudentModal = ({
   const initialValues = {
     studentName: student?.studentName || student?.name || "",
     FatherName: student?.FatherName || student?.fatherName || "",
-    ageGroup: student?.ageGroup || (student?.age ? getAgeGroupFromAge(student.age) : ""), // Convert age to age group
+    ageGroup: student?.ageGroup, // Convert age to age group
     grade: student?.grade || "",
     TshirtSize: student?.TshirtSize || student?.tshirtSize || "",
     activity: student?.activity || "",

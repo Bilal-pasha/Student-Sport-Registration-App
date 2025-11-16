@@ -18,7 +18,8 @@ interface Student {
   studentName: string;
   FatherName: string;
   madrasaName: string;
-  age: number;
+  ageGroup?: string;
+  age?: number;
   grade: string;
   TshirtSize: string;
   activity: string;
@@ -238,7 +239,7 @@ const StudentTable = ({ params }: any) => {
                     Grade
                   </th>
                   <th className="py-3 px-5 border-b border-green-300 text-left">
-                    Age
+                    Age Group
                   </th>
                 </tr>
               </thead>
@@ -274,7 +275,7 @@ const StudentTable = ({ params }: any) => {
                       {student.grade}
                     </td>
                     <td className="px-6 py-4 border-l border-gray-400">
-                      {student.age}
+                      {student.ageGroup ?? student.age}
                     </td>
                   </tr>
                 ))}
