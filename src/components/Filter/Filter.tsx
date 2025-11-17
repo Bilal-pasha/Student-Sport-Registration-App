@@ -16,6 +16,7 @@ interface TfilterValues {
   activity: string;
   ageGroup: string;
   madrasa: string;
+  tShirtSize: string;
 }
 
 // Define the type for a single student object (filtered data item)
@@ -75,6 +76,7 @@ const initialState: State = {
     activity: "",
     ageGroup: "",
     madrasa: "",
+    tShirtSize: "",
   },
   appliedFilters: {
     status: "",
@@ -83,6 +85,7 @@ const initialState: State = {
     activity: "",
     ageGroup: "",
     madrasa: "",
+    tShirtSize: "",
   },
   madrasaList: [],
   madrasaName: [],
@@ -181,6 +184,7 @@ const PrintContent = React.forwardRef<HTMLDivElement, { data: StudentData[] }>(
               "Group",
               "Camp Number",
               "Sub Camp",
+              "T-shirt Size",
             ].map((header, index) => (
               <th
                 key={index}
@@ -205,6 +209,7 @@ const PrintContent = React.forwardRef<HTMLDivElement, { data: StudentData[] }>(
                 student.group,
                 student.camp,
                 student.subCamp,
+                student.TshirtSize || "",
               ].map((value, index) => (
                 <td
                   key={index}
@@ -252,6 +257,7 @@ export const Filter = () => {
     "activity",
     "ageGroup",
     "madrasa",
+    "tShirtSize",
   ];
 
   const handleInputChange = (filter: keyof TfilterValues, value: string) => {
@@ -294,6 +300,7 @@ export const Filter = () => {
     { value: "13-16", label: "13-16 Junior" },
     { value: "17-20", label: "17-20 Senior" },
   ];
+  const tShirtSizeOptions = ["Medium", "large", "Xl"];
   const handleClear = (filter: keyof TfilterValues) => {
     dispatch({ type: "SET_FILTER_VALUE", filter, value: "" });
   };
@@ -340,6 +347,7 @@ export const Filter = () => {
               <th style="padding: 8px; border: 1px solid #ccc; text-align: left; font-size: 10px;">Group</th>
               <th style="padding: 8px; border: 1px solid #ccc; text-align: left; font-size: 10px;">Camp Number</th>
               <th style="padding: 8px; border: 1px solid #ccc; text-align: left; font-size: 10px;">Sub Camp</th>
+              <th style="padding: 8px; border: 1px solid #ccc; text-align: left; font-size: 10px;">T-shirt Size</th>
             </tr>
           </thead>
           <tbody>
@@ -355,6 +363,7 @@ export const Filter = () => {
                 <td style="padding: 6px; border: 1px solid #ccc; font-size: 10px;">${student.group}</td>
                 <td style="padding: 6px; border: 1px solid #ccc; font-size: 10px;">${student.camp}</td>
                 <td style="padding: 6px; border: 1px solid #ccc; font-size: 10px;">${student.subCamp}</td>
+                <td style="padding: 6px; border: 1px solid #ccc; font-size: 10px;">${student.TshirtSize || ""}</td>
               </tr>
             `).join('')}
           </tbody>
@@ -605,6 +614,23 @@ export const Filter = () => {
                       ))}
                     </select>
                   )}
+                  {filter === "tShirtSize" && (
+                    <select
+                      id={filter}
+                      value={state.filterValues[filter]}
+                      onChange={(e) =>
+                        handleInputChange(filter, e.target.value)
+                      }
+                      className="px-4 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="">Select T-shirt Size</option>
+                      {tShirtSizeOptions.map((size, index) => (
+                        <option key={index} value={size}>
+                          {size}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </div>
               ))}
             </div>
@@ -654,6 +680,7 @@ export const Filter = () => {
                   "Group",
                   "Camp Number",
                   "Sub Camp",
+                  "T-shirt Size",
                 ].map((header, index) => (
                   <th
                     key={index}
@@ -678,6 +705,7 @@ export const Filter = () => {
                     student.group,
                     student.camp,
                     student.subCamp,
+                    student.TshirtSize || "",
                   ].map((value, index) => (
                     <td key={index} className="px-4 py-2 text-sm text-gray-700">
                       {value}
