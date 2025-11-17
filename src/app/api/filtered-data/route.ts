@@ -5,7 +5,7 @@ export async function POST(request: Request) {
     try {
         // Parse the request body
         const body = await request.json();
-        const { activity, ageGroup, campNumber, madrasa, status, subCamp, tShirtSize } = body;
+        const { activity, ageGroup, campNumber, madrasa, status, subCamp, tShirtSize, group } = body;
 
         // Connect to the MongoDB client
         const client = await clientPromise;
@@ -31,6 +31,7 @@ export async function POST(request: Request) {
         if (subCamp) filter.subCamp = new RegExp(subCamp, 'i');
         if (madrasa !== "Madrasa Sayyadina Bilal(R.A)") { filter.madrasaName = new RegExp(madrasa, 'i') } else { filter.madrasaName = madrasa }
         if (tShirtSize) filter.TshirtSize = new RegExp(tShirtSize, 'i');
+        if (group) filter.group = new RegExp(group, 'i');
         const result = await db.collection('students').find(filter).toArray();
 
         // Return the response with the filtered results

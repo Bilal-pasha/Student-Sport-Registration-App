@@ -17,6 +17,7 @@ interface TfilterValues {
   ageGroup: string;
   madrasa: string;
   tShirtSize: string;
+  group: string;
 }
 
 // Define the type for a single student object (filtered data item)
@@ -77,6 +78,7 @@ const initialState: State = {
     ageGroup: "",
     madrasa: "",
     tShirtSize: "",
+    group: "",
   },
   appliedFilters: {
     status: "",
@@ -86,6 +88,7 @@ const initialState: State = {
     ageGroup: "",
     madrasa: "",
     tShirtSize: "",
+    group: "",
   },
   madrasaList: [],
   madrasaName: [],
@@ -258,6 +261,7 @@ export const Filter = () => {
     "ageGroup",
     "madrasa",
     "tShirtSize",
+    "group",
   ];
 
   const handleInputChange = (filter: keyof TfilterValues, value: string) => {
@@ -301,6 +305,10 @@ export const Filter = () => {
     { value: "17-20", label: "17-20 Senior" },
   ];
   const tShirtSizeOptions = ["Medium", "large", "Xl"];
+  const groupOptions = [
+    "A","B","C","D","E","F","G","H","I","J","K","L","M",
+    "N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
+  ];
   const handleClear = (filter: keyof TfilterValues) => {
     dispatch({ type: "SET_FILTER_VALUE", filter, value: "" });
   };
@@ -627,6 +635,23 @@ export const Filter = () => {
                       {tShirtSizeOptions.map((size, index) => (
                         <option key={index} value={size}>
                           {size}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                  {filter === "group" && (
+                    <select
+                      id={filter}
+                      value={state.filterValues[filter]}
+                      onChange={(e) =>
+                        handleInputChange(filter, e.target.value)
+                      }
+                      className="px-4 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="">Select Group</option>
+                      {groupOptions.map((group, index) => (
+                        <option key={index} value={group}>
+                          {group}
                         </option>
                       ))}
                     </select>

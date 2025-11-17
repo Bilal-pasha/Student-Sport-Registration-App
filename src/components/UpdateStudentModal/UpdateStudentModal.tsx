@@ -59,12 +59,15 @@ export const UpdateStudentModal = ({
   const statuses = ["Approved", "Rejected"];
 
   // Group options
-  const groups = ["A", "B", "C", "D", "E", "F", "G", "H"];
-
+  const groups = [
+    "A","B","C","D","E","F","G","H","I","J","K","L","M",
+    "N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
+  ];
+  
   // Camp options
 
   // Sub-camp options
-  const campNo = Array.from({ length: 65 }, (_, i) => `Camp ${i + 1}`);
+  const campNo = Array.from({ length: 100 }, (_, i) => `Camp ${i + 1}`);
   const subCamps = [ SubCamps.Jinnah, SubCamps.Iqbal];
   // Form validation schema
 
