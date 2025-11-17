@@ -79,7 +79,7 @@ const RegistrationForm: React.FC = () => {
 
   return (
     <>
-      {!response ||  userName === ROLE.ADMIN ? (
+      {userName === ROLE.ADMIN ? (
         //   <div className="flex justify-center items-center flex-col max-w-2xl mx-auto space-y-8">
         //   <h2 className="text-center text-lg text-white font-semibold mt-6">
         //     You have already registered your madrasa.
@@ -164,10 +164,11 @@ const RegistrationForm: React.FC = () => {
           </div>
         </div>
       ) : (
-        <div className="h-[70vh] w-screen flex justify-center items-center">
+        <div className="h-screen flex justify-center items-center">
           <div className="bg-white p-8 rounded-lg shadow-xl border border-green-200 text-center max-w-md">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">Registration Closed</h2>
             <p className="text-gray-600">Registration is Full. Please Contact Support Arabia Islamia</p>
+
           </div>
         </div>
       )}
