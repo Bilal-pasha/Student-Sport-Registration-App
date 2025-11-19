@@ -13,6 +13,8 @@ import Image from "next/image";
 import IqbalCampSlipImage from "/public/assets/iqbalCamp.jpeg";
 import JinnahCampSlipImage from "/public/assets/jinnahCamp.jpeg";
 import LiaqatCampSlipImage from "/public/assets/liaqatCamp.jpeg";
+import JinnahCardImage from "/public/assets/Jinnah-card.jpg";
+import IqbalCardImage from "/public/assets/Iqbal-card.jpg";
 
 interface Student {
   studentName: string;
@@ -29,112 +31,76 @@ interface Student {
 const PrintContent = React.forwardRef<HTMLDivElement, { students: any }>(
   ({ students }, ref) => {
     return (
-      <div
-        ref={ref}
-        className="w-full h-full print-page grid grid-cols-3 gap-12 p-2"
-        style={{
-          height: "300mm", // A4 height
-          width: "230mm", // A4 width
-          boxSizing: "border-box",
-        }}
-      >
-        {students.map((student: any, index: number) =>
-          student.status === STATUS.APPROVED ? (
+      <div ref={ref} className="print-container">
+        {students
+          .filter((s: any) => s.status === "Approved")
+          .map((student: any, index: number) => (
             <div
               key={index}
-              className="flex flex-col border border-gray-200 rounded-md shadow"
+              className="id-card relative"
               style={{
-                height: "95mm", // Increased height from 90mm
-                width: "60mm", // Adjusted width remains the same
-                pageBreakInside: "avoid", // Prevent splitting across pages
+                width: "2.2in",
+                height: "3.5in",
+                display: "inline-block",
+                margin: "0.1in",
               }}
             >
-              {/* Top Half - Background Image */}
-              <div className="relative w-full h-3/5"> {/* Adjusted height proportion */}
-                {student.subCamp === SubCamps.Iqbal && (
-                  <Image
-                    src={IqbalCampSlipImage}
-                    alt="Student Slip"
-                    layout="fill"
-                    objectFit="cover" // Ensures the image covers the container
-                    objectPosition="center" // Keeps the image centered, preventing cropping from top and bottom
-                    className="w-full h-full"
-                  />
-                )}
-                {student.subCamp === SubCamps.Jinnah && (
-                  <Image
-                    src={JinnahCampSlipImage}
-                    alt="Student Slip"
-                    layout="fill"
-                    objectFit="cover"
-                    objectPosition="center"
-                    className="w-full h-full"
-                  />
-                )}
-                {student.subCamp === SubCamps.Liaqat && (
-                  <Image
-                    src={LiaqatCampSlipImage}
-                    alt="Student Slip"
-                    layout="fill"
-                    objectFit="cover"
-                    objectPosition="center"
-                    className="w-full h-full"
-                  />
-                )}
-              </div>
+              {/* Background Card Image based on subCamp */}
+              {student.subCamp === SubCamps.Jinnah && (
+                <Image
+                  src={JinnahCardImage}
+                  alt="Jinnah Card Background"
+                  fill
+                  style={{ objectFit: "cover" }}
+                />
+              )}
+              {student.subCamp === SubCamps.Iqbal && (
+                <Image
+                  src={IqbalCardImage}
+                  alt="Iqbal Card Background"
+                  fill
+                  style={{ objectFit: "cover" }}
+                />
+              )}
 
-              {/* Bottom Half - Student Information */}
-              <div className="w-full h-2/5 p-2 space-y-2 text-[8px] text-black leading-tight">
-                <div>
-                  <strong>NAME:</strong> <span>{student.studentName}</span>
-                </div>
-                <div>
-                  <strong>FATHER&apos;S NAME:</strong>{" "}
-                  <span>{student.FatherName}</span>
-                </div>
-                <div>
-                  <strong>INSTITUTE:</strong> <span>{student.madrasaName}</span>
-                </div>
-                <div>
-                  <strong>SUB CAMP:</strong> <span>{student.subCamp}</span>
-                </div>
-                <div>
-                  <strong>CAMP NUMBER:</strong> <span>{student.camp}</span>
-                </div>
-                <div>
-                  <strong>GROUP:</strong> <span>{student.group}</span>
-                </div>
-                <div>
-                  <strong>ACTIVITY:</strong>{" "}
-                  <span className="whitespace-normal break-words">
-                    {student.activity}
-                  </span>
-                </div>
-              </div>
+              {/* Student Photo */}
+              {student.fileUrl && (
+                <Image
+                  src={student.fileUrl}
+                  alt="Student"
+                  width={100}
+                  height={100}
+                  className="absolute top-[0.45in] left-[0.6in] w-[100px] h-[100px] max-w-[100px] max-h-[100px] rounded-lg"
+                />
+              )}
 
-              {/* Footer Section */}
-              <div
-                className={`${
-                  student.subCamp === SubCamps.Jinnah && "bg-yellow-300"
-                } ${student.subCamp === SubCamps.Iqbal && "bg-green-500"} ${
-                  student.subCamp === SubCamps.Liaqat && "bg-blue-800"
-                } flex justify-center items-center text-white text-[10px] py-1`}
-              >
-                <h2 className="text-center font-black">
-                  <span className="text-red-600 font-bold">Organized by:</span>{" "}
-                  Jamia Arabia Islamia
-                </h2>
+              {/* Info */}
+              <div className="absolute top-[135px] left-[82px] w-full h-full text-start">
+                <h1 className={`text-[10px] mt-[0.5px] font-semibold ${student.subCamp === SubCamps.Iqbal ? "text-white" : "text-black"}`}>
+                  {student.studentName}
+                </h1>
+                <h1 className={`text-[10px] mt-3 font-semibold ${student.subCamp === SubCamps.Iqbal ? "text-white" : "text-black"}`}>
+                  {student.FatherName}
+                </h1>
+                <h1 className={`text-[10px] mt-3 font-semibold ${student.subCamp === SubCamps.Iqbal ? "text-white" : "text-black"}`}>
+                  {student.madrasaName}
+                </h1>
+                <h1 className={`text-[10px] mt-3 font-semibold ${student.subCamp === SubCamps.Iqbal ? "text-white" : "text-black"}`}>
+                  {student.subCamp}
+                </h1>
+                <h1 className={`text-[10px] mt-3 font-semibold ${student.subCamp === SubCamps.Iqbal ? "text-white" : "text-black"}`}>
+                  {student.camp}
+                </h1>
+                <h1 className={`text-[10px] mt-2.5 font-semibold ${student.subCamp === SubCamps.Iqbal ? "text-white" : "text-black"}`}>
+                  {student.group}
+                </h1>
               </div>
             </div>
-          ) : null
-        )}
+          ))}
       </div>
     );
   }
 );
-
-
-
 
 const StudentTable = ({ params }: any) => {
   const [students, setStudents] = useState<Student[]>([]);
@@ -186,9 +152,7 @@ const StudentTable = ({ params }: any) => {
             >
               Add New Student
             </Button>
-            <h2 className="text-xl font-semibold mb-4">
-              Students List
-            </h2>
+            <h2 className="text-xl font-semibold mb-4">Students List</h2>
           </div>
           <ReactToPrint
             trigger={() => (

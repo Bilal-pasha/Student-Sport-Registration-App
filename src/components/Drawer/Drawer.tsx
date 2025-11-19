@@ -15,9 +15,8 @@ import toast from "react-hot-toast";
 import { studentDrawerMappingKeys } from "./Drawer.types";
 import { IoPrintSharp } from "react-icons/io5";
 import ReactToPrint from "react-to-print";
-import IqbalCampSlipImage from "/public/assets/iqbalCamp.jpeg";
-import JinnahCampSlipImage from "/public/assets/jinnahCamp.jpeg";
-import LiaqatCampSlipImage from "/public/assets/liaqatCamp.jpeg";
+import JinnahCardImage from "/public/assets/Jinnah-card.jpg";
+import IqbalCardImage from "/public/assets/Iqbal-card.jpg";
 import fallbackSrc from "/public/assets/male-student.png";
 interface AvatarProps {
   src: string;
@@ -109,92 +108,72 @@ const PrintContent = React.forwardRef<HTMLDivElement, { rowData: any }>(
     return (
       <div
         ref={ref}
-        className="w-full h-full print-page grid grid-cols-4 gap-4 p-4"
-        style={{
-          height: "297mm", // A4 height
-          width: "210mm", // A4 width
-        }}
+        className="print-container"       
       >
         {dataArray.slice(0, 8).map((data, index) => (
           <div
             key={index}
-            className="flex flex-col border border-gray-300 rounded-md shadow"
+            className="id-card relative"
             style={{
-              height: "75mm", // Slightly taller for better content spacing
-              width: "60mm", // Increased width for better readability
+              width: "2.2in",
+              height: "3.5in",
+              display: "inline-block",
+              margin: "0.1in",
             }}
           >
             {/* Top Half - Background Image */}
-            <div className="relative w-full h-2/3">
+             {/* Background Card Image based on subCamp */}
+             {data.subCamp === SubCamps.Jinnah && (
+                <Image
+                  src={JinnahCardImage}
+                  alt="Jinnah Card Background"
+                  fill
+                  style={{ objectFit: "cover" }}
+                />
+              )}
               {data.subCamp === SubCamps.Iqbal && (
                 <Image
-                  src={IqbalCampSlipImage}
-                  alt="Student Slip"
-                  layout="fill"
-                  objectFit="contain"
-                  className="w-full h-full"
+                  src={IqbalCardImage}
+                  alt="Iqbal Card Background"
+                  fill
+                  style={{ objectFit: "cover" }}
                 />
               )}
-              {data.subCamp === SubCamps.Jinnah && (
-                <Image
-                  src={JinnahCampSlipImage}
-                  alt="Student Slip"
-                  layout="fill"
-                  objectFit="contain"
-                  className="w-full h-full"
-                />
-              )}
-              {data.subCamp === SubCamps.Liaqat && (
-                <Image
-                  src={LiaqatCampSlipImage}
-                  alt="Student Slip"
-                  layout="fill"
-                  objectFit="contain"
-                  className="w-full h-full"
-                />
-              )}
-            </div>
 
-            {/* Bottom Half - Student Information */}
-            <div className="w-full h-1/3 bg-white text-black p-2 space-y-1 text-[8px] leading-tight">
-              <div>
-                <strong>NAME:</strong> <span>{data.studentName}</span>
-              </div>
-              <div>
-                <strong>FATHER&apos;S NAME:</strong>{" "}
-                <span>{data.FatherName}</span>
-              </div>
-              <div>
-                <strong>INSTITUTE:</strong> <span>{data.madrasaName}</span>
-              </div>
-              <div>
-                <strong>SUB CAMP:</strong> <span>{data.subCamp}</span>
-              </div>
-              <div>
-                <strong>CAMP NUMBER:</strong> <span>{data.camp}</span>
-              </div>
-              <div>
-                <strong>GROUP:</strong> <span>{data.group}</span>
-              </div>
-              <div>
-                <strong>ACTIVITY:</strong> <span>{data.activity}</span>
-              </div>
-            </div>
+              {/* Student Photo */}
+              {data.fileUrl && (
+                <Image
+                  src={data.fileUrl}
+                  alt="Student"
+                  width={100}
+                  height={100}
+                  className="absolute top-[0.45in] left-[0.6in] w-[100px] h-[100px] max-w-[100px] max-h-[100px] rounded-lg"
+                />
+              )}
 
-            {/* Footer Section */}
-            <div
-              className={`${
-                data.subCamp === SubCamps.Jinnah && "bg-yellow-300"
-              } ${data.subCamp === SubCamps.Iqbal && "bg-green-500"} ${
-                data.subCamp === SubCamps.Liaqat && "bg-blue-800"
-              } flex justify-center items-center text-white text-[7px] py-1`}
-            >
-              <h2 className="text-center">
-                <span className="text-red-600 font-bold">Organized by:</span>{" "}
-                Jamia Arabia Islamia
-              </h2>
+              {/* Info */}
+              <div className="absolute top-[135px] left-[82px] w-full h-full text-start">
+                <h1 className={`text-[10px] mt-[0.5px] font-semibold ${data.subCamp === SubCamps.Iqbal ? "text-white" : "text-black"}`}>
+                  {data.studentName}
+                </h1>
+                <h1 className={`text-[10px] mt-3 font-semibold ${data.subCamp === SubCamps.Iqbal ? "text-white" : "text-black"}`}>
+                  {data.FatherName}
+                </h1>
+                <h1 className={`text-[10px] mt-3 font-semibold ${data.subCamp === SubCamps.Iqbal ? "text-white" : "text-black"}`}>
+                  {data.madrasaName}
+                </h1>
+                <h1 className={`text-[10px] mt-3 font-semibold ${data.subCamp === SubCamps.Iqbal ? "text-white" : "text-black"}`}>
+                  {data.subCamp}
+                </h1>
+                <h1 className={`text-[10px] mt-3 font-semibold ${data.subCamp === SubCamps.Iqbal ? "text-white" : "text-black"}`}>
+                  {data.camp}
+                </h1>
+                <h1 className={`text-[10px] mt-2.5 font-semibold ${data.subCamp === SubCamps.Iqbal ? "text-white" : "text-black"}`}>
+                  {data.group}
+                </h1>
+              </div>
             </div>
-          </div>
+        
         ))}
       </div>
     );
