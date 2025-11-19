@@ -294,7 +294,7 @@ export const Filter = () => {
 
   // Static filter options
   const campNumberOptions = Array.from(
-    { length: 65 },
+    { length: 100 },
     (_, index) => `Camp ${index + 1}`
   );
   const activityOptions = activities;
